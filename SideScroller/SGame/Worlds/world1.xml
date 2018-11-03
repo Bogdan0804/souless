@@ -393,5 +393,13 @@
       </position>
       <textureKey>pillar0</textureKey>
     </tile>
+    <tile>
+      <position>
+        <x>2</x>
+        <y>2</y>
+      </position>
+      <textureKey>corphafon0</textureKey>
+      <entityType>corphafon</entityType>
+    </tile>
   </entitys>
 </world>
