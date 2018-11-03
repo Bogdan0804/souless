@@ -13,5 +13,6 @@ namespace RPG2D.GameEngine.Entities
         public Texture2D Texture { get; set; }
         public Vector2 Size { get; set; }
         public bool Colidable { get; set; }
+        public bool IsTile { get; set; }
     }
 }

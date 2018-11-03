@@ -518,7 +518,7 @@
 /processorParam:TextureFormat=Color
 /build:../../Assets/wall_tile_1.png;wall_tile_1.png
 
-#begin ../../Graphics/title.bmp
+#begin ../../Graphics/title.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -528,7 +528,7 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:../../Graphics/title.bmp;title.bmp
+/build:../../Graphics/title.png;title.png
 
 #begin arial12.spritefont
 /importer:FontDescriptionImporter

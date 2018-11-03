@@ -49,6 +49,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "entity", "entity", "{4C25F9
 		Assets\entity\pillar_0.png = Assets\entity\pillar_0.png
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Graphics", "Graphics", "{B8E52509-5979-4E68-B79B-5A48784C5823}"
+	ProjectSection(SolutionItems) = preProject
+		Graphics\title.png = Graphics\title.png
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

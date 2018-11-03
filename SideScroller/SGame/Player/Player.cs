@@ -166,7 +166,7 @@ namespace RPG2D.SGame.Player
         public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(curTex, new Rectangle(Position.ToPoint(), Size.ToPoint()), Color.White);
-            UpdateColitions(spriteBatch);
+            UpdateColitions(null);
             //spriteBatch.Draw(GlobalAssets.WorldTiles["floor"].Texture, new Rectangle(Position.ToPoint() + new Point(0, (int)Size.Y + 1), new Point(64, 2)), Color.Blue);
             //spriteBatch.Draw(GlobalAssets.WorldTiles["floor"].Texture, new Rectangle(Position.ToPoint(), new Point(64, 2)), Color.Blue);
         }

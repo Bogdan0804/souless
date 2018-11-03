@@ -213,8 +213,9 @@ namespace RPG2D.GameEngine.World
                 int width = int.Parse(tile["size"]["width"].InnerText);
                 int height = int.Parse(tile["size"]["height"].InnerText);
                 bool colidable = bool.Parse(tile["colidable"].InnerText);
+                bool isTile = bool.Parse(tile["tileMode"].InnerText);
 
-                GlobalAssets.EntityTextures.Add(name, new Entities.EntityTexture { Texture = texture, Size = new Vector2(width, height), Colidable = colidable });
+                GlobalAssets.EntityTextures.Add(name, new Entities.EntityTexture { Texture = texture, Size = new Vector2(width, height), Colidable = colidable, IsTile = isTile });
             }
 
         }
@@ -266,7 +267,7 @@ namespace RPG2D.GameEngine.World
             }
             foreach (XmlNode tile in xmlDocument["world"]["entitys"])
             {
-                if (GlobalAssets.EntityTextures[tile["textureKey"].InnerText].Colidable)
+                if (GlobalAssets.EntityTextures[tile["textureKey"].InnerText].IsTile)
                 {
                     TileEntity fTile = new TileEntity(GlobalAssets.EntityTextures[tile["textureKey"].InnerText].Texture);
                     fTile.X = int.Parse(tile["position"]["x"].InnerText) * 64;
@@ -274,6 +275,7 @@ namespace RPG2D.GameEngine.World
                     fTile.Texture = GlobalAssets.EntityTextures[tile["textureKey"].InnerText].Texture;
                     fTile.Size = GlobalAssets.EntityTextures[tile["textureKey"].InnerText].Size;
                     fTile.EntityTexture = GlobalAssets.EntityTextures[tile["textureKey"].InnerText];
+                    fTile.Colidable = GlobalAssets.EntityTextures[tile["textureKey"].InnerText].Colidable;
                     this.Entity.Add(fTile);
                 }
                 else

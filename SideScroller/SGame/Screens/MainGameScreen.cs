@@ -38,6 +38,8 @@ namespace RPG2D.SGame.Screens
 
         public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
+            GameManager.Game.GraphicsDevice.Clear(new Color(28, 17, 23));
+
             var deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
             fpsCounter.Update(deltaTime);
 

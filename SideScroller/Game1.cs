@@ -18,7 +18,6 @@ namespace RPG2D
             graphics.GraphicsProfile = GraphicsProfile.HiDef;
             graphics.PreferredBackBufferWidth = 1280;
             graphics.PreferredBackBufferHeight = 720;
-            graphics.IsFullScreen = true;
             graphics.ApplyChanges();
             Content.RootDirectory = "Content";
 
@@ -80,7 +79,6 @@ namespace RPG2D
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(new Color(28, 17, 23));
             GameEngine.GameManager.Game.Draw(gameTime);
 
             // TODO: Add your drawing code here
