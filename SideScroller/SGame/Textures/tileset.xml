@@ -1,0 +1,106 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<tileset>
+  <tile>
+    <name>floor</name>
+    <file>floor</file>
+  </tile>
+  <tile>
+    <name>table0</name>
+    <file>table_0</file>
+  </tile>
+  <tile>
+    <name>wallTile0</name>
+    <file>wall_tile_0</file>
+  </tile>
+  <tile>
+    <name>shadowTop</name>
+    <file>shadow_0</file>
+  </tile>
+  <tile>
+    <name>shadowMid</name>
+    <file>shadow_1</file>
+  </tile>
+  <tile>
+    <name>shadowEnd</name>
+    <file>shadow_2</file>
+  </tile>
+  <tile>
+    <name>wallFloorIntersection0</name>
+    <file>wall_floor_intersection_0</file>
+  </tile>
+  <tile ppc="true">
+    <name>crate0</name>
+    <file>crate_0</file>
+  </tile>
+  <tile>
+    <name>door0</name>
+    <file>door_0</file>
+  </tile>
+  <tile>
+    <name>door1</name>
+    <file>door_1</file>
+  </tile>
+  <tile>
+    <name>wallTile1</name>
+    <file>wall_tile_1</file>
+  </tile>
+  <tile>
+    <name>wallCorner0</name>
+    <file>wall_corner_0</file>
+  </tile>
+  <tile>
+    <name>wallCorner1</name>
+    <file>wall_corner_1</file>
+  </tile>
+  <tile>
+    <name>wallCorner3</name>
+    <file>wall_corner_3</file>
+  </tile>
+  <tile>
+    <name>wallCorner2</name>
+    <file>wall_corner_2</file>
+  </tile>
+  <tile ppc="true">
+    <name>wallSegLeft</name>
+    <file>wall_segment_left</file>
+    <ppc />
+  </tile>
+  <tile ppc="true">
+    <name>wallSegRight</name>
+    <file>wall_segment_right</file>
+  </tile>
+  <tile ppc="true">
+    <name>wallSegLeftEnd</name>
+    <file>wall_segment_left_end</file>
+    <ppc />
+  </tile>
+  <tile ppc="true">
+    <name>wallSegRightEnd</name>
+    <file>wall_segment_right_end</file>
+  </tile>
+  <tile ppc="true">
+    <name>wallSegLeftStart</name>
+    <file>wall_segment_left_start</file>
+    <ppc />
+  </tile>
+  <tile ppc="true">
+    <name>wallSegRightStart</name>
+    <file>wall_segment_right_start</file>
+  </tile>
+  <tile ppc="true">
+    <name>wallSegCorner0</name>
+    <file>wall_segment_corner_0</file>
+  </tile>
+  <tile ppc="true">
+    <name>wallSegCorner1</name>
+    <file>wall_segment_corner_1</file>
+  </tile>
+  <tile ppc="true">
+    <name>wallSegCorner2</name>
+    <file>wall_segment_corner_2</file>
+  </tile>
+  <tile ppc="true">
+    <name>wallSegCorner3</name>
+    <file>wall_segment_corner_3</file>
+  </tile>
+</tileset>

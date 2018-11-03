@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<tileset>
+  <tile>
+    <name>pillar0</name>
+    <colidable>true</colidable>
+    <file>pillar_0</file>
+    <size>
+      <width>64</width>
+      <height>128</height>
+    </size>
+  </tile>
+  <tile>
+    <name>corphafon0</name>
+    <colidable>false</colidable>
+    <file>corphafon_left1</file>
+    <size>
+      <width>100</width>
+      <height>200</height>
+    </size>
+  </tile>
+</tileset>

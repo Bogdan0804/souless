@@ -1,0 +1,95 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28010.2046
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RPG2D", "SideScroller\RPG2D.csproj", "{A00534F4-4C21-4E51-A680-FC4829AB87D3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RPMapEditor", "RPMapEditor\RPMapEditor.csproj", "{BD05E044-B9DC-49F5-A5CA-852BF1C56ED7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Assets", "Assets", "{8E572B11-0C7F-4AF3-BDFD-B11DD7221148}"
+	ProjectSection(SolutionItems) = preProject
+		Assets\crate_0.png = Assets\crate_0.png
+		Assets\door_0.png = Assets\door_0.png
+		Assets\door_1.png = Assets\door_1.png
+		Assets\floor.png = Assets\floor.png
+		Assets\shadow_0.png = Assets\shadow_0.png
+		Assets\shadow_1.png = Assets\shadow_1.png
+		Assets\shadow_2.png = Assets\shadow_2.png
+		Assets\table_0.png = Assets\table_0.png
+		Assets\wall_corner_0.png = Assets\wall_corner_0.png
+		Assets\wall_corner_1.png = Assets\wall_corner_1.png
+		Assets\wall_corner_2.png = Assets\wall_corner_2.png
+		Assets\wall_corner_3.png = Assets\wall_corner_3.png
+		Assets\wall_floor_intersection_0.png = Assets\wall_floor_intersection_0.png
+		Assets\wall_segment_corner_0.png = Assets\wall_segment_corner_0.png
+		Assets\wall_segment_corner_1.png = Assets\wall_segment_corner_1.png
+		Assets\wall_segment_corner_2.png = Assets\wall_segment_corner_2.png
+		Assets\wall_segment_corner_3.png = Assets\wall_segment_corner_3.png
+		Assets\wall_segment_left.png = Assets\wall_segment_left.png
+		Assets\wall_segment_left_end.png = Assets\wall_segment_left_end.png
+		Assets\wall_segment_left_start.png = Assets\wall_segment_left_start.png
+		Assets\wall_segment_right.png = Assets\wall_segment_right.png
+		Assets\wall_segment_right_end.png = Assets\wall_segment_right_end.png
+		Assets\wall_segment_right_start.png = Assets\wall_segment_right_start.png
+		Assets\wall_tile_0.png = Assets\wall_tile_0.png
+		Assets\wall_tile_1.png = Assets\wall_tile_1.png
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Player", "Player", "{E8D33593-2F59-4178-B49A-523BF2B4E0C8}"
+	ProjectSection(SolutionItems) = preProject
+		Assets\player\player_down.png = Assets\player\player_down.png
+		Assets\player\player_left.png = Assets\player\player_left.png
+		Assets\player\player_right.png = Assets\player\player_right.png
+		Assets\player\player_up.png = Assets\player\player_up.png
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "entity", "entity", "{4C25F9E9-D174-4CF5-9863-59AA501C4F9A}"
+	ProjectSection(SolutionItems) = preProject
+		Assets\entity\pillar_0.png = Assets\entity\pillar_0.png
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A00534F4-4C21-4E51-A680-FC4829AB87D3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A00534F4-4C21-4E51-A680-FC4829AB87D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A00534F4-4C21-4E51-A680-FC4829AB87D3}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{A00534F4-4C21-4E51-A680-FC4829AB87D3}.Debug|x64.Build.0 = Debug|Any CPU
+		{A00534F4-4C21-4E51-A680-FC4829AB87D3}.Debug|x86.ActiveCfg = Debug|x86
+		{A00534F4-4C21-4E51-A680-FC4829AB87D3}.Debug|x86.Build.0 = Debug|x86
+		{A00534F4-4C21-4E51-A680-FC4829AB87D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A00534F4-4C21-4E51-A680-FC4829AB87D3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A00534F4-4C21-4E51-A680-FC4829AB87D3}.Release|x64.ActiveCfg = Release|Any CPU
+		{A00534F4-4C21-4E51-A680-FC4829AB87D3}.Release|x64.Build.0 = Release|Any CPU
+		{A00534F4-4C21-4E51-A680-FC4829AB87D3}.Release|x86.ActiveCfg = Release|x86
+		{A00534F4-4C21-4E51-A680-FC4829AB87D3}.Release|x86.Build.0 = Release|x86
+		{BD05E044-B9DC-49F5-A5CA-852BF1C56ED7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BD05E044-B9DC-49F5-A5CA-852BF1C56ED7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BD05E044-B9DC-49F5-A5CA-852BF1C56ED7}.Debug|x64.ActiveCfg = Debug|x64
+		{BD05E044-B9DC-49F5-A5CA-852BF1C56ED7}.Debug|x64.Build.0 = Debug|x64
+		{BD05E044-B9DC-49F5-A5CA-852BF1C56ED7}.Debug|x86.ActiveCfg = Debug|x64
+		{BD05E044-B9DC-49F5-A5CA-852BF1C56ED7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BD05E044-B9DC-49F5-A5CA-852BF1C56ED7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BD05E044-B9DC-49F5-A5CA-852BF1C56ED7}.Release|x64.ActiveCfg = Release|x64
+		{BD05E044-B9DC-49F5-A5CA-852BF1C56ED7}.Release|x64.Build.0 = Release|x64
+		{BD05E044-B9DC-49F5-A5CA-852BF1C56ED7}.Release|x86.ActiveCfg = Release|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{E8D33593-2F59-4178-B49A-523BF2B4E0C8} = {8E572B11-0C7F-4AF3-BDFD-B11DD7221148}
+		{4C25F9E9-D174-4CF5-9863-59AA501C4F9A} = {8E572B11-0C7F-4AF3-BDFD-B11DD7221148}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C30522E8-D06C-48A5-AB33-B9E4245BACE7}
+	EndGlobalSection
+EndGlobal
