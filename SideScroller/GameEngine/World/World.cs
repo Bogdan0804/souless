@@ -21,6 +21,7 @@ namespace RPG2D.GameEngine.World
         private static bool texturesLoaded = false;
 
         int renderDepthState = 0;
+        KeyboardState old;
 
         public World(string worldSaveFile)
         {
@@ -49,57 +50,56 @@ namespace RPG2D.GameEngine.World
 
         public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
+            Bag<Tile> abovePlayerTiles = new Bag<Tile>();
+            Bag<Tile> belowPlayerTiles = new Bag<Tile>();
+            Bag<Entities.Entity> abovePlayerEntities = new Bag<Entity>();
+            Bag<Entities.Entity> belowPlayerEntities = new Bag<Entity>();
+
             foreach (var tile in FloorTiles)
             {
                 spriteBatch.Draw(tile.Texture, tile.Bounds, Color.White);
             }
 
-            var state = Keyboard.GetState();
 
-            if (state.IsKeyDown(Keys.S))
-                renderDepthState = 1;
-            else if (state.IsKeyDown(Keys.W))
-                renderDepthState = 0;
-
-            if (renderDepthState == 0)
+            foreach (var tile in Tiles)
             {
-                foreach (var tile in Tiles)
-                {
-                    spriteBatch.Draw(tile.Texture, tile.Bounds, Color.White);
-                }
-                foreach (var tile in Entity)
-                {
-                    tile.Draw(gameTime, spriteBatch);
-                }
-                foreach (var tile in Decor)
-                {
-                    spriteBatch.Draw(tile.Texture, tile.Bounds, Color.White);
-                }
-                GameManager.Game.Player.Draw(gameTime, spriteBatch);
-
+                if (tile.Y + 32 > GameManager.Game.Player.Y + 32)
+                    belowPlayerTiles.Add(tile);
+                else
+                    abovePlayerTiles.Add(tile);
             }
-            else
+            foreach (var tile in Entity)
             {
-                GameManager.Game.Player.Draw(gameTime, spriteBatch);
+                if (tile.Y + tile.Texture.Height / 2 > GameManager.Game.Player.Y + 32)
+                    belowPlayerEntities.Add(tile);
+                else
+                    abovePlayerEntities.Add(tile);
+            }
 
-                foreach (var tile in Tiles)
-                {
-                    spriteBatch.Draw(tile.Texture, tile.Bounds, Color.White);
-                }
-                foreach (var tile in Entity)
-                {
-                    tile.Draw(gameTime, spriteBatch);
-                }
-                foreach (var tile in Decor)
-                {
-                    spriteBatch.Draw(tile.Texture, tile.Bounds, Color.White);
-                }
-
+            foreach (var tile in abovePlayerTiles)
+            {
+                spriteBatch.Draw(tile.Texture, tile.Bounds, Color.White);
+            }
+            foreach (var entity in abovePlayerEntities)
+            {
+                entity.Draw(gameTime, spriteBatch);
+            }
+            GameManager.Game.Player.Draw(gameTime, spriteBatch);
+            foreach (var tile in belowPlayerTiles)
+            {
+                spriteBatch.Draw(tile.Texture, tile.Bounds, Color.White);
+            }
+            foreach (var entity in belowPlayerEntities)
+            {
+                entity.Draw(gameTime, spriteBatch);
             }
 
 
+            foreach (var tile in Decor)
+            {
+                spriteBatch.Draw(tile.Texture, tile.Bounds, Color.White);
+            }
         }
-        KeyboardState old;
 
         public void CheckInteractions(Vector2 pos, Vector2 size)
         {

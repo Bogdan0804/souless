@@ -1,6 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System;
+using System.Runtime.InteropServices;
+using System.Windows.Forms;
 
 namespace RPG2D
 {
@@ -9,19 +12,36 @@ namespace RPG2D
     /// </summary>
     public class Game1 : Game
     {
+
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
+            
+
+            this.IsFixedTimeStep = false;//false;
+
             graphics.GraphicsProfile = GraphicsProfile.HiDef;
             graphics.PreferredBackBufferWidth = 1280;
             graphics.PreferredBackBufferHeight = 720;
             graphics.ApplyChanges();
             Content.RootDirectory = "Content";
 
-            this.Window.Title = "RPG Demo - bogz";
+            LogSpecs(graphics);
+
+            this.Window.Title = "RPG2D Demo";
+        }
+
+        private void LogSpecs(GraphicsDeviceManager graphics)
+        {
+            Console.Title = "Game2D - RPG2D Graphics Tile Demo";
+            Console.WriteLine("Detecting Graphics Hardware...");
+            Console.WriteLine("Graphics Accelerator: {0}", graphics.GraphicsDevice.Adapter.Description);
+            Console.WriteLine("Rendering Resolution: {0}x{1}", graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight);
+            Console.WriteLine("VSynced: {0}", graphics.SynchronizeWithVerticalRetrace);
+            Console.WriteLine("Desired Update Rate: {0}/60", this.TargetElapsedTime.Milliseconds);
         }
 
         /// <summary>

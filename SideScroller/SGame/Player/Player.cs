@@ -13,9 +13,8 @@ using System.Threading.Tasks;
 
 namespace RPG2D.SGame.Player
 {
-    public class Player : Sprite
+    public class Player : AnimatedSprite
     {
-        Texture2D texUp, texDown, texLeft, texRight, curTex;
         int Speed = 5;
         public Vector2 Position {
             get
@@ -63,16 +62,15 @@ namespace RPG2D.SGame.Player
                 Point2 = p2;
             }
         }
-
+        
         public void Init(ContentManager content)
         {
-            texUp = content.Load<Texture2D>("player/player_up");
-            texDown = content.Load<Texture2D>("player/player_down");
-            texLeft = content.Load<Texture2D>("player/player_left");
-            texRight = content.Load<Texture2D>("player/player_right");
-            curTex = texDown;
-            this.Texture = curTex;
-
+            Animations.Add("walking_left", new Animation(new Frame(content.Load<Texture2D>("player/player_left1")), new Frame(content.Load<Texture2D>("player/player_left2")), new Frame(content.Load<Texture2D>("player/player_left3"))));
+            Animations.Add("walking_right", new Animation(new Frame(content.Load<Texture2D>("player/player_right1")), new Frame(content.Load<Texture2D>("player/player_right2")), new Frame(content.Load<Texture2D>("player/player_right3"))));
+            Animations.Add("walking_up", new Animation(new Frame(content.Load<Texture2D>("player/player_up1")), new Frame(content.Load<Texture2D>("player/player_up2")), new Frame(content.Load<Texture2D>("player/player_up3"))));
+            Animations.Add("walking_down", new Animation(new Frame(content.Load<Texture2D>("player/player_down1")), new Frame(content.Load<Texture2D>("player/player_down2")), new Frame(content.Load<Texture2D>("player/player_down3"))));
+            CurrentAnimation = "walking_down";
+            
             Size = new Vector2(64);
             this.Position = new Vector2(256);
 
@@ -96,54 +94,53 @@ namespace RPG2D.SGame.Player
                 );
         }
         bool movingUp, movingDown, movingLeft, movingRight;
-        public void Update(GameTime gameTime)
+        public override void Update(GameTime gameTime)
         {
+            base.Update(gameTime);
+
             var state = Keyboard.GetState();
 
-            UpdateKeypressStates();
+            UpdateKeypressStates(state);
+            HandleKeyPresses(state);
+            
+            GameManager.Game.World.CheckInteractions(Position - new Vector2(4), new Vector2(68, 68));
+        }
 
+        private void HandleKeyPresses(KeyboardState state)
+        {
             if (state.IsKeyDown(Keys.W) && canUp)
             {
                 Position += (new Vector2(0, -Speed));
-                curTex = texUp;
-                this.Texture = curTex;
+                CurrentAnimation = "walking_up";
 
             }
             else if (state.IsKeyDown(Keys.S) && canDown)
             {
                 Position += (new Vector2(0, Speed));
-                curTex = texDown;
-                this.Texture = curTex;
+                CurrentAnimation = "walking_down";
 
             }
 
             if (state.IsKeyDown(Keys.A) && canLeft)
             {
                 Position += (new Vector2(-Speed, 0));
-                curTex = texLeft;
-                this.Texture = curTex;
+                CurrentAnimation = "walking_left";
 
             }
             else if (state.IsKeyDown(Keys.D) && canRight)
             {
                 Position += (new Vector2(Speed, 0));
-                curTex = texRight;
-                this.Texture = curTex;
+                CurrentAnimation = "walking_right";
             }
-            ///
-            GameManager.Game.World.CheckInteractions(Position - new Vector2(4), new Vector2(68, 68));
         }
-
-        private void UpdateKeypressStates()
+        private void UpdateKeypressStates(KeyboardState state)
         {
             movingUp = false;
             movingDown = false;
             movingLeft = false;
             movingRight = false;
 
-
-            var state = Keyboard.GetState();
-
+            
             if (state.IsKeyDown(Keys.W))
             {
                 movingUp = true;
@@ -165,7 +162,7 @@ namespace RPG2D.SGame.Player
 
         public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(curTex, new Rectangle(Position.ToPoint(), Size.ToPoint()), Color.White);
+            spriteBatch.Draw(GetTexture(), new Rectangle(Position.ToPoint(), Size.ToPoint()), Color.White);
             UpdateColitions(null);
             //spriteBatch.Draw(GlobalAssets.WorldTiles["floor"].Texture, new Rectangle(Position.ToPoint() + new Point(0, (int)Size.Y + 1), new Point(64, 2)), Color.Blue);
             //spriteBatch.Draw(GlobalAssets.WorldTiles["floor"].Texture, new Rectangle(Position.ToPoint(), new Point(64, 2)), Color.Blue);
@@ -201,7 +198,6 @@ namespace RPG2D.SGame.Player
             canLeft = Collitions.Left.Point1.Item1 & Collitions.Left.Point2.Item1;
             canRight = Collitions.Right.Point1.Item1 & Collitions.Right.Point2.Item1;
             canDown = Collitions.Down.Point1.Item1 & Collitions.Down.Point2.Item1;
-
         }
     }
 }

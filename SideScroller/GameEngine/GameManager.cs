@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using RPG2D.GameEngine.Screens;
 using RPG2D.SGame.Player;
 using System;
@@ -34,10 +35,15 @@ namespace RPG2D.GameEngine
         public World.World World { get; set; }
         public Player Player { get; set; }
         public string Tooltip = "";
+        public static Texture2D Black { get; private set; }
 
         private IGameScreen gameScreen;
+        private KeyboardState oldState;
+        private bool genPause = false;
+        private Texture2D pausedMenuTitle;
 
         public bool Stopped { get; set; }
+        public bool Paused { get; set; }
 
         public void Init(ContentManager content, SpriteBatch spriteBatch, GraphicsDeviceManager graphics)
         {
@@ -49,6 +55,8 @@ namespace RPG2D.GameEngine
 
             GlobalAssets.Arial12 = Content.Load<SpriteFont>("arial12");
             GlobalAssets.Arial24 = Content.Load<SpriteFont>("arial24");
+            Black = Content.Load<Texture2D>("black");
+            pausedMenuTitle = Content.Load<Texture2D>("invTitle");
 
             gameScreen = new SGame.Screens.MenuGameScreen();
             gameScreen.Init(this.Content);
@@ -64,17 +72,40 @@ namespace RPG2D.GameEngine
         }
         public void Draw(GameTime gameTime)
         {
-
             if (!Stopped)
                 gameScreen.Draw(gameTime, SpriteBatch);
+
+            if (Paused)
+            {
+                if (genPause)
+                {
+                    genPause = false;
+                    
+                }
+
+                float titleTexX = GameEngine.GameManager.Game.ScreenSize.X / 2 - pausedMenuTitle.Width / 2;
+
+                SpriteBatch.Begin();
+                SpriteBatch.Draw(Black, new Rectangle(0, 0, this.GraphicsDeviceManager.PreferredBackBufferWidth, this.GraphicsDeviceManager.PreferredBackBufferHeight), new Color(Color.White, 100));
+                SpriteBatch.Draw(pausedMenuTitle, new Vector2(titleTexX, 2), Color.White);
+                SpriteBatch.End();
+            }
+            else
+                genPause = true;
         }
 
         public void Update(GameTime gameTime)
         {
+            var kbState = Keyboard.GetState();
+
             Game.Tooltip = "";
 
-            if (!Stopped)
+            if (!Stopped && !Paused)
                 gameScreen.Update(gameTime);
+
+            if (kbState.IsKeyDown(Keys.Escape) && oldState.IsKeyUp(Keys.Escape)) Paused = !Paused;
+
+            oldState = kbState;
         }
     }
 }
