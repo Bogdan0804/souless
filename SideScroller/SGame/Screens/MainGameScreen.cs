@@ -66,7 +66,11 @@ namespace RPG2D.SGame.Screens
 
             var fps = string.Format("FPS: {0}", fpsCounter.AverageFramesPerSecond);
             GameManager.Game.World.Draw(gameTime, spriteBatch);
-            player.Draw(gameTime, spriteBatch);
+            if (GameManager.Game.NetworkParser.IsConnected)
+            {
+                player.Draw(gameTime, spriteBatch);
+                spriteBatch.DrawString(GlobalAssets.Arial12, GameManager.Game.NetworkParser.Name, new Vector2(player.X - 16 + (GlobalAssets.Arial12.MeasureString(GameManager.Game.NetworkParser.Name).X / 2), player.Y - GlobalAssets.Arial12.MeasureString(GameManager.Game.NetworkParser.Name).Y), Color.Black);
+            }
 
             spriteBatch.End();
 

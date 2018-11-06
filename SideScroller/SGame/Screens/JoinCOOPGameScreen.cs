@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using Lidgren.Network;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -37,15 +38,65 @@ namespace RPG2D.SGame.Screens
             titleTexture = content.Load<Texture2D>("title");
 
         }
-        
+        NetClient client;
+        bool polling = false;
         public void Update(GameTime gameTime)
         {
             if (showingDiag == false)
             {
                 showingDiag = true;
                 ip = KeyboardInput.Show("Server IP", "Enter the ip adress of the server host.", "127.0.0.1").Result;
+                Console.WriteLine("Begining server handshake protocal");
+                System.Threading.Thread.Sleep(1000);
 
-                GameManager.Game.ChangeScreen(new COOPGameScreen(ip));
+                if (ip != null)
+                {
+                    var config = new NetPeerConfiguration("RPG2D");
+                    client = new NetClient(config);
+                    client.Start();
+                    client.Connect(ip, 20666);
+                    System.Threading.Thread.Sleep(1000);
+                    Console.WriteLine("Polling for handshake response...");
+                    polling = true;
+                }
+            }
+            if (polling)
+            {
+                polling = false;
+                client.SendMessage(client.CreateMessage("handshake(Player2,1)"), NetDeliveryMethod.ReliableOrdered);
+                client.FlushSendQueue();
+                Console.WriteLine("Request server handshake...");
+
+                NetIncomingMessage msg;
+                string msgTxt = "";
+                System.Threading.Thread.Sleep(100);
+
+                bool foundServer = false;
+
+                while (!foundServer)
+                {
+                    msg = client.ReadMessage();
+
+                    if (msg == null)
+                        continue;
+
+                    if (msg.MessageType == NetIncomingMessageType.Data)
+                    {
+                        msgTxt = msg.ReadString();
+                        if (msgTxt.StartsWith("handshake"))
+                        {
+                            string name = msgTxt.Split('(', ')')[1].Split(',')[0];
+
+                            foundServer = true;
+                            polling = false;
+                            Console.WriteLine("Handshake complete, joing user " + name);
+                            client.Disconnect("");
+
+                            GameManager.Game.ChangeScreen(new COOPGameScreen(ip, name));
+                        }
+                    }
+
+                }
             }
         }
     }

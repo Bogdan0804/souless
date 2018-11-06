@@ -35,6 +35,7 @@ namespace RPG2D.GameEngine
         public NetworkParser NetworkParser { get; set; }
         public ConsoleComponent Console { get; set; }
         public ManualInterpreter ConsoleInterpreter { get; set; }
+        public static string Name = "Player1";
 
         public Vector2 ScreenSize { get { return new Vector2(GraphicsDeviceManager.PreferredBackBufferWidth, GraphicsDeviceManager.PreferredBackBufferHeight); } }
         public World.World World { get; set; }

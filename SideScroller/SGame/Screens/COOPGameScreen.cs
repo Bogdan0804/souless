@@ -23,12 +23,15 @@ namespace RPG2D.SGame.Screens
         Camera2D camera;
         FrameCounter fpsCounter;
 
-        string ip;
+        string ip, name = "";
         NetworkPlayer player;
 
-        public COOPGameScreen(string ip)
+
+
+        public COOPGameScreen(string ip, string name)
         {
             this.ip = ip;
+            this.name = name;
         }
 
         public void Init(ContentManager content)
@@ -78,6 +81,7 @@ namespace RPG2D.SGame.Screens
 
             var fps = string.Format("FPS: {0}", fpsCounter.AverageFramesPerSecond);
             GameManager.Game.World.Draw(gameTime, spriteBatch);
+            spriteBatch.DrawString(GlobalAssets.Arial12, name, new Vector2(player.X - 16 + (GlobalAssets.Arial12.MeasureString(name).X / 2), player.Y - GlobalAssets.Arial12.MeasureString(name).Y), Color.Black);
             player.Draw(gameTime, spriteBatch);
 
             spriteBatch.End();

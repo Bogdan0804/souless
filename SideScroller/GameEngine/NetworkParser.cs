@@ -18,9 +18,13 @@ namespace RPG2D.GameEngine
         public float X;
         public float Y;
         public string IP;
+        public string Name = "";
+        public bool IsConnected { get; set; }
+        bool sentHandshake = false;
 
         public NetworkParser(NetServer _server)
         {
+            IsConnected = false;
             this.server = _server;
             isServer = true;
 
@@ -42,6 +46,7 @@ namespace RPG2D.GameEngine
 
         public NetworkParser(NetClient _client)
         {
+            IsConnected = true;
             this.client = _client;
             isServer = false;
 
@@ -54,7 +59,8 @@ namespace RPG2D.GameEngine
 
             if (isServer)
             {
-                SendPos();
+                if (IsConnected)
+                    SendPos();
 
                 while ((msg = server.ReadMessage()) != null)
                 {
@@ -65,7 +71,6 @@ namespace RPG2D.GameEngine
             else
             {
                 SendPos();
-
                 while ((msg = client.ReadMessage()) != null)
                 {
                     if (msg.MessageType == NetIncomingMessageType.Data)
@@ -107,7 +112,6 @@ namespace RPG2D.GameEngine
         {
             string messageType = message.Split('(')[0];
             string messageData = message.Split('(', ')')[1];
-
             if (messageType == "move")
             {
                 X = float.Parse(messageData.Split(',')[0]);
@@ -132,6 +136,20 @@ namespace RPG2D.GameEngine
                 screen.ip = IP;
 
                 GameManager.Game.ChangeScreen(screen);
+            }
+            else if (messageType == "handshake")
+            {
+                Name = messageData.Split(',')[0];
+                if (!sentHandshake)
+                {
+                    sentHandshake = true;
+                    NetOutgoingMessage messages = server.CreateMessage($"handshake({GameManager.Name},1)");
+                    server.SendMessage(messages, server.Connections[0], NetDeliveryMethod.ReliableOrdered);
+                    server.FlushSendQueue();
+                    Console.WriteLine("Sending handshake response...");
+                }
+
+                IsConnected = true;
             }
         }
     }

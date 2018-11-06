@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("RPG2D")]
-[assembly: AssemblyProduct("RPG2D")]
+[assembly: AssemblyTitle("Souless")]
+[assembly: AssemblyProduct("Souless")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyDescription("")]
-[assembly: AssemblyCompany("")]
-[assembly: AssemblyCopyright("Copyright ©  2018")]
+[assembly: AssemblyDescription("Souless RPG")]
+[assembly: AssemblyCompany("bogz")]
+[assembly: AssemblyCopyright("Copyright Bogz©  2018")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

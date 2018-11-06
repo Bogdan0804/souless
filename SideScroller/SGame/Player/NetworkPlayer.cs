@@ -35,7 +35,7 @@ namespace RPG2D.SGame.Player
         {
             float x = GameManager.Game.NetworkParser.X;
             float y = GameManager.Game.NetworkParser.Y;
-
+            
             this.X = x;
             this.Y = y;
 
