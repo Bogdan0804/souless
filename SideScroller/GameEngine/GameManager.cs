@@ -67,6 +67,32 @@ namespace RPG2D.GameEngine
 
             gameScreen = new SGame.Screens.MenuGameScreen();
             gameScreen.Init(this.Content);
+
+            GameManager.Game.ConsoleInterpreter.RegisterCommand("fullscreen", (o) => {
+                try
+                {
+                    GraphicsDeviceManager.IsFullScreen = bool.Parse(o[0]);
+                    GraphicsDeviceManager.ApplyChanges();
+                    return "Set fullscreen mode to " + o[0];
+                }
+                catch
+                {
+                    return o[0] + " is not a valid input.";
+                }
+            });
+            GameManager.Game.ConsoleInterpreter.RegisterCommand("res", (o) => {
+                try
+                {
+                    GraphicsDeviceManager.PreferredBackBufferWidth = int.Parse(o[0]);
+                    GraphicsDeviceManager.PreferredBackBufferHeight = int.Parse(o[1]);
+                    GraphicsDeviceManager.ApplyChanges();
+                    return "Set res to " + o[0] + "x" + o[1];
+                }
+                catch
+                {
+                    return o[0] + " is not a valid input.";
+                }
+            });
         }
         public void ChangeScreen(IGameScreen screen)
         {

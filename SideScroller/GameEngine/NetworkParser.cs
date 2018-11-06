@@ -132,7 +132,7 @@ namespace RPG2D.GameEngine
             {
                 JoinCOOPGameScreen screen = new JoinCOOPGameScreen();
                 screen.showingDiag = true;
-                screen.messageLog.AppendLine("You Have Been Kicked From The Game.");
+                screen.messageLog = ("You Have Been Kicked From The Game.");
                 screen.ip = IP;
 
                 GameManager.Game.ChangeScreen(screen);
@@ -148,7 +148,17 @@ namespace RPG2D.GameEngine
                     server.FlushSendQueue();
                     Console.WriteLine("Sending handshake response...");
                 }
+            }
+            else if (messageType == "world")
+            {
+                NetOutgoingMessage messages = server.CreateMessage("world(" + System.IO.File.ReadAllText("SGame/Worlds/world1.xml") + ")");
+                server.SendMessage(messages, server.Connections[0], NetDeliveryMethod.ReliableOrdered);
+                server.FlushSendQueue();
 
+                Console.WriteLine("Sending world to client...");
+            }
+            else if (messageType == "connectioncomplete")
+            {
                 IsConnected = true;
             }
         }

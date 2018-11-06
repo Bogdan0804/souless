@@ -23,7 +23,7 @@ namespace RPG2D.GameEngine.World
 
         KeyboardState old;
 
-        public World(string worldSaveFile)
+        public World(string worldSaveFile, bool v)
         {
             Tiles = new Bag<Tile>();
             FloorTiles = new Bag<Tile>();
@@ -37,7 +37,7 @@ namespace RPG2D.GameEngine.World
                 LoadEntityTextures("SGame/Textures/entitys.xml");
             }
 
-            LoadWorld("SGame/Worlds/" + worldSaveFile);
+            LoadWorld(worldSaveFile, v);
         }
 
         public void Update(GameTime gameTime)
@@ -226,10 +226,13 @@ namespace RPG2D.GameEngine.World
 
         }
 
-        private void LoadWorld(string file)
+        private void LoadWorld(string file, bool useXml=false)
         {
             XmlDocument xmlDocument = new XmlDocument();
-            xmlDocument.Load(file);
+            if (useXml)
+                xmlDocument.LoadXml(file);
+            else
+                xmlDocument.Load(file);
 
             foreach (XmlNode tile in xmlDocument["world"]["tiles"])
             {

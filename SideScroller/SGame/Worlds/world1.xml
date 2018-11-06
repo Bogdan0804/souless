@@ -1501,10 +1501,10 @@
   <entitys>
     <tile>
       <position>
-        <x>2</x>
-        <y>1</y>
+        <x>4</x>
+        <y>2</y>
       </position>
-      <textureKey>pillar0</textureKey>
+      <textureKey>desk0</textureKey>
     </tile>
     <tile>
       <position>

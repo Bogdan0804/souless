@@ -10,6 +10,7 @@ using RPG2D.GameEngine.World;
 using RPG2D.SGame.Player;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -28,15 +29,16 @@ namespace RPG2D.SGame.Screens
 
 
 
-        public COOPGameScreen(string ip, string name)
+        public COOPGameScreen(string ip, string name, string xml)
         {
             this.ip = ip;
             this.name = name;
+            File.WriteAllText("globe.xml", xml);
+            GameManager.Game.World = new World("globe.xml", false);
         }
 
         public void Init(ContentManager content)
         {
-            GameManager.Game.World = new World("world1.xml");
             camera = new Camera2D(GameManager.Game.GraphicsDevice);
             GameManager.Game.Player = new Player.Player();
             GameManager.Game.Player.Init(content);

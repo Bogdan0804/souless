@@ -11,6 +11,16 @@
     </size>
   </tile>
   <tile>
+    <name>desk0</name>
+    <colidable>true</colidable>
+    <tileMode>true</tileMode>
+    <file>desk</file>
+    <size>
+      <width>128</width>
+      <height>64</height>
+    </size>
+  </tile>
+  <tile>
     <name>corphafon0</name>
     <colidable>false</colidable>
     <tileMode>false</tileMode>

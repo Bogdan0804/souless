@@ -47,7 +47,7 @@ namespace RPG2D
             Console.WriteLine("Graphics Accelerator: {0}", graphics.GraphicsDevice.Adapter.Description);
             Console.WriteLine("Rendering Resolution: {0}x{1}", graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight);
             Console.WriteLine("VSynced: {0}", graphics.SynchronizeWithVerticalRetrace);
-            Console.WriteLine("Desired Update Rate: {0}/60", this.TargetElapsedTime.Milliseconds);
+            Console.WriteLine("Desired Update Rate: {0}/100", this.TargetElapsedTime.Milliseconds);
         }
 
         /// <summary>

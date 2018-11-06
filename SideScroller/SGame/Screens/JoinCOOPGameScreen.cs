@@ -16,7 +16,7 @@ namespace RPG2D.SGame.Screens
     public class JoinCOOPGameScreen : IGameScreen
     {
         public string ip = "";
-        public StringBuilder messageLog = new StringBuilder();
+        public string messageLog = "";
         public bool showingDiag = false;
         Texture2D titleTexture;
 
@@ -72,7 +72,7 @@ namespace RPG2D.SGame.Screens
                 System.Threading.Thread.Sleep(100);
 
                 bool foundServer = false;
-
+                string name="";
                 while (!foundServer)
                 {
                     msg = client.ReadMessage();
@@ -85,14 +85,20 @@ namespace RPG2D.SGame.Screens
                         msgTxt = msg.ReadString();
                         if (msgTxt.StartsWith("handshake"))
                         {
-                            string name = msgTxt.Split('(', ')')[1].Split(',')[0];
+                            name = msgTxt.Split('(', ')')[1].Split(',')[0];
+                            
+                            Console.WriteLine("Handshake complete, joing user " + name + " after map download");
+                            client.SendMessage(client.CreateMessage("world()"), NetDeliveryMethod.ReliableOrdered);
 
-                            foundServer = true;
-                            polling = false;
-                            Console.WriteLine("Handshake complete, joing user " + name);
+                        }
+                        if (msgTxt.StartsWith("world"))
+                        {
+                            Console.WriteLine("World recieved");
+                            string xml = msgTxt.Split('(', ')')[1];
+                            client.SendMessage(client.CreateMessage("connectioncomplete()"), NetDeliveryMethod.ReliableOrdered);
                             client.Disconnect("");
-
-                            GameManager.Game.ChangeScreen(new COOPGameScreen(ip, name));
+                            foundServer = true;
+                            GameManager.Game.ChangeScreen(new COOPGameScreen(ip, name, xml));
                         }
                     }
 

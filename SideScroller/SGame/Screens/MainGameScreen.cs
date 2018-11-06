@@ -27,7 +27,8 @@ namespace RPG2D.SGame.Screens
 
         public void Init(ContentManager content)
         {
-            GameManager.Game.ConsoleInterpreter.RegisterCommand("debug", (o) => {
+            GameManager.Game.ConsoleInterpreter.RegisterCommand("debug", (o) =>
+            {
                 try
                 {
                     GameManager.DebugMode = bool.Parse(o[0]);
@@ -39,8 +40,9 @@ namespace RPG2D.SGame.Screens
                 }
             });
 
-            GameManager.Game.World = new World("world1.xml");
+            GameManager.Game.World = new World("SGame/Worlds/world1.xml", false);
             camera = new Camera2D(GameManager.Game.GraphicsDevice);
+            camera.ZoomIn(1);
             GameManager.Game.Player = new Player.Player();
             GameManager.Game.Player.Init(content);
             fpsCounter = new FrameCounter();
