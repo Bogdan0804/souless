@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using MonoGame.Extended.Collections;
 using RPG2D.GameEngine.Entities;
+using RPG2D.SGame.Screens;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,7 +21,6 @@ namespace RPG2D.GameEngine.World
         public Bag<Entities.Entity> Entity { get; set; }
         private static bool texturesLoaded = false;
 
-        int renderDepthState = 0;
         KeyboardState old;
 
         public World(string worldSaveFile)
@@ -63,10 +63,13 @@ namespace RPG2D.GameEngine.World
 
             foreach (var tile in Tiles)
             {
-                if (tile.Y + 32 > GameManager.Game.Player.Y + 32)
-                    belowPlayerTiles.Add(tile);
-                else
-                    abovePlayerTiles.Add(tile);
+                if (tile.TileInfo.Texture.Name != "barrier")
+                {
+                    if (tile.Y + 32 > GameManager.Game.Player.Y + 32)
+                        belowPlayerTiles.Add(tile);
+                    else
+                        abovePlayerTiles.Add(tile);
+                }
             }
             foreach (var tile in Entity)
             {
@@ -117,7 +120,10 @@ namespace RPG2D.GameEngine.World
                     {
                         GameManager.Game.Tooltip = "Press E to interact";
                         if (state.IsKeyDown(Keys.E) && old.IsKeyUp(Keys.E))
-                            t.TileInfo.OnInteract.Invoke(Tiles[i]);
+                        {
+                            t.TileInfo.OnInteract.Invoke(t);
+                            GameManager.Game.NetworkParser.InteractWith(t);
+                        }
                     }
                 }
             }
@@ -257,19 +263,32 @@ namespace RPG2D.GameEngine.World
             }
             foreach (XmlNode tile in xmlDocument["world"]["decor"])
             {
-                Tile fTile = new Tile();
-                fTile.X = int.Parse(tile["position"]["x"].InnerText) * 64;
-                fTile.Y = int.Parse(tile["position"]["y"].InnerText) * 64;
-                fTile.Texture = GlobalAssets.WorldTiles[tile["textureKey"].InnerText].Texture;
-                fTile.TileInfo = GlobalAssets.WorldTiles[tile["textureKey"].InnerText];
+                if (tile["textureKey"].InnerText == "torch")
+                {
+                    Torch torch = new Torch();
+                    torch.X = int.Parse(tile["position"]["x"].InnerText) * 64;
+                    torch.Y = int.Parse(tile["position"]["y"].InnerText) * 64;
+                    Entity.Add(torch);
+                }
+                else
+                {
+                    Tile fTile = new Tile();
+                    fTile.X = int.Parse(tile["position"]["x"].InnerText) * 64;
+                    fTile.Y = int.Parse(tile["position"]["y"].InnerText) * 64;
+                    fTile.Texture = GlobalAssets.WorldTiles[tile["textureKey"].InnerText].Texture;
+                    fTile.TileInfo = GlobalAssets.WorldTiles[tile["textureKey"].InnerText];
 
-                this.Decor.Add(fTile);
+                    this.Decor.Add(fTile);
+
+                }
+
             }
             foreach (XmlNode tile in xmlDocument["world"]["entitys"])
             {
                 if (GlobalAssets.EntityTextures[tile["textureKey"].InnerText].IsTile)
                 {
-                    TileEntity fTile = new TileEntity(GlobalAssets.EntityTextures[tile["textureKey"].InnerText].Texture);
+
+                    TileEntity fTile = new TileEntity(new Frame(GlobalAssets.EntityTextures[tile["textureKey"].InnerText].Texture));
                     fTile.X = int.Parse(tile["position"]["x"].InnerText) * 64;
                     fTile.Y = int.Parse(tile["position"]["y"].InnerText) * 64;
                     fTile.Texture = GlobalAssets.EntityTextures[tile["textureKey"].InnerText].Texture;
@@ -277,6 +296,7 @@ namespace RPG2D.GameEngine.World
                     fTile.EntityTexture = GlobalAssets.EntityTextures[tile["textureKey"].InnerText];
                     fTile.Colidable = GlobalAssets.EntityTextures[tile["textureKey"].InnerText].Colidable;
                     this.Entity.Add(fTile);
+
                 }
                 else
                 {
@@ -297,6 +317,7 @@ namespace RPG2D.GameEngine.World
 
 
             }
+
         }
     }
 }

@@ -1,6 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using QuakeConsole;
+using RPG2D.GameEngine;
 using System;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
@@ -12,14 +14,14 @@ namespace RPG2D
     /// </summary>
     public class Game1 : Game
     {
-
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
-            
+            Content.RootDirectory = "Content";
+
 
             this.IsFixedTimeStep = false;//false;
 
@@ -27,16 +29,20 @@ namespace RPG2D
             graphics.PreferredBackBufferWidth = 1280;
             graphics.PreferredBackBufferHeight = 720;
             graphics.ApplyChanges();
-            Content.RootDirectory = "Content";
 
             LogSpecs(graphics);
 
-            this.Window.Title = "RPG2D Demo";
+            this.Window.Title = "Souless";
+            GameManager.Game.Console = new ConsoleComponent(this);
+            Components.Add(GameManager.Game.Console);
+            GameManager.Game.ConsoleInterpreter = new ManualInterpreter();
+
+            GameManager.Game.Console.Interpreter = GameManager.Game.ConsoleInterpreter;
         }
 
         private void LogSpecs(GraphicsDeviceManager graphics)
         {
-            Console.Title = "Game2D - RPG2D Graphics Tile Demo";
+            Console.Title = "Souless - Debug Console";
             Console.WriteLine("Detecting Graphics Hardware...");
             Console.WriteLine("Graphics Accelerator: {0}", graphics.GraphicsDevice.Adapter.Description);
             Console.WriteLine("Rendering Resolution: {0}x{1}", graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight);
@@ -65,9 +71,13 @@ namespace RPG2D
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            GameEngine.GameManager.Game.Init(Content, spriteBatch, graphics);
-
             // TODO: use this.Content to load your game content here
+
+
+            GameEngine.GameManager.Game.Init(Content, spriteBatch, graphics, this);
+            
+
+            base.LoadContent();
         }
 
         /// <summary>

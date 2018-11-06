@@ -15,7 +15,8 @@ namespace RPG2D.SGame.Player
 {
     public class Player : AnimatedSprite
     {
-        int Speed = 5;
+        int Speed = 250;
+
         public Vector2 Position {
             get
             {
@@ -101,35 +102,35 @@ namespace RPG2D.SGame.Player
             var state = Keyboard.GetState();
 
             UpdateKeypressStates(state);
-            HandleKeyPresses(state);
+            HandleKeyPresses(state, gameTime);
             
             GameManager.Game.World.CheckInteractions(Position - new Vector2(4), new Vector2(68, 68));
         }
 
-        private void HandleKeyPresses(KeyboardState state)
+        private void HandleKeyPresses(KeyboardState state, GameTime gameTime)
         {
             if (state.IsKeyDown(Keys.W) && canUp)
             {
-                Position += (new Vector2(0, -Speed));
+                Position += (new Vector2(0, -Speed * (float)gameTime.ElapsedGameTime.TotalSeconds));
                 CurrentAnimation = "walking_up";
 
             }
             else if (state.IsKeyDown(Keys.S) && canDown)
             {
-                Position += (new Vector2(0, Speed));
+                Position += (new Vector2(0, Speed * (float)gameTime.ElapsedGameTime.TotalSeconds));
                 CurrentAnimation = "walking_down";
 
             }
 
             if (state.IsKeyDown(Keys.A) && canLeft)
             {
-                Position += (new Vector2(-Speed, 0));
+                Position += (new Vector2(-Speed * (float)gameTime.ElapsedGameTime.TotalSeconds, 0));
                 CurrentAnimation = "walking_left";
 
             }
             else if (state.IsKeyDown(Keys.D) && canRight)
             {
-                Position += (new Vector2(Speed, 0));
+                Position += (new Vector2(Speed * (float)gameTime.ElapsedGameTime.TotalSeconds, 0));
                 CurrentAnimation = "walking_right";
             }
         }

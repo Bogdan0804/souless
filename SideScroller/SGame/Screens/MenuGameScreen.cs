@@ -16,7 +16,7 @@ namespace RPG2D.SGame.Screens
     {
         Texture2D titleTexture;
         int SelectedOption = 0;
-        int MenuItemsCount = 1;
+        int MenuItemsCount = 2;
 
         KeyboardState oldState;
 
@@ -49,6 +49,10 @@ namespace RPG2D.SGame.Screens
                         break;
 
                     case 1:
+                        GameManager.Game.ChangeScreen(new JoinCOOPGameScreen());
+                        break;
+
+                    case 2:
                         Environment.Exit(0);
                         break;
                 }
@@ -64,8 +68,9 @@ namespace RPG2D.SGame.Screens
             float titleTexX = GameEngine.GameManager.Game.ScreenSize.X / 2 - titleTexture.Width / 2;
             spriteBatch.Draw(titleTexture, new Vector2(titleTexX, 2), Color.White);
 
-            spriteBatch.DrawString(GlobalAssets.Arial24, "Play", new Vector2(GameManager.Game.ScreenSize.X / 2 - GlobalAssets.Arial24.MeasureString("Host").X / 2, 300), Color.Black);
-            spriteBatch.DrawString(GlobalAssets.Arial24, "Exit", new Vector2(GameManager.Game.ScreenSize.X / 2 - GlobalAssets.Arial24.MeasureString("Exit.").X / 2, 350), Color.Black);
+            spriteBatch.DrawString(GlobalAssets.Arial24, "Play", new Vector2(GameManager.Game.ScreenSize.X / 2 - GlobalAssets.Arial24.MeasureString("Play").X / 2, 300), Color.Black);
+            spriteBatch.DrawString(GlobalAssets.Arial24, "COOP", new Vector2(GameManager.Game.ScreenSize.X / 2 - GlobalAssets.Arial24.MeasureString("Play").X / 2, 350), Color.Black);
+            spriteBatch.DrawString(GlobalAssets.Arial24, "Exit", new Vector2(GameManager.Game.ScreenSize.X / 2 - GlobalAssets.Arial24.MeasureString("Exit.").X / 2, 400), Color.Black);
             spriteBatch.DrawString(GlobalAssets.Arial24, ">", new Vector2(GameManager.Game.ScreenSize.X / 2 - GlobalAssets.Arial24.MeasureString("######").X / 2, 300 + (50 * SelectedOption)), Color.Black);
 
             spriteBatch.End();

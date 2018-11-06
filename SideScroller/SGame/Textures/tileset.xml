@@ -5,6 +5,14 @@
     <file>floor</file>
   </tile>
   <tile>
+    <name>torch</name>
+    <file>torch0</file>
+  </tile>
+  <tile>
+    <name>barrier</name>
+    <file>barrier</file>
+  </tile>
+  <tile>
     <name>table0</name>
     <file>table_0</file>
   </tile>
@@ -13,8 +21,32 @@
     <file>wall_tile_0</file>
   </tile>
   <tile>
+    <name>wallSegmentCornerIntersection0</name>
+    <file>wall_segment_corner_intersection_0</file>
+  </tile>
+  <tile>
+    <name>wallSegmentCornerIntersection1</name>
+    <file>wall_segment_corner_intersection_1</file>
+  </tile>
+  <tile>
     <name>shadowTop</name>
     <file>shadow_0</file>
+  </tile>
+  <tile>
+    <name>fadeoffTop</name>
+    <file>fadeoff_up</file>
+  </tile>
+  <tile>
+    <name>fadeoffBottom</name>
+    <file>fadeoff_down</file>
+  </tile>
+  <tile>
+    <name>fadeoffLeft</name>
+    <file>fadeoff_left</file>
+  </tile>
+  <tile>
+    <name>fadeoffRight</name>
+    <file>fadeoff_right</file>
   </tile>
   <tile>
     <name>shadowMid</name>

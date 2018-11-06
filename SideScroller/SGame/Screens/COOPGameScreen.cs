@@ -16,14 +16,20 @@ using System.Threading.Tasks;
 
 namespace RPG2D.SGame.Screens
 {
-    public class MainGameScreen : IGameScreen
+    public class COOPGameScreen : IGameScreen
     {
         NetPeerConfiguration config;
-        NetServer server;
+        NetClient client;
         Camera2D camera;
         FrameCounter fpsCounter;
+
+        string ip;
         NetworkPlayer player;
 
+        public COOPGameScreen(string ip)
+        {
+            this.ip = ip;
+        }
 
         public void Init(ContentManager content)
         {
@@ -33,14 +39,20 @@ namespace RPG2D.SGame.Screens
             GameManager.Game.Player.Init(content);
             fpsCounter = new FrameCounter();
 
-            config = new NetPeerConfiguration("RPG2D");
-            config.Port = 20666;
-
-            server = new NetServer(config);
-            server.Start();
-
-            GameManager.Game.NetworkParser = new NetworkParser(server);
+            ConnectToServer(ip);
+            GameManager.Game.NetworkParser = new NetworkParser(client);
+            GameManager.Game.NetworkParser.IP = ip;
             player = new NetworkPlayer();
+        }
+
+        public void ConnectToServer(string ip)
+        {
+            config = new NetPeerConfiguration("RPG2D");
+            client = new NetClient(config);
+            client.Start();
+
+            int port = 20666;
+            client.Connect(ip, port);
         }
 
         public void Update(GameTime gameTime)

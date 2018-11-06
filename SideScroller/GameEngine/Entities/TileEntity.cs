@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,10 +12,18 @@ namespace RPG2D.GameEngine.Entities
     {
         public bool Colidable { get; set; }
 
-        public TileEntity(Texture2D texture)
-            :base("default", new Animation(new Frame(texture)))
+        public override EntityTexture EntityTexture
         {
+            get
+            {
+                return new EntityTexture { Colidable = true, Texture = this.Texture, IsTile = true, Size = Size };
+            }
+        }
 
+        public TileEntity(params Frame[] frames)
+            : base("default", new Animation(frames))
+        {
+            this.Size = new Vector2(64);
         }
     }
 }

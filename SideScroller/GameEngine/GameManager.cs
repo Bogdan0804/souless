@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using QuakeConsole;
 using RPG2D.GameEngine.Screens;
 using RPG2D.SGame.Player;
 using System;
@@ -30,6 +31,10 @@ namespace RPG2D.GameEngine
         public SpriteBatch SpriteBatch { get; private set; }
         public GraphicsDeviceManager GraphicsDeviceManager { get; private set; }
         public GraphicsDevice GraphicsDevice { get { return GraphicsDeviceManager.GraphicsDevice; } }
+        public Game ThisGame { get; set; }
+        public NetworkParser NetworkParser { get; set; }
+        public ConsoleComponent Console { get; set; }
+        public ManualInterpreter ConsoleInterpreter { get; set; }
 
         public Vector2 ScreenSize { get { return new Vector2(GraphicsDeviceManager.PreferredBackBufferWidth, GraphicsDeviceManager.PreferredBackBufferHeight); } }
         public World.World World { get; set; }
@@ -45,10 +50,10 @@ namespace RPG2D.GameEngine
         public bool Stopped { get; set; }
         public bool Paused { get; set; }
 
-        public void Init(ContentManager content, SpriteBatch spriteBatch, GraphicsDeviceManager graphics)
+        public void Init(ContentManager content, SpriteBatch spriteBatch, GraphicsDeviceManager graphics, Game game)
         {
             this.Stopped = false;
-
+            this.ThisGame = game;
             this.Content = content;
             this.SpriteBatch = spriteBatch;
             this.GraphicsDeviceManager = graphics;
@@ -104,6 +109,12 @@ namespace RPG2D.GameEngine
                 gameScreen.Update(gameTime);
 
             if (kbState.IsKeyDown(Keys.Escape) && oldState.IsKeyUp(Keys.Escape)) Paused = !Paused;
+
+            if (oldState.IsKeyUp(Keys.OemTilde) && kbState.IsKeyDown(Keys.OemTilde))
+            {
+                Console.ToggleOpenClose();
+                Stopped = !Stopped;
+            }
 
             oldState = kbState;
         }

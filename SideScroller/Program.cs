@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows.Forms;
 
 namespace RPG2D
 {
@@ -14,6 +15,9 @@ namespace RPG2D
         [STAThread]
         static void Main()
         {
+            Application.SetCompatibleTextRenderingDefault(false);
+            Application.EnableVisualStyles();
+
             using (var game = new Game1())
                 game.Run();
         }

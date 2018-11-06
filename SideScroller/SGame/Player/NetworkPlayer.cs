@@ -1,0 +1,58 @@
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using RPG2D.GameEngine;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace RPG2D.SGame.Player
+{
+    public class NetworkPlayer : AnimatedSprite
+    {
+        public Vector2 Size { get; private set; }
+
+        public float oldX { get; set; }
+        public float oldY { get; set; }
+
+        public NetworkPlayer()
+        {
+            Size = new Vector2(64);
+
+            Animations.Add("walking_left", new Animation(new Frame(GameManager.Game.Content.Load<Texture2D>("player/player2_left1")), new Frame(GameManager.Game.Content.Load<Texture2D>("player/player2_left2")), new Frame(GameManager.Game.Content.Load<Texture2D>("player/player2_left3"))));
+            Animations.Add("walking_right", new Animation(new Frame(GameManager.Game.Content.Load<Texture2D>("player/player2_right1")), new Frame(GameManager.Game.Content.Load<Texture2D>("player/player2_right2")), new Frame(GameManager.Game.Content.Load<Texture2D>("player/player2_right3"))));
+            Animations.Add("walking_up", new Animation(new Frame(GameManager.Game.Content.Load<Texture2D>("player/player2_up1")), new Frame(GameManager.Game.Content.Load<Texture2D>("player/player2_up2")), new Frame(GameManager.Game.Content.Load<Texture2D>("player/player2_up3"))));
+            Animations.Add("walking_down", new Animation(new Frame(GameManager.Game.Content.Load<Texture2D>("player/player2_down1")), new Frame(GameManager.Game.Content.Load<Texture2D>("player/player2_down2")), new Frame(GameManager.Game.Content.Load<Texture2D>("player/player2_down3"))));
+            CurrentAnimation = "walking_down";
+        }
+
+        public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
+        {
+            spriteBatch.Draw(GetTexture(), Bounds, Color.White);
+        }
+        public override void Update(GameTime gameTime)
+        {
+            float x = GameManager.Game.NetworkParser.X;
+            float y = GameManager.Game.NetworkParser.Y;
+
+            this.X = x;
+            this.Y = y;
+
+            if (y < oldY)
+                CurrentAnimation = "walking_up";
+            else if (y > oldY)
+                CurrentAnimation = "walking_down";
+
+
+            if (x < oldX)
+                CurrentAnimation = "walking_left";
+            else if (x > oldX)
+                CurrentAnimation = "walking_right";
+
+            oldX = x;
+            oldY = y;
+            base.Update(gameTime);
+        }
+    }
+}

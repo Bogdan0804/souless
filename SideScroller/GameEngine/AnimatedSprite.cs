@@ -30,16 +30,7 @@ namespace RPG2D.GameEngine
         }
         public virtual void Update(GameTime gameTime)
         {
-            try
-            {
-                if (Animate)
-                    Animations[CurrentAnimation].Update(gameTime, CurrentAnimationFrame.FrameTime);
-            }
-            catch
-            {
-
-            }
-
+            Animations[CurrentAnimation].Update(gameTime, CurrentAnimationFrame.FrameTime);
         }
     }
 }
