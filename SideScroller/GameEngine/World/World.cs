@@ -63,7 +63,7 @@ namespace RPG2D.GameEngine.World
 
             foreach (var tile in Tiles)
             {
-                if (tile.TileInfo.Texture.Name != "barrier")
+                if ((tile.TileInfo.Texture.Name != "barrier") || GameManager.DebugMode)
                 {
                     if (tile.Y + 32 > GameManager.Game.Player.Y + 32)
                         belowPlayerTiles.Add(tile);

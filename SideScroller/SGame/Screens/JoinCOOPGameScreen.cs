@@ -46,7 +46,7 @@ namespace RPG2D.SGame.Screens
             {
                 showingDiag = true;
                 ip = KeyboardInput.Show("Server IP", "Enter the ip adress of the server host.", "127.0.0.1").Result;
-                Console.WriteLine("Begining server handshake protocal");
+                Console.WriteLine("Begining server handshake protocol");
                 System.Threading.Thread.Sleep(1000);
 
                 if (ip != null)

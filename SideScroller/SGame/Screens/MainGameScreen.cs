@@ -27,6 +27,18 @@ namespace RPG2D.SGame.Screens
 
         public void Init(ContentManager content)
         {
+            GameManager.Game.ConsoleInterpreter.RegisterCommand("debug", (o) => {
+                try
+                {
+                    GameManager.DebugMode = bool.Parse(o[0]);
+                    return "Set debug mode to " + o[0];
+                }
+                catch
+                {
+                    return o[0] + " is not a valid input.";
+                }
+            });
+
             GameManager.Game.World = new World("world1.xml");
             camera = new Camera2D(GameManager.Game.GraphicsDevice);
             GameManager.Game.Player = new Player.Player();

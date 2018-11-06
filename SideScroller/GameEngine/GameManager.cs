@@ -50,6 +50,7 @@ namespace RPG2D.GameEngine
 
         public bool Stopped { get; set; }
         public bool Paused { get; set; }
+        public static bool DebugMode { get; set; }
 
         public void Init(ContentManager content, SpriteBatch spriteBatch, GraphicsDeviceManager graphics, Game game)
         {

@@ -17,7 +17,8 @@ namespace RPG2D.SGame.Player
     {
         int Speed = 250;
 
-        public Vector2 Position {
+        public Vector2 Position
+        {
             get
             {
                 return new Vector2(X, Y);
@@ -63,7 +64,7 @@ namespace RPG2D.SGame.Player
                 Point2 = p2;
             }
         }
-        
+
         public void Init(ContentManager content)
         {
             Animations.Add("walking_left", new Animation(new Frame(content.Load<Texture2D>("player/player_left1")), new Frame(content.Load<Texture2D>("player/player_left2")), new Frame(content.Load<Texture2D>("player/player_left3"))));
@@ -71,7 +72,7 @@ namespace RPG2D.SGame.Player
             Animations.Add("walking_up", new Animation(new Frame(content.Load<Texture2D>("player/player_up1")), new Frame(content.Load<Texture2D>("player/player_up2")), new Frame(content.Load<Texture2D>("player/player_up3"))));
             Animations.Add("walking_down", new Animation(new Frame(content.Load<Texture2D>("player/player_down1")), new Frame(content.Load<Texture2D>("player/player_down2")), new Frame(content.Load<Texture2D>("player/player_down3"))));
             CurrentAnimation = "walking_down";
-            
+
             Size = new Vector2(64);
             this.Position = new Vector2(256);
 
@@ -103,7 +104,7 @@ namespace RPG2D.SGame.Player
 
             UpdateKeypressStates(state);
             HandleKeyPresses(state, gameTime);
-            
+
             GameManager.Game.World.CheckInteractions(Position - new Vector2(4), new Vector2(68, 68));
         }
 
@@ -141,7 +142,7 @@ namespace RPG2D.SGame.Player
             movingLeft = false;
             movingRight = false;
 
-            
+
             if (state.IsKeyDown(Keys.W))
             {
                 movingUp = true;
@@ -164,7 +165,7 @@ namespace RPG2D.SGame.Player
         public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(GetTexture(), new Rectangle(Position.ToPoint(), Size.ToPoint()), Color.White);
-            UpdateColitions(null);
+            UpdateColitions(GameManager.DebugMode ? spriteBatch : null);
             //spriteBatch.Draw(GlobalAssets.WorldTiles["floor"].Texture, new Rectangle(Position.ToPoint() + new Point(0, (int)Size.Y + 1), new Point(64, 2)), Color.Blue);
             //spriteBatch.Draw(GlobalAssets.WorldTiles["floor"].Texture, new Rectangle(Position.ToPoint(), new Point(64, 2)), Color.Blue);
         }
@@ -180,8 +181,8 @@ namespace RPG2D.SGame.Player
                    );
             if (movingDown)
                 Collitions.Down = new CollitionPoint(
-                    GameManager.Game.World.IsSpaceOpen(Position + new Vector2(xSize, Size.Y-5), new Vector2(Size.X / 6, 5), s),
-                    GameManager.Game.World.IsSpaceOpen(Position + new Vector2(32, Size.Y -5), new Vector2(Size.X / 6, 5), s)
+                    GameManager.Game.World.IsSpaceOpen(Position + new Vector2(xSize, Size.Y - 5), new Vector2(Size.X / 6, 5), s),
+                    GameManager.Game.World.IsSpaceOpen(Position + new Vector2(32, Size.Y - 5), new Vector2(Size.X / 6, 5), s)
                     );
 
             if (movingLeft)
