@@ -81,6 +81,8 @@
     <Compile Include="GameEngine\NetworkParser.cs" />
     <Compile Include="GameEngine\Screens\IGameScreen.cs" />
     <Compile Include="GameEngine\Sprite.cs" />
+    <Compile Include="GameEngine\UI\Button.cs" />
+    <Compile Include="GameEngine\UI\UIElement.cs" />
     <Compile Include="GameEngine\World\Tile.cs" />
     <Compile Include="GameEngine\World\World.cs" />
     <Compile Include="SGame\Player\NetworkPlayer.cs" />

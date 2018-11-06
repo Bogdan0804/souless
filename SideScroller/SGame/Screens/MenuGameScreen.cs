@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using RPG2D.GameEngine;
 using RPG2D.GameEngine.Screens;
+using RPG2D.GameEngine.UI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +15,8 @@ namespace RPG2D.SGame.Screens
 {
     public class MenuGameScreen : IGameScreen
     {
-        Texture2D titleTexture;
+        TextureButton buttonSettings;
+        Texture2D titleTexture, settings_icon;
         int SelectedOption = 0;
         int MenuItemsCount = 2;
 
@@ -23,9 +25,18 @@ namespace RPG2D.SGame.Screens
         public void Init(ContentManager content)
         {
             titleTexture = content.Load<Texture2D>("title");
+            settings_icon = content.Load<Texture2D>("ui/settings_gear");
+            buttonSettings = new TextureButton();
+            buttonSettings.Texture = settings_icon;
+            buttonSettings.Position = GameManager.Game.ScreenSize - new Vector2(64);
+            buttonSettings.OnClick += () => {
+                Console.WriteLine("GameScreen.Settings is not implemented.");
+            };
         }
         public void Update(GameTime gameTime)
         {
+            buttonSettings.Update(gameTime);
+
             var state = Keyboard.GetState();
 
             if (state.IsKeyDown(Keys.Up) && oldState.IsKeyUp(Keys.Up))
@@ -72,6 +83,7 @@ namespace RPG2D.SGame.Screens
             spriteBatch.DrawString(GlobalAssets.Arial24, "COOP", new Vector2(GameManager.Game.ScreenSize.X / 2 - GlobalAssets.Arial24.MeasureString("Play").X / 2, 350), Color.Black);
             spriteBatch.DrawString(GlobalAssets.Arial24, "Exit", new Vector2(GameManager.Game.ScreenSize.X / 2 - GlobalAssets.Arial24.MeasureString("Exit.").X / 2, 400), Color.Black);
             spriteBatch.DrawString(GlobalAssets.Arial24, ">", new Vector2(GameManager.Game.ScreenSize.X / 2 - GlobalAssets.Arial24.MeasureString("######").X / 2, 300 + (50 * SelectedOption)), Color.Black);
+            buttonSettings.Draw(gameTime, spriteBatch);
 
             spriteBatch.End();
         }
