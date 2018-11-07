@@ -77,7 +77,7 @@ namespace RPG2D.SGame.Screens
         public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
             GameManager.Game.GraphicsDevice.Clear(Color.White);
-            spriteBatch.Begin(samplerState: SamplerState.PointWrap);
+            spriteBatch.Begin();
 
             float titleTexX = GameEngine.GameManager.Game.ScreenSize.X / 2 - titleTexture.Width / 2;
             spriteBatch.Draw(titleTexture, new Vector2(titleTexX, 2), Color.White);
