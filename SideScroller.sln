@@ -66,6 +66,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Graphics", "Graphics", "{B8
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{E7A9F852-5680-464D-B70A-D9D94D1DFCBC}"
+	ProjectSection(SolutionItems) = preProject
+		docs\hi = docs\hi
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
