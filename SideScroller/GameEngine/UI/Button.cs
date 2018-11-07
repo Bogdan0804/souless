@@ -31,6 +31,7 @@ namespace RPG2D.GameEngine.UI
         }
 
         MouseState oldState;
+        bool click = false;
         public override void Update(GameTime gameTime)
         {
             var state = Mouse.GetState();
@@ -40,10 +41,13 @@ namespace RPG2D.GameEngine.UI
             else
                 color = Color.White;
 
-            if (Bounds.Contains(state.Position) && state.LeftButton == ButtonState.Pressed && oldState.LeftButton == ButtonState.Released)
+            if (Bounds.Contains(state.Position) && state.LeftButton == ButtonState.Pressed && oldState.LeftButton == ButtonState.Released && !click)
             {
+                click = true;
                 OnClick();
             }
+            else
+                click = false;
 
             oldState = state;
         }

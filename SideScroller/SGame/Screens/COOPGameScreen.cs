@@ -44,6 +44,8 @@ namespace RPG2D.SGame.Screens
             GameManager.Game.Player.Init(content);
             fpsCounter = new FrameCounter();
 
+            camera.ZoomIn(1);
+
             ConnectToServer(ip);
             GameManager.Game.NetworkParser = new NetworkParser(client);
             GameManager.Game.NetworkParser.IP = ip;

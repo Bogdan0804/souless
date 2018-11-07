@@ -35,7 +35,13 @@ namespace RPG2D.GameEngine
         public NetworkParser NetworkParser { get; set; }
         public ConsoleComponent Console { get; set; }
         public ManualInterpreter ConsoleInterpreter { get; set; }
-        public static string Name = "Player1";
+        public static string Name
+        {
+            get
+            {
+                return RPG2D.Properties.Settings.Default.name;
+            }
+        }
 
         public Vector2 ScreenSize { get { return new Vector2(GraphicsDeviceManager.PreferredBackBufferWidth, GraphicsDeviceManager.PreferredBackBufferHeight); } }
         public World.World World { get; set; }
@@ -68,7 +74,8 @@ namespace RPG2D.GameEngine
             gameScreen = new SGame.Screens.MenuGameScreen();
             gameScreen.Init(this.Content);
 
-            GameManager.Game.ConsoleInterpreter.RegisterCommand("fullscreen", (o) => {
+            GameManager.Game.ConsoleInterpreter.RegisterCommand("fullscreen", (o) =>
+            {
                 try
                 {
                     GraphicsDeviceManager.IsFullScreen = bool.Parse(o[0]);
@@ -80,7 +87,8 @@ namespace RPG2D.GameEngine
                     return o[0] + " is not a valid input.";
                 }
             });
-            GameManager.Game.ConsoleInterpreter.RegisterCommand("res", (o) => {
+            GameManager.Game.ConsoleInterpreter.RegisterCommand("res", (o) =>
+            {
                 try
                 {
                     GraphicsDeviceManager.PreferredBackBufferWidth = int.Parse(o[0]);
@@ -113,7 +121,7 @@ namespace RPG2D.GameEngine
                 if (genPause)
                 {
                     genPause = false;
-                    
+
                 }
 
                 float titleTexX = GameEngine.GameManager.Game.ScreenSize.X / 2 - pausedMenuTitle.Width / 2;

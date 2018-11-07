@@ -26,8 +26,8 @@ namespace RPG2D
             this.IsFixedTimeStep = false;//false;
 
             graphics.GraphicsProfile = GraphicsProfile.HiDef;
-            graphics.PreferredBackBufferWidth = 1280;
-            graphics.PreferredBackBufferHeight = 720;
+            graphics.PreferredBackBufferWidth = RPG2D.Properties.Settings.Default.resWidth;
+            graphics.PreferredBackBufferHeight = RPG2D.Properties.Settings.Default.resHeight;
             graphics.ApplyChanges();
 
             LogSpecs(graphics);

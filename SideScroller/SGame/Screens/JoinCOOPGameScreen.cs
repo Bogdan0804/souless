@@ -63,7 +63,7 @@ namespace RPG2D.SGame.Screens
             if (polling)
             {
                 polling = false;
-                client.SendMessage(client.CreateMessage("handshake(Player2,1)"), NetDeliveryMethod.ReliableOrdered);
+                client.SendMessage(client.CreateMessage($"handshake({GameManager.Name},1)"), NetDeliveryMethod.ReliableOrdered);
                 client.FlushSendQueue();
                 Console.WriteLine("Request server handshake...");
 
@@ -72,7 +72,7 @@ namespace RPG2D.SGame.Screens
                 System.Threading.Thread.Sleep(100);
 
                 bool foundServer = false;
-                string name="";
+                string name = "";
                 while (!foundServer)
                 {
                     msg = client.ReadMessage();
@@ -86,7 +86,7 @@ namespace RPG2D.SGame.Screens
                         if (msgTxt.StartsWith("handshake"))
                         {
                             name = msgTxt.Split('(', ')')[1].Split(',')[0];
-                            
+
                             Console.WriteLine("Handshake complete, joing user " + name + " after map download");
                             client.SendMessage(client.CreateMessage("world()"), NetDeliveryMethod.ReliableOrdered);
 

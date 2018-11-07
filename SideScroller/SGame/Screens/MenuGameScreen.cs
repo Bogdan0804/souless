@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Input;
 using RPG2D.GameEngine;
 using RPG2D.GameEngine.Screens;
 using RPG2D.GameEngine.UI;
+using RPG2D.SGame.Forms;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,8 +30,10 @@ namespace RPG2D.SGame.Screens
             buttonSettings = new TextureButton();
             buttonSettings.Texture = settings_icon;
             buttonSettings.Position = GameManager.Game.ScreenSize - new Vector2(64);
-            buttonSettings.OnClick += () => {
-                Console.WriteLine("GameScreen.Settings is not implemented.");
+            buttonSettings.OnClick += () =>
+            {
+                var settings = new SettingsForm();
+                settings.ShowDialog();
             };
         }
         public void Update(GameTime gameTime)

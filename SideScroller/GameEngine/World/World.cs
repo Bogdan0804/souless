@@ -35,6 +35,17 @@ namespace RPG2D.GameEngine.World
                 texturesLoaded = true;
                 LoadTileset("SGame/Textures/tileset.xml");
                 LoadEntityTextures("SGame/Textures/entitys.xml");
+
+
+                GameManager.Game.ConsoleInterpreter.RegisterCommand("world", (o) =>
+                {
+                    Tiles = new Bag<Tile>();
+                    FloorTiles = new Bag<Tile>();
+                    Decor = new Bag<Tile>();
+                    Entity = new Bag<Entities.Entity>();
+
+                    LoadWorld("SGame/Worlds/" + o[0].ToString(), false);
+                });
             }
 
             LoadWorld(worldSaveFile, v);
@@ -226,7 +237,7 @@ namespace RPG2D.GameEngine.World
 
         }
 
-        private void LoadWorld(string file, bool useXml=false)
+        private void LoadWorld(string file, bool useXml = false)
         {
             XmlDocument xmlDocument = new XmlDocument();
             if (useXml)
