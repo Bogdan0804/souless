@@ -115,7 +115,8 @@
 				<div class="col-md-8 col-md-offset-2 text-center fh5co-heading">
 					<h2>Want To Participate In The Public Beta?</h2>
 					<p>Download the game and report bugs and feature requests back to the <a href="https://github.com/Bogdan0804/souless">Github</a> page.</p>
-					<p><a href="https://github.com/Bogdan0804/souless/raw/master/game.zip" class="btn btn-default btn-lg">Download (Windows)</a></p>
+					<p><a id="dl" href="https://github.com/Bogdan0804/souless/raw/master/game.zip" class="btn btn-default btn-lg">Download (Windows)</a></p>
+					<p id="dlTxt"><a href="https://github.com/Bogdan0804/souless/raw/master/game.zip">Download Anyways</a></p>
 				</div>
 			</div>
 		</div>
@@ -161,7 +162,19 @@
 	<script src="js/magnific-popup-options.js"></script>
 	<!-- Main -->
 	<script src="js/main.js"></script>
+	<script type="text/javascript">
 
+
+		if (jscd.os != "Windows")
+		{
+			$("a#dl").removeAttr('href');
+			$("a#dl").text("Your OS is not supported.");
+		}
+		else 
+		{
+			$("p#dlTxt").hide();
+		}
+	</script>
 	</body>
 </html>
 
