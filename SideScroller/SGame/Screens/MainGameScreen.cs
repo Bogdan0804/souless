@@ -4,8 +4,10 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using MonoGame.Extended;
+using MonoGame.Extended.Collections;
 using RPG2D.GameEngine;
 using RPG2D.GameEngine.Screens;
+using RPG2D.GameEngine.UI;
 using RPG2D.GameEngine.World;
 using RPG2D.SGame.Player;
 using System;
@@ -18,6 +20,7 @@ namespace RPG2D.SGame.Screens
 {
     public class MainGameScreen : IGameScreen
     {
+        Bag<UIElement> UI = new Bag<UIElement>();
         NetPeerConfiguration config;
         NetServer server;
         Camera2D camera;
@@ -56,6 +59,8 @@ namespace RPG2D.SGame.Screens
 
             GameManager.Game.NetworkParser = new NetworkParser(server);
             player = new NetworkPlayer();
+
+            UI.Add(new UI.StatsOverlay());
         }
 
         public void Update(GameTime gameTime)
@@ -72,6 +77,11 @@ namespace RPG2D.SGame.Screens
 
             GameManager.Game.NetworkParser.Update(gameTime);
             player.Update(gameTime);
+
+            foreach (var ui in UI)
+            {
+                ui.Update(gameTime);
+            }
         }
 
         public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
@@ -100,6 +110,11 @@ namespace RPG2D.SGame.Screens
             spriteBatch.DrawString(GlobalAssets.Arial12, fps, new Vector2(1, 1), Color.White);
 
             spriteBatch.DrawString(GlobalAssets.Arial24, GameManager.Game.Tooltip, new Vector2(GameManager.Game.ScreenSize.X / 2 - GlobalAssets.Arial24.MeasureString(GameManager.Game.Tooltip).X / 2, GameManager.Game.ScreenSize.Y - GlobalAssets.Arial24.MeasureString(GameManager.Game.Tooltip).Y), Color.White);
+            foreach (var ui in UI)
+            {
+                ui.Draw(gameTime, spriteBatch);
+            }
+
 
             spriteBatch.Draw(GameManager.Black, new Rectangle(0, 0, (int)GameManager.Game.ScreenSize.X, (int)GameManager.Game.ScreenSize.Y), new Color(Color.Black, fadeInAlpha));
 

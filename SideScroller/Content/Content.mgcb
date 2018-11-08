@@ -902,6 +902,18 @@
 /processorParam:TextureFormat=Color
 /build:../../Assets/wall_tile_1.png;wall_tile_1.png
 
+#begin ../../Graphics/heart_ico.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:../../Graphics/heart_ico.png;ui/heart_ico.png
+
 #begin ../../Graphics/invTitle.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -913,6 +925,30 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:../../Graphics/invTitle.png;invTitle.png
+
+#begin ../../Graphics/overlay_stats.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:../../Graphics/overlay_stats.png;ui/overlay_stats.png
+
+#begin ../../Graphics/selected_items_item.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:../../Graphics/selected_items_item.png;ui/selected_items_item.png
 
 #begin ../../Graphics/settings_gear.png
 /importer:TextureImporter
@@ -937,6 +973,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:../../Graphics/title.png;title.png
+
+#begin ../../Graphics/ui_items_inventory.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:../../Graphics/ui_items_inventory.png;ui/ui_items_inventory.png
 
 #begin ../../packages/MonoGame.Console.WindowsDX.3.5.0.2/content/Content/ConsoleFont.xnb
 /copy:../../packages/MonoGame.Console.WindowsDX.3.5.0.2/content/Content/ConsoleFont.xnb;ConsoleFont.xnb
