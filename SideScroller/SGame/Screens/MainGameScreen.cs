@@ -31,6 +31,9 @@ namespace RPG2D.SGame.Screens
 
         public void Init(ContentManager content)
         {
+            LoadGameItems(content);
+
+
             GameManager.Game.ConsoleInterpreter.RegisterCommand("debug", (o) =>
             {
                 try
@@ -64,6 +67,14 @@ namespace RPG2D.SGame.Screens
             GameManager.Game.Stats = new UI.StatsOverlay();
             UI.Add(GameManager.Game.Stats);
             UI.Add(GameManager.Game.Inventory);
+        }
+
+        private void LoadGameItems(ContentManager content)
+        {
+            GlobalAssets.GameItemTextures.Add("dagger0", content.Load<Texture2D>("items/dagger_0"));
+            GlobalAssets.GameItemTextures.Add("dagger1", content.Load<Texture2D>("items/dagger_1"));
+            GlobalAssets.GameItems.Add("dagger", new GameEngine.Items.DaggerSword_GameItem());
+
         }
 
         public void Update(GameTime gameTime)
@@ -121,7 +132,6 @@ namespace RPG2D.SGame.Screens
             spriteBatch.Draw(GameManager.Black, new Rectangle(0, 0, (int)GameManager.Game.ScreenSize.X, (int)GameManager.Game.ScreenSize.Y), new Color(Color.Black, fadeInAlpha));
 
             spriteBatch.DrawString(GlobalAssets.Arial12, fps, new Vector2(1, 1), Color.White);
-
             spriteBatch.End();
         }
     }

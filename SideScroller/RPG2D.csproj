@@ -54,8 +54,9 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <Prefer32Bit>true</Prefer32Bit>
+    <Prefer32Bit>false</Prefer32Bit>
     <Optimize>false</Optimize>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
     <OutputPath>bin\Release\</OutputPath>
@@ -79,9 +80,12 @@
     <Compile Include="GameEngine\FrameCounter.cs" />
     <Compile Include="GameEngine\GameManager.cs" />
     <Compile Include="GameEngine\GlobalAssets.cs" />
+    <Compile Include="GameEngine\Items\DaggerSword_GameItem.cs" />
+    <Compile Include="GameEngine\Items\GameItem.cs" />
     <Compile Include="GameEngine\NetworkParser.cs" />
     <Compile Include="GameEngine\Screens\IGameScreen.cs" />
     <Compile Include="GameEngine\Sprite.cs" />
+    <Compile Include="GameEngine\SpriteSheet.cs" />
     <Compile Include="GameEngine\UI\Button.cs" />
     <Compile Include="GameEngine\UI\UIElement.cs" />
     <Compile Include="GameEngine\World\Tile.cs" />
@@ -158,6 +162,7 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Drawing.Design" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq" />

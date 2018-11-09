@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework.Graphics;
 using MonoGame.Extended.Collections;
 using RPG2D.GameEngine.Entities;
+using RPG2D.GameEngine.Items;
 using RPG2D.GameEngine.World;
 using System;
 using System.Collections.Generic;
@@ -16,7 +17,10 @@ namespace RPG2D.GameEngine
         public static SpriteFont Arial12, Arial24;
         public static Dictionary<string, TileInfo> WorldTiles = new Dictionary<string, TileInfo>();
         public static Dictionary<string, EntityTexture> EntityTextures = new Dictionary<string, EntityTexture>();
+        public static Dictionary<string, Texture2D> GameItemTextures = new Dictionary<string, Texture2D>();
+        public static Dictionary<string, GameItem> GameItems = new Dictionary<string, GameItem>();
     }
+
 
     public class TileInfo
     {
@@ -29,8 +33,9 @@ namespace RPG2D.GameEngine
         {
             if (tileName == "door0")
             {
-                OnInteract = new Func<Tile, bool>((tile) => {
-                    
+                OnInteract = new Func<Tile, bool>((tile) =>
+                {
+
                     if (tile.Texture.Name == "door_0")
                     {
                         tile.Physics = false;
