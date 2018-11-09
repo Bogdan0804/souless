@@ -67,6 +67,7 @@ namespace RPG2D.SGame.UI
         public int SelectedItem = 0;
         public Bag<GameItem> Items = new Bag<GameItem>(6 * 7);
 
+
         public Inventory()
         {
             invItemBackground = new Texture2D(GameManager.Game.GraphicsDevice, 1, 1);
