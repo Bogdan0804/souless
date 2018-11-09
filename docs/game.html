@@ -172,7 +172,8 @@
 		}
 		else 
 		{
-			$("p#dl").text("We detected that your OS is <strong>" + jscd.os + "</strong>, which is suported. ");
+			$("a#dlTxt").removeAttr('href');
+			$("p#dlTxt").html("<i>We detected that your OS is <strong>" + jscd.os + "</strong>, which is supported.</i>");
 		}
 	</script>
 	</body>
