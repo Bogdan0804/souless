@@ -60,7 +60,10 @@ namespace RPG2D.SGame.Screens
             GameManager.Game.NetworkParser = new NetworkParser(server);
             player = new NetworkPlayer();
 
-            UI.Add(new UI.StatsOverlay());
+            GameManager.Game.Inventory = new UI.InventoryUI();
+            GameManager.Game.Stats = new UI.StatsOverlay();
+            UI.Add(GameManager.Game.Stats);
+            UI.Add(GameManager.Game.Inventory);
         }
 
         public void Update(GameTime gameTime)
@@ -73,7 +76,7 @@ namespace RPG2D.SGame.Screens
 
             GameManager.Game.Player.Update(gameTime);
             camera.LookAt(GameManager.Game.Player.Position + (GameManager.Game.Player.Size / 2));
-            GameManager.Game.World.Update(gameTime);
+            if (!GameManager.Game.InInventory) GameManager.Game.World.Update(gameTime);
 
             GameManager.Game.NetworkParser.Update(gameTime);
             player.Update(gameTime);
@@ -107,9 +110,8 @@ namespace RPG2D.SGame.Screens
 
             spriteBatch.Begin(samplerState: SamplerState.PointWrap);
 
-            spriteBatch.DrawString(GlobalAssets.Arial12, fps, new Vector2(1, 1), Color.White);
 
-            spriteBatch.DrawString(GlobalAssets.Arial24, GameManager.Game.Tooltip, new Vector2(GameManager.Game.ScreenSize.X / 2 - GlobalAssets.Arial24.MeasureString(GameManager.Game.Tooltip).X / 2, GameManager.Game.ScreenSize.Y - GlobalAssets.Arial24.MeasureString(GameManager.Game.Tooltip).Y), Color.White);
+            spriteBatch.DrawString(GlobalAssets.Arial24, GameManager.Game.Tooltip, new Vector2(GameManager.Game.ScreenSize.X / 2 - GlobalAssets.Arial24.MeasureString(GameManager.Game.Tooltip).X / 2, GameManager.Game.ScreenSize.Y - (GlobalAssets.Arial24.MeasureString(GameManager.Game.Tooltip).Y) - 75), Color.White);
             foreach (var ui in UI)
             {
                 ui.Draw(gameTime, spriteBatch);
@@ -117,6 +119,8 @@ namespace RPG2D.SGame.Screens
 
 
             spriteBatch.Draw(GameManager.Black, new Rectangle(0, 0, (int)GameManager.Game.ScreenSize.X, (int)GameManager.Game.ScreenSize.Y), new Color(Color.Black, fadeInAlpha));
+
+            spriteBatch.DrawString(GlobalAssets.Arial12, fps, new Vector2(1, 1), Color.White);
 
             spriteBatch.End();
         }

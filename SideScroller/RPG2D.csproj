@@ -105,6 +105,7 @@
     <Compile Include="SGame\Screens\MenuGameScreen.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SGame\UI\InventoryUI.cs" />
     <Compile Include="SGame\UI\StatsOverlay.cs" />
     <Compile Include="WindowGrabber.cs" />
   </ItemGroup>

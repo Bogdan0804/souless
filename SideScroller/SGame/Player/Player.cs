@@ -103,7 +103,7 @@ namespace RPG2D.SGame.Player
             var state = Keyboard.GetState();
 
             UpdateKeypressStates(state);
-            HandleKeyPresses(state, gameTime);
+            if (!GameManager.Game.InInventory) HandleKeyPresses(state, gameTime);
 
             GameManager.Game.World.CheckInteractions(Position - new Vector2(4), new Vector2(68, 68));
         }

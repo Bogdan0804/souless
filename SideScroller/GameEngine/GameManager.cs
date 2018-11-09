@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Input;
 using QuakeConsole;
 using RPG2D.GameEngine.Screens;
 using RPG2D.SGame.Player;
+using RPG2D.SGame.UI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -48,6 +49,8 @@ namespace RPG2D.GameEngine
         public Player Player { get; set; }
         public string Tooltip = "";
         public static Texture2D Black { get; private set; }
+        public InventoryUI Inventory { get; set; }
+        public StatsOverlay Stats { get; set; }
 
         private IGameScreen gameScreen;
         private KeyboardState oldState;
@@ -56,6 +59,7 @@ namespace RPG2D.GameEngine
 
         public bool Stopped { get; set; }
         public bool Paused { get; set; }
+        public bool InInventory { get; set; }
         public static bool DebugMode { get; set; }
 
         public void Init(ContentManager content, SpriteBatch spriteBatch, GraphicsDeviceManager graphics, Game game)

@@ -914,6 +914,18 @@
 /processorParam:TextureFormat=Color
 /build:../../Graphics/heart_ico.png;ui/heart_ico.png
 
+#begin ../../Graphics/inventory_background.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:../../Graphics/inventory_background.png;ui/inventory_background.png
+
 #begin ../../Graphics/invTitle.png
 /importer:TextureImporter
 /processor:TextureProcessor

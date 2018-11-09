@@ -29,9 +29,9 @@ namespace RPG2D.SGame.UI
         {
             var mouseState = Mouse.GetState();
 
-            if (mouseState.ScrollWheelValue > oldState.ScrollWheelValue)
+            if (mouseState.ScrollWheelValue > oldState.ScrollWheelValue && selectedItemIndex > 0)
                 selectedItemIndex--;
-            else if (mouseState.ScrollWheelValue < oldState.ScrollWheelValue)
+            else if (mouseState.ScrollWheelValue < oldState.ScrollWheelValue && selectedItemIndex < 5)
                 selectedItemIndex++;
 
             base.Update(gameTime);
@@ -48,7 +48,7 @@ namespace RPG2D.SGame.UI
             Vector2 uiItemSelectorPos = new Vector2(GameManager.Game.ScreenSize.X / 2 - (UIItemSelector.Width * 1.5f / 2), GameManager.Game.ScreenSize.Y - (UIItemSelector.Height * 1.5f));
             spriteBatch.Draw(UIItemSelector, new Rectangle(uiItemSelectorPos.ToPoint(), new Point((int)(UIItemSelector.Width * 1.5f), (int)(UIItemSelector.Height * 1.5f))), Color.White);
 
-            spriteBatch.Draw(SelectedItemsItem, new Rectangle((int)uiItemSelectorPos.X + (int)(selectedItemIndex * SelectedItemsItem.Width * 1.5f) - ((selectedItemIndex - 1) * 2), (int)uiItemSelectorPos.Y, (int)(SelectedItemsItem.Width * 1.5f), (int)(SelectedItemsItem.Height* 1.5f)), Color.White);
+            spriteBatch.Draw(SelectedItemsItem, new Rectangle((int)uiItemSelectorPos.X + (int)(selectedItemIndex * SelectedItemsItem.Width * 1.5f) - ((selectedItemIndex - 1) * 2), (int)uiItemSelectorPos.Y, (int)(SelectedItemsItem.Width * 1.5f), (int)(SelectedItemsItem.Height * 1.5f)), Color.White);
 
             base.Draw(gameTime, spriteBatch);
         }
