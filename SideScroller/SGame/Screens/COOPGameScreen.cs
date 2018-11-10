@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using MonoGame.Extended;
 using MonoGame.Extended.Collections;
+using Penumbra;
 using RPG2D.GameEngine;
 using RPG2D.GameEngine.Screens;
 using RPG2D.GameEngine.UI;
@@ -31,8 +32,8 @@ namespace RPG2D.SGame.Screens
         NetworkPlayer player;
         double fadeInTimer = 0;
         int fadeInAlpha = 255;
-
-
+        private Hull playerHull;
+        private PointLight mouseLight;
 
         public COOPGameScreen(string ip, string name, string xml)
         {
@@ -60,6 +61,21 @@ namespace RPG2D.SGame.Screens
             GameManager.Game.Stats = new UI.StatsOverlay();
             UI.Add(GameManager.Game.Stats);
             UI.Add(GameManager.Game.Inventory);
+
+            playerHull = new Hull(new Vector2(12, 0), new Vector2(12, 55), new Vector2(14, 58), new Vector2(16, 59), new Vector2(20, 59), new Vector2(26, 56), new Vector2(37, 56), new Vector2(43, 59), new Vector2(47, 59), new Vector2(49, 58), new Vector2(51, 55), new Vector2(51, 0))
+            {
+                Scale = new Vector2(1),
+                Origin = new Vector2(32)
+            };
+
+
+            mouseLight = new PointLight();
+            mouseLight.CastsShadows = true;
+            mouseLight.ShadowType = ShadowType.Solid;
+            mouseLight.Scale = new Vector2(100);
+            mouseLight.Intensity = 0.5f;
+            GameManager.Game.Penumbra.Hulls.Add(playerHull);
+            GameManager.Game.Penumbra.Lights.Add(mouseLight);
         }
 
         public void ConnectToServer(string ip)
@@ -80,8 +96,12 @@ namespace RPG2D.SGame.Screens
                 fadeInAlpha -= 1;
 
             GameManager.Game.Player.Update(gameTime);
+
             camera.LookAt(GameManager.Game.Player.Position + (GameManager.Game.Player.Size / 2));
             GameManager.Game.Penumbra.Transform = camera.GetViewMatrix();
+            mouseLight.Position = camera.ScreenToWorld(Mouse.GetState().Position.ToVector2());
+            playerHull.Position = camera.ScreenToWorld(GameManager.Game.ScreenSize / 2);
+
             GameManager.Game.World.Update(gameTime);
 
             GameManager.Game.NetworkParser.Update(gameTime);

@@ -32,10 +32,10 @@ namespace RPG2D.SGame.Screens
         private Texture2D vignette;
         private bool doneFade;
         private Hull playerHull;
+        private PointLight mouseLight;
 
         public void Init(ContentManager content)
         {
-            LoadGameItems(content);
             vignette = content.Load<Texture2D>("vignette");
 
             GameManager.Game.ConsoleInterpreter.RegisterCommand("debug", (o) =>
@@ -77,16 +77,16 @@ namespace RPG2D.SGame.Screens
                 Origin=new Vector2(32)
             };
 
+            mouseLight = new PointLight();
+            mouseLight.CastsShadows = true;
+            mouseLight.ShadowType = ShadowType.Solid;
+            mouseLight.Scale = new Vector2(100);
+            mouseLight.Intensity = 0.5f;
+
             GameManager.Game.Penumbra.Hulls.Add(playerHull);
+            GameManager.Game.Penumbra.Lights.Add(mouseLight);
         }
 
-        private void LoadGameItems(ContentManager content)
-        {
-            GlobalAssets.GameItemTextures.Add("dagger0", content.Load<Texture2D>("items/dagger_0"));
-            GlobalAssets.GameItemTextures.Add("dagger1", content.Load<Texture2D>("items/dagger_1"));
-            GlobalAssets.GameItems.Add("dagger", new GameEngine.Items.DaggerSword_GameItem());
-
-        }
 
         public void Update(GameTime gameTime)
         {
@@ -99,8 +99,11 @@ namespace RPG2D.SGame.Screens
 
             GameManager.Game.Player.Update(gameTime);
             camera.LookAt(GameManager.Game.Player.Position + (GameManager.Game.Player.Size / 2));
+
             playerHull.Position = camera.ScreenToWorld(GameManager.Game.ScreenSize / 2);
             GameManager.Game.Penumbra.Transform = camera.GetViewMatrix();
+            mouseLight.Position = camera.ScreenToWorld(Mouse.GetState().Position.ToVector2());
+
             if (!GameManager.Game.InInventory) GameManager.Game.World.Update(gameTime);
 
             GameManager.Game.NetworkParser.Update(gameTime);

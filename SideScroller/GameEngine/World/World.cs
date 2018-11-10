@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using MonoGame.Extended.Collections;
@@ -37,7 +38,7 @@ namespace RPG2D.GameEngine.World
                 texturesLoaded = true;
                 LoadTileset("SGame/Textures/tileset.xml");
                 LoadEntityTextures("SGame/Textures/entitys.xml");
-
+                LoadGameItems(GameManager.Game.Content);
 
                 GameManager.Game.ConsoleInterpreter.RegisterCommand("world", (o) =>
                 {
@@ -53,6 +54,13 @@ namespace RPG2D.GameEngine.World
             LoadWorld(worldSaveFile, v);
         }
 
+        private void LoadGameItems(ContentManager content)
+        {
+            GlobalAssets.GameItemTextures.Add("dagger0", content.Load<Texture2D>("items/dagger_0"));
+            GlobalAssets.GameItemTextures.Add("dagger1", content.Load<Texture2D>("items/dagger_1"));
+            GlobalAssets.GameItems.Add("dagger", new GameEngine.Items.DaggerSword_GameItem());
+
+        }
         public void Update(GameTime gameTime)
         {
             foreach (var entity in Entity)
@@ -143,7 +151,6 @@ namespace RPG2D.GameEngine.World
 
             old = state;
         }
-
         public Tuple<bool, Tile> IsSpaceOpen(Vector2 pos, Vector2 size, SpriteBatch s = null)
         {
             Sprite spr = new Sprite();
@@ -219,6 +226,7 @@ namespace RPG2D.GameEngine.World
             }
 
         }
+
         private void LoadEntityTextures(string file)
         {
             XmlDocument xmlDocument = new XmlDocument();
@@ -288,9 +296,10 @@ namespace RPG2D.GameEngine.World
                     GameManager.Game.Penumbra.Lights.Add(new PointLight
                     {
                         Position = new Vector2(torch.X + 32, torch.Y + 32),
-                        Scale = new Vector2(300),
-                        ShadowType = ShadowType.Solid,
-                        CastsShadows=true
+                        Scale = new Vector2(600),
+                        ShadowType = ShadowType.Illuminated,
+                        CastsShadows = true,
+                        Intensity = 0.5f
                     });
                 }
                 else
@@ -342,5 +351,7 @@ namespace RPG2D.GameEngine.World
             }
 
         }
+
+       
     }
 }
