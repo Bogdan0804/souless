@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using MonoGame.Extended;
 using MonoGame.Extended.Collections;
+using Penumbra;
 using RPG2D.GameEngine;
 using RPG2D.GameEngine.Screens;
 using RPG2D.GameEngine.UI;
@@ -20,19 +21,22 @@ namespace RPG2D.SGame.Screens
 {
     public class MainGameScreen : IGameScreen
     {
-        Bag<UIElement> UI = new Bag<UIElement>();
-        NetPeerConfiguration config;
-        NetServer server;
-        Camera2D camera;
-        FrameCounter fpsCounter;
-        NetworkPlayer player;
-        double fadeInTimer = 0;
-        int fadeInAlpha = 255;
+        private Bag<UIElement> UI = new Bag<UIElement>();
+        private NetPeerConfiguration config;
+        private NetServer server;
+        private Camera2D camera;
+        private FrameCounter fpsCounter;
+        private NetworkPlayer player;
+        private double fadeInTimer = 0;
+        private int fadeInAlpha = 255;
+        private Texture2D vignette;
+        private bool doneFade;
+        private Hull playerHull;
 
         public void Init(ContentManager content)
         {
             LoadGameItems(content);
-
+            vignette = content.Load<Texture2D>("vignette");
 
             GameManager.Game.ConsoleInterpreter.RegisterCommand("debug", (o) =>
             {
@@ -67,6 +71,13 @@ namespace RPG2D.SGame.Screens
             GameManager.Game.Stats = new UI.StatsOverlay();
             UI.Add(GameManager.Game.Stats);
             UI.Add(GameManager.Game.Inventory);
+            playerHull = new Hull(new Vector2(12, 0), new Vector2(12, 55), new Vector2(14, 58), new Vector2(16, 59), new Vector2(20, 59), new Vector2(26, 56), new Vector2(37, 56), new Vector2(43, 59), new Vector2(47, 59), new Vector2(49, 58), new Vector2(51, 55), new Vector2(51, 0))
+            {
+                Scale = new Vector2(1),
+                Origin=new Vector2(32)
+            };
+
+            GameManager.Game.Penumbra.Hulls.Add(playerHull);
         }
 
         private void LoadGameItems(ContentManager content)
@@ -81,12 +92,15 @@ namespace RPG2D.SGame.Screens
         {
             fadeInTimer += gameTime.ElapsedGameTime.TotalSeconds;
 
-            if (fadeInTimer > 0.10d && fadeInAlpha > 0)
+            if (fadeInTimer > 0.10d && fadeInAlpha > 0 && !doneFade)
                 fadeInAlpha -= 1;
+            else doneFade = true;
 
 
             GameManager.Game.Player.Update(gameTime);
             camera.LookAt(GameManager.Game.Player.Position + (GameManager.Game.Player.Size / 2));
+            playerHull.Position = camera.ScreenToWorld(GameManager.Game.ScreenSize / 2);
+            GameManager.Game.Penumbra.Transform = camera.GetViewMatrix();
             if (!GameManager.Game.InInventory) GameManager.Game.World.Update(gameTime);
 
             GameManager.Game.NetworkParser.Update(gameTime);
@@ -100,6 +114,7 @@ namespace RPG2D.SGame.Screens
 
         public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
+            GameManager.Game.Penumbra.BeginDraw();
             GameManager.Game.GraphicsDevice.Clear(new Color(28, 17, 23));
 
 
@@ -111,6 +126,7 @@ namespace RPG2D.SGame.Screens
 
             var fps = string.Format("FPS: {0}", fpsCounter.AverageFramesPerSecond);
             GameManager.Game.World.Draw(gameTime, spriteBatch);
+
             if (GameManager.Game.NetworkParser.IsConnected)
             {
                 player.Draw(gameTime, spriteBatch);
@@ -120,7 +136,7 @@ namespace RPG2D.SGame.Screens
             spriteBatch.End();
 
             spriteBatch.Begin(samplerState: SamplerState.PointWrap);
-
+            spriteBatch.Draw(vignette, new Rectangle(0, 0, (int)GameManager.Game.ScreenSize.X, (int)GameManager.Game.ScreenSize.Y), Color.White);
 
             spriteBatch.DrawString(GlobalAssets.Arial24, GameManager.Game.Tooltip, new Vector2(GameManager.Game.ScreenSize.X / 2 - GlobalAssets.Arial24.MeasureString(GameManager.Game.Tooltip).X / 2, GameManager.Game.ScreenSize.Y - (GlobalAssets.Arial24.MeasureString(GameManager.Game.Tooltip).Y) - 75), Color.White);
             foreach (var ui in UI)

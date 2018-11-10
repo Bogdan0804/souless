@@ -1022,6 +1022,18 @@
 /processorParam:TextureFormat=Color
 /build:../../Graphics/ui_items_inventory.png;ui/ui_items_inventory.png
 
+#begin ../../Graphics/vignette.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:../../Graphics/vignette.png;vignette.png
+
 #begin ../../packages/MonoGame.Console.WindowsDX.3.5.0.2/content/Content/ConsoleFont.xnb
 /copy:../../packages/MonoGame.Console.WindowsDX.3.5.0.2/content/Content/ConsoleFont.xnb;ConsoleFont.xnb
 

@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Penumbra;
 using QuakeConsole;
 using RPG2D.GameEngine.Screens;
 using RPG2D.SGame.Player;
@@ -51,6 +52,7 @@ namespace RPG2D.GameEngine
         public static Texture2D Black { get; private set; }
         public InventoryUI Inventory { get; set; }
         public StatsOverlay Stats { get; set; }
+        public PenumbraComponent Penumbra { get; set; }
 
         private IGameScreen gameScreen;
         private KeyboardState oldState;
@@ -105,6 +107,12 @@ namespace RPG2D.GameEngine
                     return o[0] + " is not a valid input.";
                 }
             });
+        }
+        public void InitLighting()
+        {
+            Penumbra = new PenumbraComponent(ThisGame);
+            ThisGame.Components.Add(Penumbra);
+            Penumbra.Initialize();
         }
         public void ChangeScreen(IGameScreen screen)
         {

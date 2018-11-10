@@ -81,6 +81,7 @@ namespace RPG2D.SGame.Screens
 
             GameManager.Game.Player.Update(gameTime);
             camera.LookAt(GameManager.Game.Player.Position + (GameManager.Game.Player.Size / 2));
+            GameManager.Game.Penumbra.Transform = camera.GetViewMatrix();
             GameManager.Game.World.Update(gameTime);
 
             GameManager.Game.NetworkParser.Update(gameTime);
@@ -94,6 +95,7 @@ namespace RPG2D.SGame.Screens
 
         public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
+            GameManager.Game.Penumbra.BeginDraw();
             GameManager.Game.GraphicsDevice.Clear(new Color(28, 17, 23));
 
 

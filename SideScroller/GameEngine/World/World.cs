@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using MonoGame.Extended.Collections;
+using Penumbra;
 using RPG2D.GameEngine.Entities;
 using RPG2D.SGame.Screens;
 using System;
@@ -29,6 +30,7 @@ namespace RPG2D.GameEngine.World
             FloorTiles = new Bag<Tile>();
             Decor = new Bag<Tile>();
             Entity = new Bag<Entities.Entity>();
+            GameManager.Game.InitLighting();
 
             if (!texturesLoaded)
             {
@@ -283,6 +285,13 @@ namespace RPG2D.GameEngine.World
                     torch.X = int.Parse(tile["position"]["x"].InnerText) * 64;
                     torch.Y = int.Parse(tile["position"]["y"].InnerText) * 64;
                     Entity.Add(torch);
+                    GameManager.Game.Penumbra.Lights.Add(new PointLight
+                    {
+                        Position = new Vector2(torch.X + 32, torch.Y + 32),
+                        Scale = new Vector2(300),
+                        ShadowType = ShadowType.Solid,
+                        CastsShadows=true
+                    });
                 }
                 else
                 {
