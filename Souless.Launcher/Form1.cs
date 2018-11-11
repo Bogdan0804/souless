@@ -12,6 +12,9 @@ using System.Windows.Forms;
 
 namespace Souless.Launcher
 {
+
+
+
     public partial class Form1 : Form
     {
         [DllImportAttribute("user32.dll")]
@@ -21,7 +24,7 @@ namespace Souless.Launcher
 
         const int WM_NCLBUTTONDOWN = 0xA1;
         const int HT_CAPTION = 0x2;  //this indicates that the action takes place on the title bar
-
+        
 
         public Form1()
         {
