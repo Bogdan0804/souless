@@ -22,11 +22,13 @@ namespace RPG2D.SGame.Screens
         int MenuItemsCount = 2;
 
         KeyboardState oldState;
+        private Texture2D titleBG;
 
         public void Init(ContentManager content)
         {
             titleTexture = content.Load<Texture2D>("title");
             settings_icon = content.Load<Texture2D>("ui/settings_gear");
+            titleBG = content.Load<Texture2D>("ui/title_bg");
             buttonSettings = new TextureButton();
             buttonSettings.Texture = settings_icon;
             buttonSettings.Position = GameManager.Game.ScreenSize - new Vector2(64);
@@ -78,14 +80,14 @@ namespace RPG2D.SGame.Screens
         {
             GameManager.Game.GraphicsDevice.Clear(Color.White);
             spriteBatch.Begin();
-
+            spriteBatch.Draw(titleBG, new Rectangle(0, 0, (int)GameManager.Game.ScreenSize.X, (int)GameManager.Game.ScreenSize.Y), Color.White);
             float titleTexX = GameEngine.GameManager.Game.ScreenSize.X / 2 - titleTexture.Width / 2;
             spriteBatch.Draw(titleTexture, new Vector2(titleTexX, 2), Color.White);
 
-            spriteBatch.DrawString(GlobalAssets.Arial24, "Play", new Vector2(GameManager.Game.ScreenSize.X / 2 - GlobalAssets.Arial24.MeasureString("Play").X / 2, 300), Color.Black);
-            spriteBatch.DrawString(GlobalAssets.Arial24, "COOP", new Vector2(GameManager.Game.ScreenSize.X / 2 - GlobalAssets.Arial24.MeasureString("Play").X / 2, 350), Color.Black);
-            spriteBatch.DrawString(GlobalAssets.Arial24, "Exit", new Vector2(GameManager.Game.ScreenSize.X / 2 - GlobalAssets.Arial24.MeasureString("Exit.").X / 2, 400), Color.Black);
-            spriteBatch.DrawString(GlobalAssets.Arial24, ">", new Vector2(GameManager.Game.ScreenSize.X / 2 - GlobalAssets.Arial24.MeasureString("######").X / 2, 300 + (50 * SelectedOption)), Color.Black);
+            spriteBatch.DrawString(GlobalAssets.Arial24, "Play", new Vector2(GameManager.Game.ScreenSize.X / 2 - GlobalAssets.Arial24.MeasureString("Play").X / 2, 300), Color.White);
+            spriteBatch.DrawString(GlobalAssets.Arial24, "COOP", new Vector2(GameManager.Game.ScreenSize.X / 2 - GlobalAssets.Arial24.MeasureString("Play").X / 2, 350), Color.White);
+            spriteBatch.DrawString(GlobalAssets.Arial24, "Exit", new Vector2(GameManager.Game.ScreenSize.X / 2 - GlobalAssets.Arial24.MeasureString("Exit.").X / 2, 400), Color.White);
+            spriteBatch.DrawString(GlobalAssets.Arial24, ">", new Vector2(GameManager.Game.ScreenSize.X / 2 - GlobalAssets.Arial24.MeasureString("######").X / 2, 300 + (50 * SelectedOption)), Color.White);
             buttonSettings.Draw(gameTime, spriteBatch);
 
             spriteBatch.End();

@@ -1010,6 +1010,18 @@
 /processorParam:TextureFormat=Color
 /build:../../Graphics/title.png;title.png
 
+#begin ../../Graphics/title_bg.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:../../Graphics/title_bg.png;ui/title_bg.png
+
 #begin ../../Graphics/ui_items_inventory.png
 /importer:TextureImporter
 /processor:TextureProcessor
