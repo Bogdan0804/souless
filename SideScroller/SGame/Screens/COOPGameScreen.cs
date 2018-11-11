@@ -25,7 +25,6 @@ namespace RPG2D.SGame.Screens
         Bag<UIElement> UI = new Bag<UIElement>();
         NetPeerConfiguration config;
         NetClient client;
-        Camera2D camera;
         FrameCounter fpsCounter;
 
         string ip, name = "";
@@ -45,12 +44,12 @@ namespace RPG2D.SGame.Screens
 
         public void Init(ContentManager content)
         {
-            camera = new Camera2D(GameManager.Game.GraphicsDevice);
+            GameManager.Game.Camera = new Camera2D(GameManager.Game.GraphicsDevice);
             GameManager.Game.Player = new Player.Player();
             GameManager.Game.Player.Init(content);
             fpsCounter = new FrameCounter();
 
-            camera.ZoomIn(1);
+            GameManager.Game.Camera.ZoomIn(1);
 
             ConnectToServer(ip);
             GameManager.Game.NetworkParser = new NetworkParser(client);
@@ -97,10 +96,10 @@ namespace RPG2D.SGame.Screens
 
             GameManager.Game.Player.Update(gameTime);
 
-            camera.LookAt(GameManager.Game.Player.Position + (GameManager.Game.Player.Size / 2));
-            GameManager.Game.Penumbra.Transform = camera.GetViewMatrix();
-            mouseLight.Position = camera.ScreenToWorld(Mouse.GetState().Position.ToVector2());
-            playerHull.Position = camera.ScreenToWorld(GameManager.Game.ScreenSize / 2);
+            GameManager.Game.Camera.LookAt(GameManager.Game.Player.Position + (GameManager.Game.Player.Size / 2));
+            GameManager.Game.Penumbra.Transform = GameManager.Game.Camera.GetViewMatrix();
+            mouseLight.Position = GameManager.Game.Camera.ScreenToWorld(Mouse.GetState().Position.ToVector2());
+            playerHull.Position = GameManager.Game.Camera.ScreenToWorld(GameManager.Game.ScreenSize / 2);
 
             GameManager.Game.World.Update(gameTime);
 
@@ -122,7 +121,7 @@ namespace RPG2D.SGame.Screens
             var deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
             fpsCounter.Update(deltaTime);
 
-            spriteBatch.Begin(samplerState: SamplerState.PointWrap, transformMatrix: camera.GetViewMatrix());
+            spriteBatch.Begin(samplerState: SamplerState.PointWrap, transformMatrix: GameManager.Game.Camera.GetViewMatrix());
 
 
             var fps = string.Format("FPS: {0}", fpsCounter.AverageFramesPerSecond);
@@ -131,6 +130,9 @@ namespace RPG2D.SGame.Screens
             player.Draw(gameTime, spriteBatch);
 
             spriteBatch.End();
+
+
+            GameManager.Game.Penumbra.Draw(gameTime);
 
             spriteBatch.Begin(samplerState: SamplerState.PointWrap);
 

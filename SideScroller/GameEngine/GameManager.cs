@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using MonoGame.Extended;
 using Penumbra;
 using QuakeConsole;
 using RPG2D.GameEngine.Screens;
@@ -53,6 +54,7 @@ namespace RPG2D.GameEngine
         public InventoryUI Inventory { get; set; }
         public StatsOverlay Stats { get; set; }
         public PenumbraComponent Penumbra { get; set; }
+        public Camera2D Camera { get; set; }
 
         private IGameScreen gameScreen;
         private KeyboardState oldState;
@@ -111,7 +113,7 @@ namespace RPG2D.GameEngine
         public void InitLighting()
         {
             Penumbra = new PenumbraComponent(ThisGame);
-            ThisGame.Components.Add(Penumbra);
+            ThisGame.Services.AddService(Penumbra);
             Penumbra.Initialize();
         }
         public void ChangeScreen(IGameScreen screen)
@@ -125,6 +127,8 @@ namespace RPG2D.GameEngine
         }
         public void Draw(GameTime gameTime)
         {
+
+
             if (!Stopped)
                 gameScreen.Draw(gameTime, SpriteBatch);
 

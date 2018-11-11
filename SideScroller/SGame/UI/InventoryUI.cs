@@ -31,7 +31,9 @@ namespace RPG2D.SGame.UI
             var state = Keyboard.GetState();
 
             if (oldState.IsKeyUp(Keys.Tab) && state.IsKeyDown(Keys.Tab))
+            {
                 GameManager.Game.InInventory = !GameManager.Game.InInventory;
+            }
 
             oldState = state;
             Inventory.Update(gameTime);
@@ -49,6 +51,9 @@ namespace RPG2D.SGame.UI
 
                 spriteBatch.Draw(Background, new Rectangle((int)GameManager.Game.ScreenSize.X / 2 - bgWidth / 2, (int)GameManager.Game.ScreenSize.Y / 2 - bgHeight / 2, bgWidth, bgHeight), Color.White);
                 Inventory.Draw(gameTime, spriteBatch);
+            }
+            else
+            {
             }
 
             base.Draw(gameTime, spriteBatch);

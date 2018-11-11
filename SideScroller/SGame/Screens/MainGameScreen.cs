@@ -24,7 +24,6 @@ namespace RPG2D.SGame.Screens
         private Bag<UIElement> UI = new Bag<UIElement>();
         private NetPeerConfiguration config;
         private NetServer server;
-        private Camera2D camera;
         private FrameCounter fpsCounter;
         private NetworkPlayer player;
         private double fadeInTimer = 0;
@@ -52,8 +51,8 @@ namespace RPG2D.SGame.Screens
             });
 
             GameManager.Game.World = new World("SGame/Worlds/world1.xml", false);
-            camera = new Camera2D(GameManager.Game.GraphicsDevice);
-            camera.ZoomIn(1);
+            GameManager.Game.Camera = new Camera2D(GameManager.Game.GraphicsDevice);
+            GameManager.Game.Camera.ZoomIn(1);
             GameManager.Game.Player = new Player.Player();
             GameManager.Game.Player.Init(content);
             fpsCounter = new FrameCounter();
@@ -98,11 +97,11 @@ namespace RPG2D.SGame.Screens
 
 
             GameManager.Game.Player.Update(gameTime);
-            camera.LookAt(GameManager.Game.Player.Position + (GameManager.Game.Player.Size / 2));
+            GameManager.Game.Camera.LookAt(GameManager.Game.Player.Position + (GameManager.Game.Player.Size / 2));
 
-            playerHull.Position = camera.ScreenToWorld(GameManager.Game.ScreenSize / 2);
-            GameManager.Game.Penumbra.Transform = camera.GetViewMatrix();
-            mouseLight.Position = camera.ScreenToWorld(Mouse.GetState().Position.ToVector2());
+            playerHull.Position = GameManager.Game.Camera.ScreenToWorld(GameManager.Game.ScreenSize / 2);
+            GameManager.Game.Penumbra.Transform = GameManager.Game.Camera.GetViewMatrix();
+            mouseLight.Position = GameManager.Game.Camera.ScreenToWorld(Mouse.GetState().Position.ToVector2());
 
             if (!GameManager.Game.InInventory) GameManager.Game.World.Update(gameTime);
 
@@ -124,7 +123,7 @@ namespace RPG2D.SGame.Screens
             var deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
             fpsCounter.Update(deltaTime);
 
-            spriteBatch.Begin(samplerState: SamplerState.PointWrap, transformMatrix: camera.GetViewMatrix());
+            spriteBatch.Begin(samplerState: SamplerState.PointWrap, transformMatrix: GameManager.Game.Camera.GetViewMatrix());
 
 
             var fps = string.Format("FPS: {0}", fpsCounter.AverageFramesPerSecond);
@@ -135,8 +134,9 @@ namespace RPG2D.SGame.Screens
                 player.Draw(gameTime, spriteBatch);
                 spriteBatch.DrawString(GlobalAssets.Arial12, GameManager.Game.NetworkParser.Name, new Vector2(player.X - 16 + (GlobalAssets.Arial12.MeasureString(GameManager.Game.NetworkParser.Name).X / 2), player.Y - GlobalAssets.Arial12.MeasureString(GameManager.Game.NetworkParser.Name).Y), Color.Black);
             }
-
             spriteBatch.End();
+
+            GameManager.Game.Penumbra.Draw(gameTime);
 
             spriteBatch.Begin(samplerState: SamplerState.PointWrap);
             spriteBatch.Draw(vignette, new Rectangle(0, 0, (int)GameManager.Game.ScreenSize.X, (int)GameManager.Game.ScreenSize.Y), Color.White);
