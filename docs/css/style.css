@@ -16,7 +16,7 @@ body {
   font-size: 16px;
   line-height: 1.7;
   color: #828282;
-  background: #422835;
+  background: #0B090C;
 }
 
 #page {
@@ -360,7 +360,7 @@ h1, h2, h3, h4, h5, h6, figure {
   display: none;
 }
 #fh5co-hero .flexslider .slider-text-bg {
-  background: #4c3f3e;
+  background: #241921;
 }
 @media screen and (max-width: 992px) {
   #fh5co-hero .flexslider .slider-text-bg {
@@ -484,7 +484,7 @@ h1, h2, h3, h4, h5, h6, figure {
 #fh5co-footer {
   padding: 6em 0;
   clear: both;
-  border-bottom: 2px solid rgba(49, 122, 225, 0.1);
+  background-color: #100F13 !important;
 }
 @media screen and (max-width: 768px) {
   #fh5co-mission,
@@ -738,7 +738,7 @@ h1, h2, h3, h4, h5, h6, figure {
   top: 0;
   left: 0;
   right: 0;
-  background: #4c3f3e;
+  background: #1F171E;
 }
 #fh5co-started .fh5co-heading {
   margin-bottom: 0;

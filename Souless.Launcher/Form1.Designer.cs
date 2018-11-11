@@ -33,7 +33,11 @@
             this.titleLabel = new System.Windows.Forms.Label();
             this.dockPanel = new System.Windows.Forms.Panel();
             this.webBrowser1 = new System.Windows.Forms.WebBrowser();
+            this.playButton = new System.Windows.Forms.Button();
+            this.statusLabel = new System.Windows.Forms.Label();
+            this.progressBarDownlaod = new System.Windows.Forms.ProgressBar();
             this.topbar.SuspendLayout();
+            this.dockPanel.SuspendLayout();
             this.SuspendLayout();
             // 
             // topbar
@@ -55,6 +59,7 @@
             this.closeButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Gray;
             this.closeButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.closeButton.Font = new System.Drawing.Font("Arial", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.closeButton.ForeColor = System.Drawing.Color.White;
             this.closeButton.Location = new System.Drawing.Point(659, 0);
             this.closeButton.Name = "closeButton";
             this.closeButton.Size = new System.Drawing.Size(41, 41);
@@ -66,6 +71,7 @@
             // 
             this.titleLabel.AutoSize = true;
             this.titleLabel.Font = new System.Drawing.Font("Arial", 12F);
+            this.titleLabel.ForeColor = System.Drawing.Color.White;
             this.titleLabel.Location = new System.Drawing.Point(10, 9);
             this.titleLabel.Name = "titleLabel";
             this.titleLabel.Size = new System.Drawing.Size(79, 23);
@@ -74,6 +80,9 @@
             // 
             // dockPanel
             // 
+            this.dockPanel.Controls.Add(this.progressBarDownlaod);
+            this.dockPanel.Controls.Add(this.statusLabel);
+            this.dockPanel.Controls.Add(this.playButton);
             this.dockPanel.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.dockPanel.Location = new System.Drawing.Point(0, 375);
             this.dockPanel.Name = "dockPanel";
@@ -90,17 +99,47 @@
             this.webBrowser1.Name = "webBrowser1";
             this.webBrowser1.ScriptErrorsSuppressed = true;
             this.webBrowser1.ScrollBarsEnabled = false;
-            this.webBrowser1.Size = new System.Drawing.Size(700, 334);
+            this.webBrowser1.Size = new System.Drawing.Size(700, 409);
             this.webBrowser1.TabIndex = 2;
             this.webBrowser1.Url = new System.Uri("https://bogdan0804.github.io/souless/launcher.html", System.UriKind.Absolute);
+            // 
+            // playButton
+            // 
+            this.playButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.playButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.playButton.Location = new System.Drawing.Point(516, 0);
+            this.playButton.Name = "playButton";
+            this.playButton.Size = new System.Drawing.Size(181, 75);
+            this.playButton.TabIndex = 3;
+            this.playButton.Text = "Play";
+            this.playButton.UseVisualStyleBackColor = true;
+            this.playButton.Click += new System.EventHandler(this.playButton_Click);
+            // 
+            // statusLabel
+            // 
+            this.statusLabel.AutoSize = true;
+            this.statusLabel.ForeColor = System.Drawing.Color.White;
+            this.statusLabel.Location = new System.Drawing.Point(12, 15);
+            this.statusLabel.Name = "statusLabel";
+            this.statusLabel.Size = new System.Drawing.Size(52, 16);
+            this.statusLabel.TabIndex = 4;
+            this.statusLabel.Text = "Status:";
+            // 
+            // progressBarDownlaod
+            // 
+            this.progressBarDownlaod.Location = new System.Drawing.Point(15, 34);
+            this.progressBarDownlaod.Name = "progressBarDownlaod";
+            this.progressBarDownlaod.Size = new System.Drawing.Size(495, 29);
+            this.progressBarDownlaod.TabIndex = 5;
+            this.progressBarDownlaod.Visible = false;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(700, 450);
-            this.Controls.Add(this.webBrowser1);
             this.Controls.Add(this.dockPanel);
+            this.Controls.Add(this.webBrowser1);
             this.Controls.Add(this.topbar);
             this.Font = new System.Drawing.Font("Arial", 8F);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
@@ -108,6 +147,8 @@
             this.Text = "Get Souless";
             this.topbar.ResumeLayout(false);
             this.topbar.PerformLayout();
+            this.dockPanel.ResumeLayout(false);
+            this.dockPanel.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -119,6 +160,9 @@
         private System.Windows.Forms.Button closeButton;
         private System.Windows.Forms.Panel dockPanel;
         private System.Windows.Forms.WebBrowser webBrowser1;
+        private System.Windows.Forms.Label statusLabel;
+        private System.Windows.Forms.Button playButton;
+        private System.Windows.Forms.ProgressBar progressBarDownlaod;
     }
 }
 
