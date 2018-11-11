@@ -42,6 +42,7 @@ namespace RPG2D.SGame.Screens
                 try
                 {
                     GameManager.DebugMode = bool.Parse(o[0]);
+                    GameManager.Game.Penumbra.Debug = GameManager.DebugMode;
                     return "Set debug mode to " + o[0];
                 }
                 catch
