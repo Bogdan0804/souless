@@ -134,18 +134,6 @@
 /processorParam:TextureFormat=Color
 /build:../../Assets/entity/corphafon_left5.png;entity/corphafon_left5.png
 
-#begin ../../Assets/entity/corphafon_left6.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../../Assets/entity/corphafon_left6.png;entity/corphafon_left6.png
-
 #begin ../../Assets/entity/corphafon_right1.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -205,18 +193,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:../../Assets/entity/corphafon_right5.png;entity/corphafon_right5.png
-
-#begin ../../Assets/entity/corphafon_right6.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:../../Assets/entity/corphafon_right6.png;entity/corphafon_right6.png
 
 #begin ../../Assets/entity/desk.png
 /importer:TextureImporter

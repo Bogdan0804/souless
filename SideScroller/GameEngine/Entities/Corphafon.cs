@@ -17,16 +17,14 @@ namespace RPG2D.GameEngine.Entities
                 new Frame(GameManager.Game.Content.Load<Texture2D>("entity/corphafon_left2")),
                 new Frame(GameManager.Game.Content.Load<Texture2D>("entity/corphafon_left3")),
                 new Frame(GameManager.Game.Content.Load<Texture2D>("entity/corphafon_left4")),
-                new Frame(GameManager.Game.Content.Load<Texture2D>("entity/corphafon_left5")),
-                new Frame(GameManager.Game.Content.Load<Texture2D>("entity/corphafon_left6"))))
+                new Frame(GameManager.Game.Content.Load<Texture2D>("entity/corphafon_left5"))))
         {
 
             Animations.Add("walking_right", new Animation(new Frame(GameManager.Game.Content.Load<Texture2D>("entity/corphafon_right1")),
                 new Frame(GameManager.Game.Content.Load<Texture2D>("entity/corphafon_right2")),
                 new Frame(GameManager.Game.Content.Load<Texture2D>("entity/corphafon_right3")),
                 new Frame(GameManager.Game.Content.Load<Texture2D>("entity/corphafon_right4")),
-                new Frame(GameManager.Game.Content.Load<Texture2D>("entity/corphafon_right5")),
-                new Frame(GameManager.Game.Content.Load<Texture2D>("entity/corphafon_right6"))));
+                new Frame(GameManager.Game.Content.Load<Texture2D>("entity/corphafon_right5"))));
 
         }
         
