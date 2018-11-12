@@ -14,7 +14,7 @@ namespace RPG2D.GameEngine.Items
         public override string Name { get => "Dagger"; }
         public override void Use()
         {
-
+            Console.WriteLine("DJ Kahled");
         }
     }
 }

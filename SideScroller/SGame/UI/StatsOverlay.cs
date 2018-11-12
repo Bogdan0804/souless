@@ -33,7 +33,10 @@ namespace RPG2D.SGame.UI
                 selectedItemIndex--;
             else if (mouseState.ScrollWheelValue < oldState.ScrollWheelValue && selectedItemIndex < 5)
                 selectedItemIndex++;
-
+            
+            if (mouseState.LeftButton == ButtonState.Pressed && oldState.LeftButton == ButtonState.Released)
+                GameManager.Game.Inventory.Inventory.Items[selectedItemIndex]?.Use();
+            
             base.Update(gameTime);
             oldState = mouseState;
         }

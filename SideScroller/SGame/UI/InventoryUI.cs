@@ -125,10 +125,10 @@ namespace RPG2D.SGame.UI
 
             oldState = state;
         }
-
+        
         public void Update(GameTime gameTime)
         {
-
+           
         }
     }
 }

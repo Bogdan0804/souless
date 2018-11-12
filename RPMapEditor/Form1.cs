@@ -496,6 +496,7 @@ namespace RPMapEditor
         public int X { get; set; }
         public int Y { get; set; }
         public string TextureName { get; set; }
+        public string EnyityType { get; set; }
     }
 
 }

@@ -332,7 +332,7 @@ namespace RPG2D.GameEngine.World
                 }
                 else
                 {
-                    switch (tile["entityType"].InnerText)
+                    switch (tile["textureKey"].InnerText.TrimEnd('0', '1', '2', '3', '4', '5', '6', '7', '8', '9'))
                     {
                         case "corphafon":
                             Corphafon fTile = new Corphafon();

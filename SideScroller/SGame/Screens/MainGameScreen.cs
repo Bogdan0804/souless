@@ -30,8 +30,7 @@ namespace RPG2D.SGame.Screens
         private int fadeInAlpha = 255;
         private Texture2D vignette;
         private bool doneFade;
-        private Hull playerHull;
-        private PointLight mouseLight;
+        private Light mouseLight;
 
         public void Init(ContentManager content)
         {
@@ -71,19 +70,14 @@ namespace RPG2D.SGame.Screens
             GameManager.Game.Stats = new UI.StatsOverlay();
             UI.Add(GameManager.Game.Stats);
             UI.Add(GameManager.Game.Inventory);
-            playerHull = new Hull(new Vector2(12, 0), new Vector2(12, 55), new Vector2(14, 58), new Vector2(16, 59), new Vector2(20, 59), new Vector2(26, 56), new Vector2(37, 56), new Vector2(43, 59), new Vector2(47, 59), new Vector2(49, 58), new Vector2(51, 55), new Vector2(51, 0))
-            {
-                Scale = new Vector2(1),
-                Origin=new Vector2(32)
-            };
-
+            
             mouseLight = new PointLight();
             mouseLight.CastsShadows = true;
             mouseLight.ShadowType = ShadowType.Solid;
             mouseLight.Scale = new Vector2(100);
             mouseLight.Intensity = 0.5f;
 
-            GameManager.Game.Penumbra.Hulls.Add(playerHull);
+            
             GameManager.Game.Penumbra.Lights.Add(mouseLight);
         }
 
@@ -95,14 +89,11 @@ namespace RPG2D.SGame.Screens
             if (fadeInTimer > 0.10d && fadeInAlpha > 0 && !doneFade)
                 fadeInAlpha -= 1;
             else doneFade = true;
-
-
-            GameManager.Game.Player.Update(gameTime);
-            GameManager.Game.Camera.LookAt(GameManager.Game.Player.Position + (GameManager.Game.Player.Size / 2));
-
-            playerHull.Position = GameManager.Game.Camera.ScreenToWorld(GameManager.Game.ScreenSize / 2);
+            
             GameManager.Game.Penumbra.Transform = GameManager.Game.Camera.GetViewMatrix();
             mouseLight.Position = GameManager.Game.Camera.ScreenToWorld(Mouse.GetState().Position.ToVector2());
+            GameManager.Game.Camera.LookAt(GameManager.Game.Player.Position + (GameManager.Game.Player.Size / 2));
+            GameManager.Game.Player.Update(gameTime);
 
             if (!GameManager.Game.InInventory) GameManager.Game.World.Update(gameTime);
 

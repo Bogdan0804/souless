@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Penumbra;
 using RPG2D.GameEngine;
 using RPG2D.GameEngine.Screens;
 using RPG2D.GameEngine.World;
@@ -15,6 +16,10 @@ namespace RPG2D.SGame.Player
 {
     public class Player : AnimatedSprite
     {
+        private PointLight playerLight;
+        public Hull PlayerHull { get; private set; }
+
+
         int Speed = 250;
 
         public Vector2 Position
@@ -94,11 +99,30 @@ namespace RPG2D.SGame.Player
                 GameManager.Game.World.IsSpaceOpen(Position + new Vector2(Size.X - 1, xSize), new Vector2(1, Size.Y / 2 - (xSize / 2))),
                 GameManager.Game.World.IsSpaceOpen(Position + new Vector2(Size.X - 1, Size.Y / 2), new Vector2(1, Size.Y / 2 - (xSize / 2)))
                 );
+
+            PlayerHull = new Hull(new Vector2(12, 0), new Vector2(12, 55), new Vector2(14, 58), new Vector2(16, 59), new Vector2(20, 59), new Vector2(26, 56), new Vector2(37, 56), new Vector2(43, 59), new Vector2(47, 59), new Vector2(49, 58), new Vector2(51, 55), new Vector2(51, 0))
+            {
+                Scale = new Vector2(1),
+                Origin = new Vector2(32)
+            };
+
+
+            playerLight = new PointLight();
+            playerLight.CastsShadows = true;
+            playerLight.ShadowType = ShadowType.Solid;
+            playerLight.Scale = new Vector2(100);
+            playerLight.Intensity = 0.5f;
+            playerLight.IgnoredHulls.Add(PlayerHull);
+
+            GameManager.Game.Penumbra.Hulls.Add(PlayerHull);
+            GameManager.Game.Penumbra.Lights.Add(playerLight);
+
         }
         bool movingUp, movingDown, movingLeft, movingRight;
         public override void Update(GameTime gameTime)
         {
-            base.Update(gameTime);
+            PlayerHull.Position = GameManager.Game.Camera.ScreenToWorld(GameManager.Game.ScreenSize / 2);
+            playerLight.Position = Position + new Vector2(32,16);
 
             var state = Keyboard.GetState();
 
@@ -106,6 +130,8 @@ namespace RPG2D.SGame.Player
             if (!GameManager.Game.InInventory) HandleKeyPresses(state, gameTime);
 
             GameManager.Game.World.CheckInteractions(Position - new Vector2(4), new Vector2(68, 68));
+
+            base.Update(gameTime);
         }
 
         private void HandleKeyPresses(KeyboardState state, GameTime gameTime)
