@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -16,6 +17,8 @@ namespace RPG2D.SGame.Player
 {
     public class Player : AnimatedSprite
     {
+        private SoundEffect walkingEffect;
+        private SoundEffectInstance walkingSoundEffectInstance;
         private PointLight playerLight;
         public Hull PlayerHull { get; private set; }
 
@@ -78,6 +81,11 @@ namespace RPG2D.SGame.Player
             Animations.Add("walking_down", new Animation(new Frame(content.Load<Texture2D>("player/player_down1")), new Frame(content.Load<Texture2D>("player/player_down2")), new Frame(content.Load<Texture2D>("player/player_down3"))));
             CurrentAnimation = "walking_down";
 
+            walkingEffect = content.Load<SoundEffect>("sound/footsteps");
+            walkingSoundEffectInstance = walkingEffect.CreateInstance();
+            walkingSoundEffectInstance.IsLooped = true;
+            walkingSoundEffectInstance.Volume = 0.25f;
+
             Size = new Vector2(64);
             this.Position = new Vector2(256);
 
@@ -122,7 +130,7 @@ namespace RPG2D.SGame.Player
         public override void Update(GameTime gameTime)
         {
             PlayerHull.Position = GameManager.Game.Camera.ScreenToWorld(GameManager.Game.ScreenSize / 2);
-            playerLight.Position = Position + new Vector2(32,16);
+            playerLight.Position = Position + new Vector2(32, 16);
 
             var state = Keyboard.GetState();
 
@@ -136,6 +144,11 @@ namespace RPG2D.SGame.Player
 
         private void HandleKeyPresses(KeyboardState state, GameTime gameTime)
         {
+            if (state.IsKeyDown(Keys.W) || state.IsKeyDown(Keys.A) || state.IsKeyDown(Keys.S) || state.IsKeyDown(Keys.D))
+                walkingSoundEffectInstance.Play();
+            else
+                walkingSoundEffectInstance.Pause();
+            
             if (state.IsKeyDown(Keys.W) && canUp)
             {
                 Position += (new Vector2(0, -Speed * (float)gameTime.ElapsedGameTime.TotalSeconds));

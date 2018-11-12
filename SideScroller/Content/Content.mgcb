@@ -1049,6 +1049,24 @@
 #begin ../../packages/MonoGame.Console.WindowsDX.3.5.0.2/content/Content/ConsoleFont.xnb
 /copy:../../packages/MonoGame.Console.WindowsDX.3.5.0.2/content/Content/ConsoleFont.xnb;ConsoleFont.xnb
 
+#begin ../../Sound/ambience_music.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:../../Sound/ambience_music.mp3;sound/ambience_music.mp3
+
+#begin ../../Sound/footsteps.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:../../Sound/footsteps.mp3;sound/footsteps.mp3
+
+#begin ../../Sound/menu_bg.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:../../Sound/menu_bg.mp3;sound/menu_bg.mp3
+
 #begin arial12.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor

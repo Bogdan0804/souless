@@ -1,5 +1,6 @@
 ﻿using Lidgren.Network;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -21,6 +22,7 @@ namespace RPG2D.SGame.Screens
 {
     public class MainGameScreen : IGameScreen
     {
+        private SoundEffect bgMusic;
         private Bag<UIElement> UI = new Bag<UIElement>();
         private NetPeerConfiguration config;
         private NetServer server;
@@ -35,7 +37,7 @@ namespace RPG2D.SGame.Screens
         public void Init(ContentManager content)
         {
             vignette = content.Load<Texture2D>("vignette");
-
+            bgMusic = content.Load<SoundEffect>("sound/ambience_music");
             GameManager.Game.ConsoleInterpreter.RegisterCommand("debug", (o) =>
             {
                 try
@@ -76,9 +78,12 @@ namespace RPG2D.SGame.Screens
             mouseLight.ShadowType = ShadowType.Solid;
             mouseLight.Scale = new Vector2(100);
             mouseLight.Intensity = 0.5f;
-
-            
             GameManager.Game.Penumbra.Lights.Add(mouseLight);
+
+            var musicInstance = bgMusic.CreateInstance();
+            musicInstance.IsLooped = true;
+            musicInstance.Volume = 0.25f;
+            musicInstance.Play();
         }
 
 
