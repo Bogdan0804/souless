@@ -52,7 +52,7 @@ namespace RPG2D.SGame.Screens
 
             GameManager.Game.World = new World("SGame/Worlds/world1.xml", false);
             GameManager.Game.Camera = new Camera2D(GameManager.Game.GraphicsDevice);
-            GameManager.Game.Camera.ZoomIn(1);
+            GameManager.Game.Camera.ZoomIn(1.5f);
             GameManager.Game.Player = new Player.Player();
             GameManager.Game.Player.Init(content);
             fpsCounter = new FrameCounter();
