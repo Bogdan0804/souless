@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -470,6 +471,14 @@ namespace RPMapEditor
         private void entitiesToolStripMenuItem_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void saveAsPngToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DrawPreviewForm();
+            gPreview.Save();
+            Image g = new Bitmap(previewForm.Width, previewForm.Height, gPreview);
+            g.Save("pic.png", ImageFormat.Png);
         }
     }
 

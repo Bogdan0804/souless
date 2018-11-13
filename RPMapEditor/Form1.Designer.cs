@@ -36,9 +36,10 @@
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.previewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.entitiesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.layersListBox = new System.Windows.Forms.ListBox();
-            this.entitiesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveAsPngToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
@@ -61,7 +62,8 @@
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
             this.previewToolStripMenuItem,
-            this.entitiesToolStripMenuItem});
+            this.entitiesToolStripMenuItem,
+            this.saveAsPngToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(842, 28);
@@ -112,6 +114,13 @@
             this.previewToolStripMenuItem.Text = "Preview";
             this.previewToolStripMenuItem.Click += new System.EventHandler(this.previewToolStripMenuItem_Click);
             // 
+            // entitiesToolStripMenuItem
+            // 
+            this.entitiesToolStripMenuItem.Name = "entitiesToolStripMenuItem";
+            this.entitiesToolStripMenuItem.Size = new System.Drawing.Size(69, 24);
+            this.entitiesToolStripMenuItem.Text = "Entities";
+            this.entitiesToolStripMenuItem.Click += new System.EventHandler(this.entitiesToolStripMenuItem_Click);
+            // 
             // dataGridView1
             // 
             this.dataGridView1.AllowUserToAddRows = false;
@@ -138,12 +147,12 @@
             this.layersListBox.TabIndex = 3;
             this.layersListBox.SelectedValueChanged += new System.EventHandler(this.layersListBox_SelectedValueChanged);
             // 
-            // entitiesToolStripMenuItem
+            // saveAsPngToolStripMenuItem
             // 
-            this.entitiesToolStripMenuItem.Name = "entitiesToolStripMenuItem";
-            this.entitiesToolStripMenuItem.Size = new System.Drawing.Size(69, 24);
-            this.entitiesToolStripMenuItem.Text = "Entities";
-            this.entitiesToolStripMenuItem.Click += new System.EventHandler(this.entitiesToolStripMenuItem_Click);
+            this.saveAsPngToolStripMenuItem.Name = "saveAsPngToolStripMenuItem";
+            this.saveAsPngToolStripMenuItem.Size = new System.Drawing.Size(101, 24);
+            this.saveAsPngToolStripMenuItem.Text = "Save As Png";
+            this.saveAsPngToolStripMenuItem.Click += new System.EventHandler(this.saveAsPngToolStripMenuItem_Click);
             // 
             // Form1
             // 
@@ -179,6 +188,7 @@
         private System.Windows.Forms.ListBox layersListBox;
         private System.Windows.Forms.ToolStripMenuItem previewToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem entitiesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem saveAsPngToolStripMenuItem;
     }
 }
 
