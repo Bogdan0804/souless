@@ -16,6 +16,11 @@ using System.Threading.Tasks;
 
 namespace RPG2D.GameEngine
 {
+    public struct GraphicsSettings
+    {
+        public bool Vignette { get; set; }
+    }
+
     public class GameManager
     {
         private static GameManager _manager;
@@ -29,7 +34,7 @@ namespace RPG2D.GameEngine
                 return _manager;
             }
         }
-
+        public GraphicsSettings GraphicsSettings;
         public ContentManager Content { get; private set; }
         public SpriteBatch SpriteBatch { get; private set; }
         public GraphicsDeviceManager GraphicsDeviceManager { get; private set; }
@@ -68,6 +73,8 @@ namespace RPG2D.GameEngine
 
         public void Init(ContentManager content, SpriteBatch spriteBatch, GraphicsDeviceManager graphics, Game game)
         {
+            this.GraphicsSettings = new GraphicsSettings();
+            GraphicsSettings.Vignette = true;
             this.Stopped = false;
             this.ThisGame = game;
             this.Content = content;

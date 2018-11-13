@@ -52,7 +52,7 @@ namespace RPG2D.SGame.UI
             spriteBatch.Draw(UIItemSelector, new Rectangle(uiItemSelectorPos.ToPoint(), new Point((int)(UIItemSelector.Width * 1.5f), (int)(UIItemSelector.Height * 1.5f))), Color.White);
 
 
-            Rectangle rect = new Rectangle((int)uiItemSelectorPos.X + (int)(selectedItemIndex * SelectedItemsItem.Width * 1.5f) - ((selectedItemIndex - 1) * 2), (int)uiItemSelectorPos.Y, (int)(SelectedItemsItem.Width * 1.5f), (int)(SelectedItemsItem.Height * 1.5f));
+            Rectangle rect = new Rectangle((int)uiItemSelectorPos.X + (int)(selectedItemIndex * SelectedItemsItem.Width * 1.5f) - ((selectedItemIndex - 1)) + 8, (int)uiItemSelectorPos.Y + 25, (int)(SelectedItemsItem.Width * 1.5f), (int)(SelectedItemsItem.Height * 1.5f));
             spriteBatch.Draw(SelectedItemsItem, rect, Color.White);
 
             for (int i = 0; i < 6; i++)

@@ -48,7 +48,30 @@ namespace RPG2D.SGame.Screens
                 }
                 catch
                 {
-                    return o[0] + " is not a valid input.";
+                    return o[0] + " is not valid input.";
+                }
+            });
+            GameManager.Game.ConsoleInterpreter.RegisterCommand("graphics", (o) =>
+            {
+                try
+                {
+                    switch (o[0])
+                    {
+                        case "lighting":
+                            GameManager.Game.Penumbra.Visible = bool.Parse(o[1]);
+                            return "Set lighting mode to " + o[1];
+                        case "vignette":
+                            GameManager.Game.GraphicsSettings.Vignette = bool.Parse(o[1]);
+                            return "Set vignette mode to " + o[1];
+
+                        default:
+                            return o[0] + " is not valid input.";
+                    }
+
+                }
+                catch
+                {
+                    return o[0] + " is not valid input.";
                 }
             });
 
@@ -72,7 +95,7 @@ namespace RPG2D.SGame.Screens
             GameManager.Game.Stats = new UI.StatsOverlay();
             UI.Add(GameManager.Game.Stats);
             UI.Add(GameManager.Game.Inventory);
-            
+
             mouseLight = new PointLight();
             mouseLight.CastsShadows = true;
             mouseLight.ShadowType = ShadowType.Solid;
@@ -94,7 +117,7 @@ namespace RPG2D.SGame.Screens
             if (fadeInTimer > 0.10d && fadeInAlpha > 0 && !doneFade)
                 fadeInAlpha -= 1;
             else doneFade = true;
-            
+
             GameManager.Game.Penumbra.Transform = GameManager.Game.Camera.GetViewMatrix();
             mouseLight.Position = GameManager.Game.Camera.ScreenToWorld(Mouse.GetState().Position.ToVector2());
             GameManager.Game.Camera.LookAt(GameManager.Game.Player.Position + (GameManager.Game.Player.Size / 2));
@@ -136,7 +159,9 @@ namespace RPG2D.SGame.Screens
             GameManager.Game.Penumbra.Draw(gameTime);
 
             spriteBatch.Begin(samplerState: SamplerState.PointWrap);
-            spriteBatch.Draw(vignette, new Rectangle(0, 0, (int)GameManager.Game.ScreenSize.X, (int)GameManager.Game.ScreenSize.Y), Color.White);
+
+            if (GameManager.Game.GraphicsSettings.Vignette)
+                spriteBatch.Draw(vignette, new Rectangle(0, 0, (int)GameManager.Game.ScreenSize.X, (int)GameManager.Game.ScreenSize.Y), Color.White);
 
             spriteBatch.DrawString(GlobalAssets.Arial24, GameManager.Game.Tooltip, new Vector2(GameManager.Game.ScreenSize.X / 2 - GlobalAssets.Arial24.MeasureString(GameManager.Game.Tooltip).X / 2, GameManager.Game.ScreenSize.Y - (GlobalAssets.Arial24.MeasureString(GameManager.Game.Tooltip).Y) - 75), Color.White);
             foreach (var ui in UI)

@@ -5,6 +5,10 @@
     <file>floor</file>
   </tile>
   <tile>
+    <name>floorLadder</name>
+    <file>floor_ladder</file>
+  </tile>
+  <tile>
     <name>torch</name>
     <file>torch0</file>
   </tile>
