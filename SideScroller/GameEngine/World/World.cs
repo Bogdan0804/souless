@@ -17,21 +17,25 @@ namespace RPG2D.GameEngine.World
 {
     public class World
     {
+        private bool UseTemplate { get; set; }
+
         public Bag<Tile> Tiles { get; set; }
         public Bag<Tile> FloorTiles { get; set; }
         public Bag<Tile> Decor { get; set; }
         public Bag<Entities.Entity> Entity { get; set; }
-        private static bool texturesLoaded = false;
+        public WorldTemplate WorldTemplate { get; set; }
 
-        KeyboardState old;
+        private static bool texturesLoaded = false;
+        private KeyboardState old;
+        private string worldFile;
 
         public World(string worldSaveFile, bool v)
         {
+            this.worldFile = worldSaveFile;
             Tiles = new Bag<Tile>();
             FloorTiles = new Bag<Tile>();
             Decor = new Bag<Tile>();
             Entity = new Bag<Entities.Entity>();
-            GameManager.Game.InitLighting();
 
             if (!texturesLoaded)
             {
@@ -39,6 +43,7 @@ namespace RPG2D.GameEngine.World
                 LoadTileset("SGame/Textures/tileset.xml");
                 LoadEntityTextures("SGame/Textures/entitys.xml");
                 LoadGameItems(GameManager.Game.Content);
+                GameManager.Game.InitLighting();
 
                 GameManager.Game.ConsoleInterpreter.RegisterCommand("world", (o) =>
                 {
@@ -54,13 +59,117 @@ namespace RPG2D.GameEngine.World
             LoadWorld(worldSaveFile, v);
         }
 
+        public void LoadTemplate(string path)
+        {
+            Tiles = new Bag<Tile>();
+            FloorTiles = new Bag<Tile>();
+            Decor = new Bag<Tile>();
+            Entity = new Bag<Entities.Entity>();
+
+            WorldTemplate = new WorldTemplate();
+            WorldTemplate.Name = path;
+            WorldTemplate.MainWorld = this.worldFile;
+
+            LoadTemplateFile(path);
+        }
+
+        private void LoadTemplateFile(string path)
+        {
+            GameManager.Game.Penumbra.Lights.Clear();
+            GameManager.Game.Player.InitLighting();
+            GameManager.Game.Penumbra.Hulls.Clear();
+            ((MainGameScreen)GameManager.Game.GameScreen).InitLighting();
+
+            XmlDocument xmlDocument = new XmlDocument();
+            xmlDocument.Load(path);
+
+            foreach (XmlNode tile in xmlDocument["world"]["tiles"])
+            {
+                Tile fTile = ParseTile(tile);
+
+                fTile.TileInfo.Tag = tile["tag"]?.InnerText;
+
+                fTile.TileInfo.Tile = fTile;
+                WorldTemplate.ParseTemplateTag(fTile);
+
+                this.Tiles.Add(fTile);
+            }
+            foreach (XmlNode tile in xmlDocument["world"]["floorTiles"])
+            {
+                this.FloorTiles.Add(ParseTile(tile));
+            }
+            foreach (XmlNode tile in xmlDocument["world"]["decor"])
+            {
+                if (tile["textureKey"].InnerText == "torch")
+                {
+                    Torch torch = new Torch();
+                    torch.X = int.Parse(tile["position"]["x"].InnerText) * 64;
+                    torch.Y = int.Parse(tile["position"]["y"].InnerText) * 64;
+                    Entity.Add(torch);
+                    GameManager.Game.Penumbra.Lights.Add(new PointLight
+                    {
+                        Position = new Vector2(torch.X + 32, torch.Y + 32),
+                        Scale = new Vector2(600),
+                        ShadowType = ShadowType.Illuminated,
+                        CastsShadows = true,
+                        Intensity = 0.5f
+                    });
+                }
+                else
+                {
+                    Tile fTile = ParseTile(tile);
+
+                    this.Decor.Add(fTile);
+
+                }
+
+            }
+            foreach (XmlNode tile in xmlDocument["world"]["entitys"])
+            {
+                if (GlobalAssets.EntityTextures[tile["textureKey"].InnerText].IsTile)
+                {
+
+                    TileEntity fTile = new TileEntity(new Frame(GlobalAssets.EntityTextures[tile["textureKey"].InnerText].Texture));
+                    fTile.X = int.Parse(tile["position"]["x"].InnerText) * 64;
+                    fTile.Y = int.Parse(tile["position"]["y"].InnerText) * 64;
+                    fTile.Texture = GlobalAssets.EntityTextures[tile["textureKey"].InnerText].Texture;
+                    fTile.Size = GlobalAssets.EntityTextures[tile["textureKey"].InnerText].Size;
+                    fTile.EntityTexture = GlobalAssets.EntityTextures[tile["textureKey"].InnerText];
+                    fTile.Colidable = GlobalAssets.EntityTextures[tile["textureKey"].InnerText].Colidable;
+                    this.Entity.Add(fTile);
+
+                }
+                else
+                {
+                    switch (tile["textureKey"].InnerText.TrimEnd('0', '1', '2', '3', '4', '5', '6', '7', '8', '9'))
+                    {
+                        case "corphafon":
+                            Corphafon fTile = new Corphafon();
+                            fTile.X = int.Parse(tile["position"]["x"].InnerText) * 64;
+                            fTile.Y = int.Parse(tile["position"]["y"].InnerText) * 64;
+                            fTile.Texture = GlobalAssets.EntityTextures[tile["textureKey"].InnerText].Texture;
+                            fTile.Size = GlobalAssets.EntityTextures[tile["textureKey"].InnerText].Size;
+                            fTile.EntityTexture = GlobalAssets.EntityTextures[tile["textureKey"].InnerText];
+                            fTile.Texture = fTile.EntityTexture.Texture;
+                            this.Entity.Add(fTile);
+                            break;
+                    }
+                }
+
+
+            }
+        }
+
         private void LoadGameItems(ContentManager content)
         {
             GlobalAssets.GameItemTextures.Add("dagger0", content.Load<Texture2D>("items/dagger_0"));
             GlobalAssets.GameItemTextures.Add("dagger1", content.Load<Texture2D>("items/dagger_1"));
             GlobalAssets.GameItems.Add("dagger", new GameEngine.Items.DaggerSword_GameItem());
 
+
         }
+
+
         public void Update(GameTime gameTime)
         {
             foreach (var entity in Entity)
@@ -68,7 +177,6 @@ namespace RPG2D.GameEngine.World
                 entity.Update(gameTime);
             }
         }
-
         public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
             Bag<Tile> abovePlayerTiles = new Bag<Tile>();
@@ -86,10 +194,14 @@ namespace RPG2D.GameEngine.World
             {
                 if ((tile.TileInfo.Texture.Name != "barrier") || GameManager.DebugMode)
                 {
-                    if (tile.Y + 32 > GameManager.Game.Player.Y + 32)
-                        belowPlayerTiles.Add(tile);
+                    if (tile.Physics)
+                        if (tile.Y + 32 > GameManager.Game.Player.Y + 32)
+                            belowPlayerTiles.Add(tile);
+                        else
+                            abovePlayerTiles.Add(tile);
                     else
                         abovePlayerTiles.Add(tile);
+
                 }
             }
             foreach (var tile in Entity)
@@ -226,7 +338,6 @@ namespace RPG2D.GameEngine.World
             }
 
         }
-
         private void LoadEntityTextures(string file)
         {
             XmlDocument xmlDocument = new XmlDocument();
@@ -246,9 +357,24 @@ namespace RPG2D.GameEngine.World
             }
 
         }
+        public static Tile ParseTile(XmlNode tile)
+        {
+            Tile fTile = new Tile();
 
+            fTile.X = int.Parse(tile["position"]["x"]?.InnerText) * 64;
+            fTile.Y = int.Parse(tile["position"]["y"]?.InnerText) * 64;
+            fTile.Texture = GlobalAssets.WorldTiles[tile["textureKey"]?.InnerText]?.Texture;
+            fTile.TileInfo = GlobalAssets.WorldTiles[tile["textureKey"]?.InnerText];
+
+            return fTile;
+        }
         private void LoadWorld(string file, bool useXml = false)
         {
+            GameManager.Game.Penumbra.Lights.Clear();
+            GameManager.Game.Penumbra.Hulls.Clear();
+            GameManager.Game.Player?.InitLighting();
+            ((MainGameScreen)GameManager.Game.GameScreen)?.InitLighting();
+
             XmlDocument xmlDocument = new XmlDocument();
             if (useXml)
                 xmlDocument.LoadXml(file);
@@ -257,33 +383,18 @@ namespace RPG2D.GameEngine.World
 
             foreach (XmlNode tile in xmlDocument["world"]["tiles"])
             {
-                Tile fTile = new Tile();
-                fTile.X = int.Parse(tile["position"]["x"].InnerText) * 64;
-                fTile.Y = int.Parse(tile["position"]["y"].InnerText) * 64;
-                fTile.Texture = GlobalAssets.WorldTiles[tile["textureKey"].InnerText].Texture;
-                fTile.TileInfo = GlobalAssets.WorldTiles[tile["textureKey"].InnerText];
-                try
-                {
-                    fTile.TileInfo.ID = int.Parse(tile.Attributes["id"].InnerText);
-                }
-                catch
-                {
-                    fTile.TileInfo.ID = -1;
-                }
+                Tile fTile = ParseTile(tile);
 
+                fTile.TileInfo.Tag = tile["tag"]?.InnerText;
+
+                fTile.TileInfo.Tile = fTile;
                 fTile.TileInfo.SetInteract(tile["textureKey"].InnerText);
 
                 this.Tiles.Add(fTile);
             }
             foreach (XmlNode tile in xmlDocument["world"]["floorTiles"])
             {
-                Tile fTile = new Tile();
-                fTile.X = int.Parse(tile["position"]["x"].InnerText) * 64;
-                fTile.Y = int.Parse(tile["position"]["y"].InnerText) * 64;
-                fTile.Texture = GlobalAssets.WorldTiles[tile["textureKey"].InnerText].Texture;
-                fTile.TileInfo = GlobalAssets.WorldTiles[tile["textureKey"].InnerText];
-
-                this.FloorTiles.Add(fTile);
+                this.FloorTiles.Add(ParseTile(tile));
             }
             foreach (XmlNode tile in xmlDocument["world"]["decor"])
             {
@@ -304,11 +415,7 @@ namespace RPG2D.GameEngine.World
                 }
                 else
                 {
-                    Tile fTile = new Tile();
-                    fTile.X = int.Parse(tile["position"]["x"].InnerText) * 64;
-                    fTile.Y = int.Parse(tile["position"]["y"].InnerText) * 64;
-                    fTile.Texture = GlobalAssets.WorldTiles[tile["textureKey"].InnerText].Texture;
-                    fTile.TileInfo = GlobalAssets.WorldTiles[tile["textureKey"].InnerText];
+                    Tile fTile = ParseTile(tile);
 
                     this.Decor.Add(fTile);
 
@@ -351,7 +458,5 @@ namespace RPG2D.GameEngine.World
             }
 
         }
-
-       
     }
 }

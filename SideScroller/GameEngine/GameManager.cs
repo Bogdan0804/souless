@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -7,6 +8,7 @@ using Penumbra;
 using QuakeConsole;
 using RPG2D.GameEngine.Screens;
 using RPG2D.SGame.Player;
+using RPG2D.SGame.Screens;
 using RPG2D.SGame.UI;
 using System;
 using System.Collections.Generic;
@@ -60,8 +62,8 @@ namespace RPG2D.GameEngine
         public StatsOverlay Stats { get; set; }
         public PenumbraComponent Penumbra { get; set; }
         public Camera2D Camera { get; set; }
+        public IGameScreen GameScreen;
 
-        private IGameScreen gameScreen;
         private KeyboardState oldState;
         private bool genPause = false;
         private Texture2D pausedMenuTitle;
@@ -81,13 +83,16 @@ namespace RPG2D.GameEngine
             this.SpriteBatch = spriteBatch;
             this.GraphicsDeviceManager = graphics;
 
+            GlobalAssets.SoundEffects.Add("torch", Content.Load<SoundEffect>("sound/torch"));
+            GlobalAssets.SoundEffects.Add("doorOpen", Content.Load<SoundEffect>("sound/door_open"));
+            GlobalAssets.SoundEffects.Add("doorClose", Content.Load<SoundEffect>("sound/door_close"));
             GlobalAssets.Arial12 = Content.Load<SpriteFont>("arial12");
             GlobalAssets.Arial24 = Content.Load<SpriteFont>("arial24");
             Black = Content.Load<Texture2D>("black");
             pausedMenuTitle = Content.Load<Texture2D>("invTitle");
 
-            gameScreen = new SGame.Screens.MenuGameScreen();
-            gameScreen.Init(this.Content);
+            GameScreen = new SGame.Screens.MenuGameScreen();
+            GameScreen.Init(this.Content);
 
             GameManager.Game.ConsoleInterpreter.RegisterCommand("fullscreen", (o) =>
             {
@@ -122,13 +127,14 @@ namespace RPG2D.GameEngine
             Penumbra = new PenumbraComponent(ThisGame);
             ThisGame.Services.AddService(Penumbra);
             Penumbra.Initialize();
+            Penumbra.AmbientColor = Color.Black;
         }
         public void ChangeScreen(IGameScreen screen)
         {
             Stopped = true;
 
-            gameScreen = screen;
-            gameScreen.Init(this.Content);
+            GameScreen = screen;
+            GameScreen.Init(this.Content);
 
             Stopped = false;
         }
@@ -137,7 +143,7 @@ namespace RPG2D.GameEngine
 
 
             if (!Stopped)
-                gameScreen.Draw(gameTime, SpriteBatch);
+                GameScreen.Draw(gameTime, SpriteBatch);
 
             if (Paused)
             {
@@ -165,7 +171,7 @@ namespace RPG2D.GameEngine
             Game.Tooltip = "";
 
             if (!Stopped && !Paused)
-                gameScreen.Update(gameTime);
+                GameScreen.Update(gameTime);
 
             if (kbState.IsKeyDown(Keys.Escape) && oldState.IsKeyUp(Keys.Escape)) Paused = !Paused;
 

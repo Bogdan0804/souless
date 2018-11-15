@@ -4,7 +4,7 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-	<title>Souless</title>
+	<title>Soulless</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="description" content="Souless RPG" />
 	<meta name="author" content="bogz" />
@@ -49,8 +49,8 @@
 		   		<div class="container">
 		   			<div class="col-md-10 col-md-offset-1 text-center js-fullheight slider-text">
 		   				<div class="slider-text-inner desc">
-		   					<h2 class="heading-section">Souless</h2>
-		   					<p class="fh5co-lead">Thank you for partaking in our open beta for Souless, please report all bugs and feature requests back to the <a style="color: blue !important;" href="https://github.com/Bogdan0804/souless">Github page</a>.</p>
+		   					<h2 class="heading-section">Soulless</h2>
+		   					<p class="fh5co-lead">Thank you for partaking in our open beta for Soulless, please report all bugs and feature requests back to the <a style="color: blue !important;" href="https://github.com/Bogdan0804/souless">Github page</a>.</p>
 		   				</div>
 		   			</div>
 		   		</div>

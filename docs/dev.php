@@ -3,13 +3,13 @@
 	<head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-
-	<title>Souless</title>
+	<title>S
+	</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta name="description" content="Souless RPG" />
+	<meta name="description" content="Soulless RPG" />
 	<meta name="author" content="bogz" />
 
-
+	<!-- <link href="https://fonts.googleapis.com/css?family=Work+Sans:300,400,500,700,800" rel="stylesheet">	 -->
 	<link href="https://fonts.googleapis.com/css?family=Space+Mono" rel="stylesheet">
 	
 	<!-- Animate.css -->
@@ -46,15 +46,15 @@
 			<div class="container-fluid">
 				<div class="row">
 					<div class="col-xs-2">
-						<div id="fh5co-logo"><a href="index.html">SOULESS<span>.</span></a></div>
+						<div id="fh5co-logo"><a href="index.html">Soulless<span>.</span></a></div>
 					</div>
 					<div class="col-xs-10 text-right menu-1">
 						<ul>
-							<li><a href="index.html">Home</a></li>
-							<li class="active">
-								<a href="game.html">Game</a>
+							<li ><a href="index.php">Home</a></li>
+							<li >
+								<a href="game.php">Game</a>
 							</li>
-							<li><a href="dev.html">Development</a></li>
+							<li class="active"><a href="dev.php">Development</a></li>
 						</ul>
 					</div>
 				</div>
@@ -71,8 +71,8 @@
 		   		<div class="container">
 		   			<div class="col-md-10 col-md-offset-1 text-center js-fullheight slider-text">
 		   				<div class="slider-text-inner desc">
-		   					<h2 class="heading-section">Game</h2>
-		   					<p class="fh5co-lead">Souless RPG is a roguelike RPG game inspired by older text based dungeon crawlers(in which you explore a farily limited world with basic limited gameplay and features) but is a complete revamp of such games, offering an open world experience but also packing in an astonishing amount of gameplay features and mechanics, not to mention how good it looks.</p>
+		   					<h2 class="heading-section">Development</h2>
+		   					<p class="fh5co-lead">Soulless RPG is written in MonoGame V3.7 targeting .NET 4.6.<br><br>You can download the project development log from <a style="color: lightblue !important;" href="https://docs.google.com/document/export?format=pdf&id=1oJBt1-2yC6Mim_5TlJuwhrTqbFNgtgMDBxQSjK6f2P8&token=AC4w5VgF6MxYMlXU-h3c7uxy61l3pF04aA%3A1541768571790&includes_info_params=true">here</a>.</p>
 		   				</div>
 		   			</div>
 		   		</div>
@@ -81,38 +81,41 @@
 	  	</div>
 	</aside>
 
-	<div id="fh5co-content">
-		<div class="video fh5co-video" style="background-image: url(images/img_bg_1.jpg);">
-			<a href="vids/demo.mp4" class="popup-vimeo"><i class="icon-video2"></i></a>
-			<div class="overlay"></div>
-		</div>
-		<div class="choose animate-box fadeInUp animated-fast">
-			<div class="fh5co-heading">
-				<h2 style="color: white !important;">Souless</h2>
-				<p>Heres is a demo video of the game, this is actual gameplay footage. <br><br>(Updated on 11/11/18) </p>
-			</div>
-		</div>
-	</div>
 
-
-	<div id="fh5co-started" style="background-image:url(images/img_bg_2.jpg);">
-		<div class="overlay"></div>
+	<div id="fh5co-mission">
 		<div class="container">
-			<div class="row animate-box">
-				<div class="col-md-8 col-md-offset-2 text-center fh5co-heading">
-					<h2>Want To Participate In The Public Beta?</h2>
-					<p>Download the game and report bugs and feature requests back to the <a href="https://github.com/Bogdan0804/souless">Github</a> page.</p>
-					<p><a id="dl" href="https://github.com/Bogdan0804/souless/raw/master/game.zip" class="btn btn-default btn-lg">Download (Windows)</a></p>
-					<p id="dlTxt"><a href="https://github.com/Bogdan0804/souless/raw/master/game.zip">Download Anyways</a></p>
+			<div class="row">
+				<div class="col-md-6 col-md-offset-3 animate-box">
+					<h2 style="color: white; text-align: center;">Libaries & Frameworks.</h2>
+					<ul>
+						<li><a style="color: lightblue !important;" href="https://github.com/lidgren/lidgren-network-gen3">Lidgren Network Library</a>(Used for LAN multiplayer)</li>
+						<li><a style="color: lightblue !important;" href="https://github.com/craftworkgames/MonoGame.Extended">MonoGame.Extended</a>(Depends on NewtonSoft.Json, Used for matrix cameras and bags)</li>
+						<li><a style="color: lightblue !important;" href="https://www.newtonsoft.com/json">NewtonSoft.Json</a></li>
+						<li><a style="color: lightblue !important;" href="https://github.com/discosultan/quake-console">Quake-Console</a>(The ingame console)</li>
+						<li><a style="color: lightblue !important;" href="https://github.com/discosultan/penumbra">Penumbra</a>(Shadows and lighting)</li>
+					</ul>
+					
 				</div>
 			</div>
 		</div>
 	</div>
 
 	
+
+	<div id="fh5co-started" style="background-image:url(images/img_bg_2.jpg);">
+		<div class="overlay"></div>
+		<div class="container">
+			<div class="row animate-box">
+				<div class="col-md-8 col-md-offset-2 text-center fh5co-heading">
+					<p>The games developer (tries) to log everything major that has been implemented into the games development log, which you can find <a style="color: lightblue !important;" href="https://docs.google.com/document/export?format=pdf&id=1oJBt1-2yC6Mim_5TlJuwhrTqbFNgtgMDBxQSjK6f2P8&token=AC4w5VgF6MxYMlXU-h3c7uxy61l3pF04aA%3A1541768571790&includes_info_params=true">here</a>.</p>
+
+				</div>
+			</div>
+		</div>
+	</div>
+
 	<footer id="fh5co-footer" role="contentinfo">
 		
-
 			<div class="row copyright">
 				<div class="col-md-12 text-center">
 					<p>
@@ -120,7 +123,7 @@
 					</p>
 					<p>
 						<ul class="fh5co-social-icons">
-							<li><a href="https://github.com/Bogdan0804/"><i class="icon-github"></i></a></li>
+							<li><a href="https://github.com//"><i class="icon-github"></i></a></li>
 						</ul>
 					</p>
 				</div>
@@ -149,20 +152,7 @@
 	<script src="js/magnific-popup-options.js"></script>
 	<!-- Main -->
 	<script src="js/main.js"></script>
-	<script type="text/javascript">
 
-
-		if (jscd.os != "Windows")
-		{
-			$("a#dl").removeAttr('href');
-			$("a#dl").text("Your OS is not supported.");
-		}
-		else 
-		{
-			$("a#dlTxt").removeAttr('href');
-			$("p#dlTxt").html("<i>We detected that your OS is <strong>" + jscd.os + "</strong>, which is supported.</i>");
-		}
-	</script>
 	</body>
 </html>
 

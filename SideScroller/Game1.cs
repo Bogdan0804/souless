@@ -31,7 +31,7 @@ namespace RPG2D
 
             LogSpecs(graphics);
 
-            this.Window.Title = "Souless";
+            this.Window.Title = "Souless - Beta rc-0.1.0";
             GameManager.Game.Console = new ConsoleComponent(this);
             Components.Add(GameManager.Game.Console);
             GameManager.Game.ConsoleInterpreter = new ManualInterpreter();

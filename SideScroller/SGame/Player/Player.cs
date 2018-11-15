@@ -53,6 +53,8 @@ namespace RPG2D.SGame.Player
             }
         }
 
+        public Vector2 Velocity { get; internal set; }
+
         public struct CollitionDetection
         {
             public CollitionPoint Up;
@@ -108,6 +110,12 @@ namespace RPG2D.SGame.Player
                 GameManager.Game.World.IsSpaceOpen(Position + new Vector2(Size.X - 1, Size.Y / 2), new Vector2(1, Size.Y / 2 - (xSize / 2)))
                 );
 
+            InitLighting();
+
+        }
+
+        public void InitLighting()
+        {
             PlayerHull = new Hull(new Vector2(12, 0), new Vector2(12, 55), new Vector2(14, 58), new Vector2(16, 59), new Vector2(20, 59), new Vector2(26, 56), new Vector2(37, 56), new Vector2(43, 59), new Vector2(47, 59), new Vector2(49, 58), new Vector2(51, 55), new Vector2(51, 0))
             {
                 Scale = new Vector2(1),
@@ -118,14 +126,14 @@ namespace RPG2D.SGame.Player
             playerLight = new PointLight();
             playerLight.CastsShadows = true;
             playerLight.ShadowType = ShadowType.Solid;
-            playerLight.Scale = new Vector2(100);
-            playerLight.Intensity = 0.5f;
+            playerLight.Scale = new Vector2(600);
+            playerLight.Intensity = 0.25f;
             playerLight.IgnoredHulls.Add(PlayerHull);
 
             GameManager.Game.Penumbra.Hulls.Add(PlayerHull);
             GameManager.Game.Penumbra.Lights.Add(playerLight);
-
         }
+
         bool movingUp, movingDown, movingLeft, movingRight;
         public override void Update(GameTime gameTime)
         {
@@ -144,35 +152,76 @@ namespace RPG2D.SGame.Player
 
         private void HandleKeyPresses(KeyboardState state, GameTime gameTime)
         {
+            float diagonalSpeedDivisor = 1.5f;
+
+            var oldPos = Position;
             if (state.IsKeyDown(Keys.W) || state.IsKeyDown(Keys.A) || state.IsKeyDown(Keys.S) || state.IsKeyDown(Keys.D))
                 walkingSoundEffectInstance.Play();
             else
                 walkingSoundEffectInstance.Pause();
-            
+
+            float xSpeed = 0, ySpeed = 0;
+
             if (state.IsKeyDown(Keys.W) && canUp)
             {
-                Position += (new Vector2(0, -Speed * (float)gameTime.ElapsedGameTime.TotalSeconds));
+                ySpeed = -Speed * (float)gameTime.ElapsedGameTime.TotalSeconds;
                 CurrentAnimation = "walking_up";
 
             }
             else if (state.IsKeyDown(Keys.S) && canDown)
             {
-                Position += (new Vector2(0, Speed * (float)gameTime.ElapsedGameTime.TotalSeconds));
+                ySpeed = Speed * (float)gameTime.ElapsedGameTime.TotalSeconds;
                 CurrentAnimation = "walking_down";
 
             }
-
-            if (state.IsKeyDown(Keys.A) && canLeft)
+            else if (state.IsKeyDown(Keys.A) && canLeft)
             {
-                Position += (new Vector2(-Speed * (float)gameTime.ElapsedGameTime.TotalSeconds, 0));
+                xSpeed = -Speed * (float)gameTime.ElapsedGameTime.TotalSeconds;
                 CurrentAnimation = "walking_left";
 
             }
             else if (state.IsKeyDown(Keys.D) && canRight)
             {
-                Position += (new Vector2(Speed * (float)gameTime.ElapsedGameTime.TotalSeconds, 0));
+                xSpeed = +Speed * (float)gameTime.ElapsedGameTime.TotalSeconds;
                 CurrentAnimation = "walking_right";
             }
+
+            if (state.IsKeyDown(Keys.A) && state.IsKeyDown(Keys.W))
+            {
+                if (canUp)
+                    ySpeed = -Speed / diagonalSpeedDivisor * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                if (canLeft)
+                    xSpeed = -Speed / diagonalSpeedDivisor * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                CurrentAnimation = "walking_left";
+            }
+            else if (state.IsKeyDown(Keys.D) && state.IsKeyDown(Keys.W))
+            {
+                if (canUp)
+                    ySpeed = -Speed / diagonalSpeedDivisor * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                if (canRight)
+                    xSpeed = Speed / diagonalSpeedDivisor * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                CurrentAnimation = "walking_right";
+            }
+
+            if (state.IsKeyDown(Keys.A) && state.IsKeyDown(Keys.S))
+            {
+                if (canDown)
+                    ySpeed = Speed / diagonalSpeedDivisor * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                if (canLeft)
+                    xSpeed = -Speed / diagonalSpeedDivisor * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                CurrentAnimation = "walking_left";
+            }
+            else if (state.IsKeyDown(Keys.D) && state.IsKeyDown(Keys.S))
+            {
+                if (canDown)
+                    ySpeed = Speed / diagonalSpeedDivisor * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                if (canRight)
+                    xSpeed = Speed / diagonalSpeedDivisor * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                CurrentAnimation = "walking_right";
+            }
+
+            this.Position += new Vector2(xSpeed, ySpeed);
+            this.Velocity = oldPos - Position;
         }
         private void UpdateKeypressStates(KeyboardState state)
         {

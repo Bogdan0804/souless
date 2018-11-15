@@ -914,6 +914,30 @@
 /processorParam:TextureFormat=Color
 /build:../../Assets/wall_tile_1.png;wall_tile_1.png
 
+#begin ../../Assets/wall_tile_1_wall_left.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:../../Assets/wall_tile_1_wall_left.png;wall_tile_1_wall_left.png
+
+#begin ../../Assets/wall_tile_1_wall_right.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:../../Assets/wall_tile_1_wall_right.png;wall_tile_1_wall_right.png
+
 #begin ../../Graphics/heart_ico.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -949,6 +973,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:../../Graphics/invTitle.png;invTitle.png
+
+#begin ../../Graphics/mana_ico.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:../../Graphics/mana_ico.png;ui/mana_ico.png
 
 #begin ../../Graphics/overlay_stats.png
 /importer:TextureImporter
@@ -1043,6 +1079,18 @@
 /processorParam:Quality=Best
 /build:../../Sound/ambience_music.mp3;sound/ambience_music.mp3
 
+#begin ../../Sound/door_close.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:../../Sound/door_close.mp3;sound/door_close.mp3
+
+#begin ../../Sound/door_open.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:../../Sound/door_open.mp3;sound/door_open.mp3
+
 #begin ../../Sound/footsteps.mp3
 /importer:Mp3Importer
 /processor:SoundEffectProcessor
@@ -1054,6 +1102,12 @@
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
 /build:../../Sound/menu_bg.mp3;sound/menu_bg.mp3
+
+#begin ../../Sound/torch.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:../../Sound/torch.mp3;sound/torch.mp3
 
 #begin arial12.spritefont
 /importer:FontDescriptionImporter

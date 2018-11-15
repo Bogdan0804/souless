@@ -7,56 +7,57 @@
         <x>1</x>
         <y>1</y>
       </position>
-      <textureKey>wallCorner0</textureKey>
+      <textureKey>wallTile1Left</textureKey>
     </tile>
     <tile id="0">
       <position>
-        <x>2</x>
-        <y>1</y>
+        <x>15</x>
+        <y>12</y>
       </position>
-      <textureKey>wallTile0</textureKey>
-    </tile>
-    <tile id="0">
-      <position>
-        <x>3</x>
-        <y>1</y>
-      </position>
-      <textureKey>wallTile0</textureKey>
-    </tile>
-    <tile id="0">
-      <position>
-        <x>4</x>
-        <y>1</y>
-      </position>
-      <textureKey>wallTile0</textureKey>
-    </tile>
-    <tile id="0">
-      <position>
-        <x>6</x>
-        <y>1</y>
-      </position>
-      <textureKey>wallTile0</textureKey>
-    </tile>
-    <tile id="0">
-      <position>
-        <x>5</x>
-        <y>1</y>
-      </position>
-      <textureKey>wallTile0</textureKey>
-    </tile>
-    <tile id="0">
-      <position>
-        <x>7</x>
-        <y>1</y>
-      </position>
-      <textureKey>wallTile0</textureKey>
+      <textureKey>door0</textureKey>
     </tile>
     <tile id="0">
       <position>
         <x>8</x>
         <y>1</y>
       </position>
+      <textureKey>wallTile1</textureKey>
+    </tile>
+    <tile id="0">
+      <position>
+        <x>22</x>
+        <y>20</y>
+      </position>
       <textureKey>wallTile0</textureKey>
+    </tile>
+    <tile id="0">
+      <position>
+        <x>8</x>
+        <y>3</y>
+      </position>
+      <textureKey>floorLadder</textureKey>
+      <tag>gototemplate:room_template</tag>
+    </tile>
+    <tile id="0">
+      <position>
+        <x>7</x>
+        <y>1</y>
+      </position>
+      <textureKey>wallTile1</textureKey>
+    </tile>
+    <tile id="0">
+      <position>
+        <x>6</x>
+        <y>1</y>
+      </position>
+      <textureKey>wallTile1</textureKey>
+    </tile>
+    <tile id="0">
+      <position>
+        <x>21</x>
+        <y>17</y>
+      </position>
+      <textureKey>wallSegLeftEnd</textureKey>
     </tile>
     <tile id="0">
       <position>
@@ -221,10 +222,10 @@
     </tile>
     <tile id="0">
       <position>
-        <x>9</x>
+        <x>5</x>
         <y>1</y>
       </position>
-      <textureKey>wallCorner1</textureKey>
+      <textureKey>wallTile1</textureKey>
     </tile>
     <tile id="0">
       <position>
@@ -1194,24 +1195,94 @@
     </tile>
     <tile id="0">
       <position>
-        <x>22</x>
-        <y>20</y>
+        <x>2</x>
+        <y>1</y>
+      </position>
+      <textureKey>wallTile1</textureKey>
+    </tile>
+    <tile id="0">
+      <position>
+        <x>3</x>
+        <y>1</y>
+      </position>
+      <textureKey>wallTile1</textureKey>
+    </tile>
+    <tile id="0">
+      <position>
+        <x>4</x>
+        <y>1</y>
+      </position>
+      <textureKey>wallTile1</textureKey>
+    </tile>
+    <tile id="0">
+      <position>
+        <x>1</x>
+        <y>0</y>
+      </position>
+      <textureKey>wallCorner0</textureKey>
+    </tile>
+    <tile id="0">
+      <position>
+        <x>9</x>
+        <y>0</y>
+      </position>
+      <textureKey>wallCorner1</textureKey>
+    </tile>
+    <tile id="0">
+      <position>
+        <x>2</x>
+        <y>0</y>
       </position>
       <textureKey>wallTile0</textureKey>
     </tile>
     <tile id="0">
       <position>
-        <x>15</x>
-        <y>12</y>
+        <x>3</x>
+        <y>0</y>
       </position>
-      <textureKey>door0</textureKey>
+      <textureKey>wallTile0</textureKey>
     </tile>
     <tile id="0">
       <position>
-        <x>21</x>
-        <y>17</y>
+        <x>4</x>
+        <y>0</y>
       </position>
-      <textureKey>wallSegLeftEnd</textureKey>
+      <textureKey>wallTile0</textureKey>
+    </tile>
+    <tile id="0">
+      <position>
+        <x>5</x>
+        <y>0</y>
+      </position>
+      <textureKey>wallTile0</textureKey>
+    </tile>
+    <tile id="0">
+      <position>
+        <x>6</x>
+        <y>0</y>
+      </position>
+      <textureKey>wallTile0</textureKey>
+    </tile>
+    <tile id="0">
+      <position>
+        <x>7</x>
+        <y>0</y>
+      </position>
+      <textureKey>wallTile0</textureKey>
+    </tile>
+    <tile id="0">
+      <position>
+        <x>8</x>
+        <y>0</y>
+      </position>
+      <textureKey>wallTile0</textureKey>
+    </tile>
+    <tile id="0">
+      <position>
+        <x>9</x>
+        <y>1</y>
+      </position>
+      <textureKey>wallTile1Right</textureKey>
     </tile>
   </tiles>
   <floorTiles>
@@ -3334,7 +3405,7 @@
         <x>7</x>
         <y>4</y>
       </position>
-      <textureKey>floorLadder</textureKey>
+      <textureKey>floor</textureKey>
     </tile>
   </floorTiles>
   <decor>
@@ -3517,8 +3588,8 @@
     </tile>
     <tile>
       <position>
-        <x>2</x>
-        <y>1</y>
+        <x>5</x>
+        <y>5</y>
       </position>
       <textureKey>corphafon0</textureKey>
     </tile>

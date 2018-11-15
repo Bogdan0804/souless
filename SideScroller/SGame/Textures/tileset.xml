@@ -81,6 +81,14 @@
     <file>wall_tile_1</file>
   </tile>
   <tile>
+    <name>wallTile1Left</name>
+    <file>wall_tile_1_wall_left</file>
+  </tile>
+  <tile>
+    <name>wallTile1Right</name>
+    <file>wall_tile_1_wall_right</file>
+  </tile>
+  <tile>
     <name>wallCorner0</name>
     <file>wall_corner_0</file>
   </tile>

@@ -87,8 +87,10 @@
     <Compile Include="GameEngine\Sprite.cs" />
     <Compile Include="GameEngine\UI\Button.cs" />
     <Compile Include="GameEngine\UI\UIElement.cs" />
+    <Compile Include="GameEngine\World\Pathfinding.cs" />
     <Compile Include="GameEngine\World\Tile.cs" />
     <Compile Include="GameEngine\World\World.cs" />
+    <Compile Include="GameEngine\World\WorldTemplate.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
@@ -112,6 +114,9 @@
     <Compile Include="SGame\UI\StatsOverlay.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="C3.XNA.Primitives2D">
+      <HintPath>..\Archive\C3.XNA.Primitives2D.dll</HintPath>
+    </Reference>
     <Reference Include="Lidgren.Network, Version=2012.1.7.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Lidgren.Network.1.0.2\lib\net451\Lidgren.Network.dll</HintPath>
     </Reference>
@@ -171,6 +176,9 @@
   <ItemGroup>
     <Content Include="gicon.ico" />
     <Content Include="Icon.ico" />
+    <None Include="SGame\Worlds\room_template.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <Content Include="title.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
