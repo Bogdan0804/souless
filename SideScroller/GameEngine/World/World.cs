@@ -27,6 +27,7 @@ namespace RPG2D.GameEngine.World
 
         private static bool texturesLoaded = false;
         private KeyboardState old;
+        private GamePadState oldState;
         private string worldFile;
 
         public World(string worldSaveFile, bool v)
@@ -61,20 +62,22 @@ namespace RPG2D.GameEngine.World
 
         public void LoadTemplate(string path)
         {
+            // Reset all the layers
             Tiles = new Bag<Tile>();
             FloorTiles = new Bag<Tile>();
             Decor = new Bag<Tile>();
             Entity = new Bag<Entities.Entity>();
 
+            // Create and load the world template
             WorldTemplate = new WorldTemplate();
             WorldTemplate.Name = path;
             WorldTemplate.MainWorld = this.worldFile;
 
             LoadTemplateFile(path);
         }
-
         private void LoadTemplateFile(string path)
         {
+            // Reset the lighting
             GameManager.Game.Penumbra.Lights.Clear();
             GameManager.Game.Player.InitLighting();
             GameManager.Game.Penumbra.Hulls.Clear();
@@ -85,23 +88,25 @@ namespace RPG2D.GameEngine.World
 
             foreach (XmlNode tile in xmlDocument["world"]["tiles"])
             {
+                // Add a tile to the colidable tiles layer
                 Tile fTile = ParseTile(tile);
-
-                fTile.TileInfo.Tag = tile["tag"]?.InnerText;
 
                 fTile.TileInfo.Tile = fTile;
                 WorldTemplate.ParseTemplateTag(fTile);
-
                 this.Tiles.Add(fTile);
             }
             foreach (XmlNode tile in xmlDocument["world"]["floorTiles"])
             {
+                // Add a tile to the floor layer
                 this.FloorTiles.Add(ParseTile(tile));
             }
             foreach (XmlNode tile in xmlDocument["world"]["decor"])
             {
+                //Custom entitity tiles
                 if (tile["textureKey"].InnerText == "torch")
                 {
+                    // Torch
+
                     Torch torch = new Torch();
                     torch.X = int.Parse(tile["position"]["x"].InnerText) * 64;
                     torch.Y = int.Parse(tile["position"]["y"].InnerText) * 64;
@@ -117,10 +122,9 @@ namespace RPG2D.GameEngine.World
                 }
                 else
                 {
+                    // Normal entity-tile
                     Tile fTile = ParseTile(tile);
-
                     this.Decor.Add(fTile);
-
                 }
 
             }
@@ -138,6 +142,8 @@ namespace RPG2D.GameEngine.World
                     fTile.Colidable = GlobalAssets.EntityTextures[tile["textureKey"].InnerText].Colidable;
                     this.Entity.Add(fTile);
 
+                    fTile.AfterAdd();
+
                 }
                 else
                 {
@@ -152,6 +158,7 @@ namespace RPG2D.GameEngine.World
                             fTile.EntityTexture = GlobalAssets.EntityTextures[tile["textureKey"].InnerText];
                             fTile.Texture = fTile.EntityTexture.Texture;
                             this.Entity.Add(fTile);
+                            fTile.AfterAdd();
                             break;
                     }
                 }
@@ -162,16 +169,17 @@ namespace RPG2D.GameEngine.World
 
         private void LoadGameItems(ContentManager content)
         {
+            // Load in game items.
+
+            // Dagger:
             GlobalAssets.GameItemTextures.Add("dagger0", content.Load<Texture2D>("items/dagger_0"));
             GlobalAssets.GameItemTextures.Add("dagger1", content.Load<Texture2D>("items/dagger_1"));
             GlobalAssets.GameItems.Add("dagger", new GameEngine.Items.DaggerSword_GameItem());
-
-
         }
-
 
         public void Update(GameTime gameTime)
         {
+            // Loop through and update entities.
             foreach (var entity in Entity)
             {
                 entity.Update(gameTime);
@@ -179,26 +187,30 @@ namespace RPG2D.GameEngine.World
         }
         public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
+            // Create sorting layers.
             Bag<Tile> abovePlayerTiles = new Bag<Tile>();
             Bag<Tile> belowPlayerTiles = new Bag<Tile>();
             Bag<Entities.Entity> abovePlayerEntities = new Bag<Entity>();
             Bag<Entities.Entity> belowPlayerEntities = new Bag<Entity>();
 
+            // Draw the floor below everything
             foreach (var tile in FloorTiles)
             {
                 spriteBatch.Draw(tile.Texture, tile.Bounds, Color.White);
             }
 
-
+            // Loop through tiles to sort them
             foreach (var tile in Tiles)
             {
+                // Dont draw the tile if its a barrier block but do if we are in debug mode
                 if ((tile.TileInfo.Texture.Name != "barrier") || GameManager.DebugMode)
                 {
+                    // Check if the tile is colidable
                     if (tile.Physics)
-                        if (tile.Y + 32 > GameManager.Game.Player.Y + 32)
+                        if (tile.Y + 32 > GameManager.Game.Player.Y + 32) // Check if it should be rendered under us
                             belowPlayerTiles.Add(tile);
                         else
-                            abovePlayerTiles.Add(tile);
+                            abovePlayerTiles.Add(tile); // If it is on a higher level then the mid point then it is higher than us
                     else
                         abovePlayerTiles.Add(tile);
 
@@ -206,31 +218,35 @@ namespace RPG2D.GameEngine.World
             }
             foreach (var tile in Entity)
             {
+                // Same with entities.
                 if (tile.Y + tile.Texture.Height / 2 > GameManager.Game.Player.Y + 32)
                     belowPlayerEntities.Add(tile);
                 else
                     abovePlayerEntities.Add(tile);
             }
 
-            foreach (var tile in abovePlayerTiles)
+            // Loop through everything in oder and draw it to the screen.
+            foreach (var tile in abovePlayerTiles) // Above tiles
             {
                 spriteBatch.Draw(tile.Texture, tile.Bounds, Color.White);
             }
-            foreach (var entity in abovePlayerEntities)
-            {
-                entity.Draw(gameTime, spriteBatch);
-            }
-            GameManager.Game.Player.Draw(gameTime, spriteBatch);
-            foreach (var tile in belowPlayerTiles)
-            {
-                spriteBatch.Draw(tile.Texture, tile.Bounds, Color.White);
-            }
-            foreach (var entity in belowPlayerEntities)
+            foreach (var entity in abovePlayerEntities) // Above entities.
             {
                 entity.Draw(gameTime, spriteBatch);
             }
 
+            GameManager.Game.Player.Draw(gameTime, spriteBatch); // Draw player between whats under and above us.
 
+            foreach (var tile in belowPlayerTiles) // Below tiles
+            {
+                spriteBatch.Draw(tile.Texture, tile.Bounds, Color.White);
+            }
+            foreach (var entity in belowPlayerEntities) // Below entities.
+            {
+                entity.Draw(gameTime, spriteBatch);
+            }
+
+            // Always draw decor tiles last
             foreach (var tile in Decor)
             {
                 spriteBatch.Draw(tile.Texture, tile.Bounds, Color.White);
@@ -239,78 +255,95 @@ namespace RPG2D.GameEngine.World
 
         public void CheckInteractions(Vector2 pos, Vector2 size)
         {
+            // Store keyboard and gamepad states as to use for interaction testing.
             var state = Keyboard.GetState();
+            var gamepad = GamePad.GetState(PlayerIndex.One);
 
+            // The hitbox rectangle for testing.
             Rectangle rect = new Rectangle(pos.ToPoint(), size.ToPoint());
 
-
-            for (int i = 0; i < Tiles.Count; i++)
+            for (int i = 0; i < Tiles.Count; i++) // Loop through tiles
             {
                 Tile t = Tiles[i];
-                if (rect.Intersects(t.Bounds))
+                if (rect.Intersects(t.Bounds)) // If we are touching this tile
                 {
-                    if (t.TileInfo.OnInteract != null)
+                    if (t.TileInfo.OnInteract != null) // And if its can be interacted with
                     {
-                        GameManager.Game.Tooltip = "Press E to interact";
-                        if (state.IsKeyDown(Keys.E) && old.IsKeyUp(Keys.E))
+                        if (!GameManager.Game.InstructionDialog.IsGameMode) // Check if we are in dialog mode
+                            if (gamepad.IsConnected) // If gamepad is conected, show its variant of the controlls
+                                GameManager.Game.Tooltip = "Press B to interact";
+                            else // Normal keyboard one.
+                                GameManager.Game.Tooltip = "Press E to interact";
+
+                        // Detect if we pressed out interact key on this tile.
+                        if (state.IsKeyDown(Keys.E) && old.IsKeyUp(Keys.E) && !gamepad.IsConnected || gamepad.IsButtonDown(Buttons.B) && oldState.IsButtonUp(Buttons.B))
                         {
+                            // Invoke the tiles interact function passinhg it into it
                             t.TileInfo.OnInteract.Invoke(t);
-                            GameManager.Game.NetworkParser.InteractWith(t);
+                            GameManager.Game.NetworkParser.InteractWith(t); // Update the network
                         }
                     }
                 }
             }
 
+            oldState = gamepad;
             old = state;
         }
         public Tuple<bool, Tile> IsSpaceOpen(Vector2 pos, Vector2 size, SpriteBatch s = null)
         {
+            // Create a sprite with the collition points size and position
             Sprite spr = new Sprite();
             spr.X = (int)pos.X;
             spr.Y = (int)pos.Y;
 
+            // Create a texture to fill it.
+            // TODO: This is very RAM and CPU intensive and should be cleaned out.
             Texture2D tex = new Texture2D(GameManager.Game.GraphicsDevice, (int)size.X, (int)size.Y);
             uint[] pixels = new uint[(int)size.X * (int)size.Y];
             for (int i = 0; i < pixels.Length; i++)
                 pixels[i] = Color.Red.PackedValue;
             tex.SetData(pixels);
-
             spr.Texture = tex;
 
+            // Testing variables.
             bool isOpen = true;
             Tile t = null;
 
+            // Draw the collition point if the passed spritebatch is not null
             s?.Draw(GlobalAssets.WorldTiles["floor"].Texture, new Rectangle(pos.ToPoint(), size.ToPoint()), Color.Blue);
 
-            for (int i = 0; i < Tiles.Count; i++)
+            foreach (Tile tile in Tiles) // Loop through tiles.
             {
-
-                if (spr.CollidesWith(Tiles[i]))
+                if (spr.CollidesWith(tile)) // Check if we are just generally intersecting it
                 {
-                    if (Tiles[i].Physics)
+                    if (tile.Physics) // Check if it is actually collidable
                     {
-                        t = Tiles[i];
+                        // set testing variables.
+                        t = tile;
                         isOpen = false;
 
+                        // Check if this tile needs to use per pixel colition.
                         if (t.TileInfo.UsePPC)
                         {
-                            isOpen = !Sprite.PerPixelCollision(spr, Tiles[i]);
+                            isOpen = !Sprite.PerPixelCollision(spr, tile);
                         }
 
                     }
                     break;
                 }
             }
-            for (int i = 0; i < Entity.Count; i++)
-            {
 
-                if (spr.CollidesWith(Entity[i]) && Entity[i].EntityTexture.Colidable)
+            // Same with entities.
+            foreach (Entity ent in Entity)
+            {
+                if (spr.CollidesWith(ent) && ent.EntityTexture.Colidable)
                 {
-                    isOpen = !Sprite.PerPixelCollision(spr, Entity[i]);
+                    isOpen = !Sprite.PerPixelCollision(spr, ent);
                     break;
                 }
             }
 
+            // Dispose the texture to free RAM.
             tex.Dispose();
 
             return new Tuple<bool, Tile>(isOpen, t);
@@ -327,12 +360,9 @@ namespace RPG2D.GameEngine.World
                 string name = tile["name"].InnerText;
 
                 bool ppc = false;
-                try
-                {
-                    if (tile.Attributes["ppc"].InnerText == "true")
-                        ppc = true;
-                }
-                catch { }
+                if (tile.Attributes["ppc"]?.InnerText == "true")
+                    ppc = true;
+
 
                 GlobalAssets.WorldTiles.Add(name, new TileInfo { Texture = texture, UsePPC = ppc });
             }
@@ -365,6 +395,7 @@ namespace RPG2D.GameEngine.World
             fTile.Y = int.Parse(tile["position"]["y"]?.InnerText) * 64;
             fTile.Texture = GlobalAssets.WorldTiles[tile["textureKey"]?.InnerText]?.Texture;
             fTile.TileInfo = GlobalAssets.WorldTiles[tile["textureKey"]?.InnerText];
+            fTile.TileInfo.Tag = tile["tag"]?.InnerText;
 
             return fTile;
         }

@@ -75,6 +75,7 @@
     <Compile Include="GameEngine\Entities\Corphafon.cs" />
     <Compile Include="GameEngine\Entities\Entity.cs" />
     <Compile Include="GameEngine\Entities\EntityTexture.cs" />
+    <Compile Include="GameEngine\Entities\Physics.cs" />
     <Compile Include="GameEngine\Entities\TileEntity.cs" />
     <Compile Include="GameEngine\Entities\Torch.cs" />
     <Compile Include="GameEngine\FrameCounter.cs" />
@@ -86,6 +87,7 @@
     <Compile Include="GameEngine\Screens\IGameScreen.cs" />
     <Compile Include="GameEngine\Sprite.cs" />
     <Compile Include="GameEngine\UI\Button.cs" />
+    <Compile Include="GameEngine\UI\InstructionDialog.cs" />
     <Compile Include="GameEngine\UI\UIElement.cs" />
     <Compile Include="GameEngine\World\Pathfinding.cs" />
     <Compile Include="GameEngine\World\Tile.cs" />

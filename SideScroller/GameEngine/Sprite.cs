@@ -33,6 +33,36 @@ namespace RPG2D.GameEngine
 
         }
 
+        public Vector2 Position
+        {
+            get
+            {
+                return new Vector2(X, Y);
+            }
+            set
+            {
+                X = value.X;
+                Y = value.Y;
+            }
+        }
+
+        private bool useSize = false;
+        Vector2 customSize;
+        public Vector2 Size
+        {
+            get
+            {
+                if (useSize)
+                    return customSize;
+                else
+                    return new Vector2(Texture.Width, Texture.Height);
+            }
+            set
+            {
+                useSize = true;
+                customSize = value;
+            }
+        }
 
         public bool CollidesWith(Sprite other)
         {

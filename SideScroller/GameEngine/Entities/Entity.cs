@@ -10,8 +10,9 @@ namespace RPG2D.GameEngine.Entities
 {
     public class Entity : AnimatedSprite
     {
-        public Vector2 Size { get; set; }
+        public Physics CollisionDetection { get; set; }
         public virtual EntityTexture EntityTexture { get; set; }
+        public bool UseCollitions = false;
 
         public override Rectangle Bounds
         {
@@ -20,11 +21,12 @@ namespace RPG2D.GameEngine.Entities
                 return new Rectangle((int)X, (int)Y, (int)Size.X, (int)Size.Y);
             }
         }
-
+        public virtual void AfterAdd() { }
         public Entity(string name, Animation animation)
         {
             this.Animations.Add(name, animation);
             this.CurrentAnimation = name;
+            this.CollisionDetection = new Physics();
         }
         public virtual void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
@@ -33,6 +35,9 @@ namespace RPG2D.GameEngine.Entities
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
+
+            if (UseCollitions)
+                CollisionDetection.UpdateCollitions(this);
         }
     }
 }

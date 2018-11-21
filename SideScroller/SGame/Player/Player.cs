@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Penumbra;
 using RPG2D.GameEngine;
+using RPG2D.GameEngine.Entities;
 using RPG2D.GameEngine.Screens;
 using RPG2D.GameEngine.World;
 using System;
@@ -12,6 +13,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static RPG2D.GameEngine.Entities.Physics;
 
 namespace RPG2D.SGame.Player
 {
@@ -25,19 +27,6 @@ namespace RPG2D.SGame.Player
 
         int Speed = 250;
 
-        public Vector2 Position
-        {
-            get
-            {
-                return new Vector2(X, Y);
-            }
-            set
-            {
-                this.X = value.X;
-                this.Y = value.Y;
-            }
-        }
-        public Vector2 Size { get; private set; }
         public override Rectangle Bounds
         {
             get
@@ -55,78 +44,60 @@ namespace RPG2D.SGame.Player
 
         public Vector2 Velocity { get; internal set; }
 
-        public struct CollitionDetection
-        {
-            public CollitionPoint Up;
-            public CollitionPoint Down;
-            public CollitionPoint Left;
-            public CollitionPoint Right;
-        }
-        public CollitionDetection Collitions = new CollitionDetection();
-        bool canUp = true, canDown = true, canLeft = true, canRight = true;
-        public class CollitionPoint
-        {
-            public Tuple<bool, Tile> Point1, Point2;
-
-            public CollitionPoint(Tuple<bool, Tile> p1, Tuple<bool, Tile> p2)
-            {
-                Point1 = p1;
-                Point2 = p2;
-            }
-        }
+        Physics Physics;
 
         public void Init(ContentManager content)
         {
-            Animations.Add("walking_left", new Animation(new Frame(content.Load<Texture2D>("player/player_left1")), new Frame(content.Load<Texture2D>("player/player_left2")), new Frame(content.Load<Texture2D>("player/player_left3"))));
+            // load in all textures and animations
+            Animations.Add("walking_left", new Animation(new Frame
+                (content.Load<Texture2D>("player/player_left1")), new Frame
+                (content.Load<Texture2D>("player/player_left2")), new Frame
+                (content.Load<Texture2D>("player/player_left3"))));
+
             Animations.Add("walking_right", new Animation(new Frame(content.Load<Texture2D>("player/player_right1")), new Frame(content.Load<Texture2D>("player/player_right2")), new Frame(content.Load<Texture2D>("player/player_right3"))));
-            Animations.Add("walking_up", new Animation(new Frame(content.Load<Texture2D>("player/player_up1")), new Frame(content.Load<Texture2D>("player/player_up2")), new Frame(content.Load<Texture2D>("player/player_up3"))));
-            Animations.Add("walking_down", new Animation(new Frame(content.Load<Texture2D>("player/player_down1")), new Frame(content.Load<Texture2D>("player/player_down2")), new Frame(content.Load<Texture2D>("player/player_down3"))));
+
+            Animations.Add("walking_up", new Animation(new Frame
+                (content.Load<Texture2D>("player/player_up1")), new Frame
+                (content.Load<Texture2D>("player/player_up2")), new Frame
+                (content.Load<Texture2D>("player/player_up3"))));
+
+            Animations.Add("walking_down", new Animation(new Frame
+                (content.Load<Texture2D>("player/player_down1")), new Frame
+                (content.Load<Texture2D>("player/player_down2")), new Frame
+                (content.Load<Texture2D>("player/player_down3"))));
+
+            // set default animation
             CurrentAnimation = "walking_down";
 
+            // walking sound effects
             walkingEffect = content.Load<SoundEffect>("sound/footsteps");
             walkingSoundEffectInstance = walkingEffect.CreateInstance();
-            walkingSoundEffectInstance.IsLooped = true;
             walkingSoundEffectInstance.Volume = 0.25f;
 
-            Size = new Vector2(64);
-            this.Position = new Vector2(256);
+            // position and collision system
+            Position = new Vector2(256);
+            Physics = new Physics();
+            Physics.GeneratePoints(this);
 
-
-            int xSize = 20;
-            Collitions.Up = new CollitionPoint(
-                   GameManager.Game.World.IsSpaceOpen(Position + new Vector2(xSize, 0), new Vector2(Size.X / 2 - (xSize / 2), 1)),
-                   GameManager.Game.World.IsSpaceOpen(Position + new Vector2(Size.X / 2, 0), new Vector2(Size.X / 2 - (xSize / 2), 1))
-                   );
-            Collitions.Down = new CollitionPoint(
-                GameManager.Game.World.IsSpaceOpen(Position + new Vector2(xSize, Size.Y - 1), new Vector2(Size.X / 2 - (xSize / 2), 1)),
-                GameManager.Game.World.IsSpaceOpen(Position + new Vector2(Size.X / 2, Size.Y - 1), new Vector2(Size.X / 2 - (xSize / 2), 1))
-                );
-            Collitions.Left = new CollitionPoint(
-                GameManager.Game.World.IsSpaceOpen(Position + new Vector2(0, xSize), new Vector2(1, Size.Y / 2 - (xSize / 2))),
-                GameManager.Game.World.IsSpaceOpen(Position + new Vector2(0, Size.Y / 2), new Vector2(1, Size.Y / 2 - (xSize / 2)))
-                );
-            Collitions.Right = new CollitionPoint(
-                GameManager.Game.World.IsSpaceOpen(Position + new Vector2(Size.X - 1, xSize), new Vector2(1, Size.Y / 2 - (xSize / 2))),
-                GameManager.Game.World.IsSpaceOpen(Position + new Vector2(Size.X - 1, Size.Y / 2), new Vector2(1, Size.Y / 2 - (xSize / 2)))
-                );
-
+            // init lighting
             InitLighting();
 
         }
 
         public void InitLighting()
         {
+            // Create a hull for player & map points
             PlayerHull = new Hull(new Vector2(12, 0), new Vector2(12, 55), new Vector2(14, 58), new Vector2(16, 59), new Vector2(20, 59), new Vector2(26, 56), new Vector2(37, 56), new Vector2(43, 59), new Vector2(47, 59), new Vector2(49, 58), new Vector2(51, 55), new Vector2(51, 0))
             {
                 Scale = new Vector2(1),
                 Origin = new Vector2(32)
             };
 
-
+            // create light for player
             playerLight = new PointLight();
             playerLight.CastsShadows = true;
             playerLight.ShadowType = ShadowType.Solid;
-            playerLight.Scale = new Vector2(600);
+            playerLight.Scale = new Vector2(400);
             playerLight.Intensity = 0.25f;
             playerLight.IgnoredHulls.Add(PlayerHull);
 
@@ -137,93 +108,127 @@ namespace RPG2D.SGame.Player
         bool movingUp, movingDown, movingLeft, movingRight;
         public override void Update(GameTime gameTime)
         {
+            // Lighting
             PlayerHull.Position = GameManager.Game.Camera.ScreenToWorld(GameManager.Game.ScreenSize / 2);
             playerLight.Position = Position + new Vector2(32, 16);
 
+            // Keypress states & gamepad
             var state = Keyboard.GetState();
+            var gamepad = GamePad.GetState(PlayerIndex.One);
+            // if (GameManager.Game.CanMove)
+            UpdateKeypressStates(state, gamepad);
+            if (!GameManager.Game.InInventory) HandleKeyPresses(state, gameTime, gamepad);
 
-            UpdateKeypressStates(state);
-            if (!GameManager.Game.InInventory) HandleKeyPresses(state, gameTime);
-
+            // Interactions with the envoirnment
             GameManager.Game.World.CheckInteractions(Position - new Vector2(4), new Vector2(68, 68));
 
             base.Update(gameTime);
         }
 
-        private void HandleKeyPresses(KeyboardState state, GameTime gameTime)
+        private void HandleKeyPresses(KeyboardState state, GameTime gameTime, GamePadState gamepad)
         {
+            // get latest collition states before checking for movement
+            UpdateColitions();
             float diagonalSpeedDivisor = 1.5f;
 
             var oldPos = Position;
             if (state.IsKeyDown(Keys.W) || state.IsKeyDown(Keys.A) || state.IsKeyDown(Keys.S) || state.IsKeyDown(Keys.D))
                 walkingSoundEffectInstance.Play();
-            else
-                walkingSoundEffectInstance.Pause();
 
             float xSpeed = 0, ySpeed = 0;
 
-            if (state.IsKeyDown(Keys.W) && canUp)
+            if (gamepad.IsConnected)
             {
-                ySpeed = -Speed * (float)gameTime.ElapsedGameTime.TotalSeconds;
-                CurrentAnimation = "walking_up";
+                if (gamepad.ThumbSticks.Left.Y > 0.1f)
+                {
+                    if (Physics.CanUp)
+                        ySpeed = -Speed * gamepad.ThumbSticks.Left.Y * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                    CurrentAnimation = "walking_up";
+                }
+                else if (gamepad.ThumbSticks.Left.Y < -0.1f)
+                {
+                    if (Physics.CanDown)
+                        ySpeed = Speed * -gamepad.ThumbSticks.Left.Y * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                    CurrentAnimation = "walking_down";
+                }
 
+                if (gamepad.ThumbSticks.Left.X > 0.1f)
+                {
+                    if (Physics.CanRight)
+                        xSpeed = Speed * gamepad.ThumbSticks.Left.X * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                    CurrentAnimation = "walking_right";
+                }
+                else if (gamepad.ThumbSticks.Left.X < -0.1f)
+                {
+                    if (Physics.CanLeft)
+                        xSpeed = -(Speed * -gamepad.ThumbSticks.Left.X * (float)gameTime.ElapsedGameTime.TotalSeconds);
+                    CurrentAnimation = "walking_left";
+                }
             }
-            else if (state.IsKeyDown(Keys.S) && canDown)
+            else
             {
-                ySpeed = Speed * (float)gameTime.ElapsedGameTime.TotalSeconds;
-                CurrentAnimation = "walking_down";
+                if (state.IsKeyDown(Keys.W) && Physics.CanUp)
+                {
+                    ySpeed = -Speed * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                    CurrentAnimation = "walking_up";
+                }
+                else if (state.IsKeyDown(Keys.S) && Physics.CanDown)
+                {
+                    ySpeed = Speed * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                    CurrentAnimation = "walking_down";
 
-            }
-            else if (state.IsKeyDown(Keys.A) && canLeft)
-            {
-                xSpeed = -Speed * (float)gameTime.ElapsedGameTime.TotalSeconds;
-                CurrentAnimation = "walking_left";
+                }
+                else if (state.IsKeyDown(Keys.A) && Physics.CanLeft)
+                {
+                    xSpeed = -Speed * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                    CurrentAnimation = "walking_left";
 
-            }
-            else if (state.IsKeyDown(Keys.D) && canRight)
-            {
-                xSpeed = +Speed * (float)gameTime.ElapsedGameTime.TotalSeconds;
-                CurrentAnimation = "walking_right";
-            }
+                }
+                else if (state.IsKeyDown(Keys.D) && Physics.CanRight)
+                {
+                    xSpeed = +Speed * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                    CurrentAnimation = "walking_right";
+                }
 
-            if (state.IsKeyDown(Keys.A) && state.IsKeyDown(Keys.W))
-            {
-                if (canUp)
-                    ySpeed = -Speed / diagonalSpeedDivisor * (float)gameTime.ElapsedGameTime.TotalSeconds;
-                if (canLeft)
-                    xSpeed = -Speed / diagonalSpeedDivisor * (float)gameTime.ElapsedGameTime.TotalSeconds;
-                CurrentAnimation = "walking_left";
-            }
-            else if (state.IsKeyDown(Keys.D) && state.IsKeyDown(Keys.W))
-            {
-                if (canUp)
-                    ySpeed = -Speed / diagonalSpeedDivisor * (float)gameTime.ElapsedGameTime.TotalSeconds;
-                if (canRight)
-                    xSpeed = Speed / diagonalSpeedDivisor * (float)gameTime.ElapsedGameTime.TotalSeconds;
-                CurrentAnimation = "walking_right";
-            }
+                if (state.IsKeyDown(Keys.A) && state.IsKeyDown(Keys.W))
+                {
+                    if (Physics.CanUp)
+                        ySpeed = -Speed / diagonalSpeedDivisor * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                    if (Physics.CanLeft)
+                        xSpeed = -Speed / diagonalSpeedDivisor * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                    CurrentAnimation = "walking_left";
+                }
+                else if (state.IsKeyDown(Keys.D) && state.IsKeyDown(Keys.W))
+                {
+                    if (Physics.CanUp)
+                        ySpeed = -Speed / diagonalSpeedDivisor * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                    if (Physics.CanRight)
+                        xSpeed = Speed / diagonalSpeedDivisor * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                    CurrentAnimation = "walking_right";
+                }
 
-            if (state.IsKeyDown(Keys.A) && state.IsKeyDown(Keys.S))
-            {
-                if (canDown)
-                    ySpeed = Speed / diagonalSpeedDivisor * (float)gameTime.ElapsedGameTime.TotalSeconds;
-                if (canLeft)
-                    xSpeed = -Speed / diagonalSpeedDivisor * (float)gameTime.ElapsedGameTime.TotalSeconds;
-                CurrentAnimation = "walking_left";
-            }
-            else if (state.IsKeyDown(Keys.D) && state.IsKeyDown(Keys.S))
-            {
-                if (canDown)
-                    ySpeed = Speed / diagonalSpeedDivisor * (float)gameTime.ElapsedGameTime.TotalSeconds;
-                if (canRight)
-                    xSpeed = Speed / diagonalSpeedDivisor * (float)gameTime.ElapsedGameTime.TotalSeconds;
-                CurrentAnimation = "walking_right";
+                if (state.IsKeyDown(Keys.A) && state.IsKeyDown(Keys.S))
+                {
+                    if (Physics.CanDown)
+                        ySpeed = Speed / diagonalSpeedDivisor * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                    if (Physics.CanLeft)
+                        xSpeed = -Speed / diagonalSpeedDivisor * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                    CurrentAnimation = "walking_left";
+                }
+                else if (state.IsKeyDown(Keys.D) && state.IsKeyDown(Keys.S))
+                {
+                    if (Physics.CanDown)
+                        ySpeed = Speed / diagonalSpeedDivisor * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                    if (Physics.CanRight)
+                        xSpeed = Speed / diagonalSpeedDivisor * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                    CurrentAnimation = "walking_right";
+                }
             }
 
             this.Position += new Vector2(xSpeed, ySpeed);
             this.Velocity = oldPos - Position;
         }
-        private void UpdateKeypressStates(KeyboardState state)
+        private void UpdateKeypressStates(KeyboardState state, GamePadState gamepad)
         {
             movingUp = false;
             movingDown = false;
@@ -231,21 +236,25 @@ namespace RPG2D.SGame.Player
             movingRight = false;
 
 
-            if (state.IsKeyDown(Keys.W))
+            if (state.IsKeyDown(Keys.W) || gamepad.ThumbSticks.Left.Y > 0.1f)
             {
+                walkingSoundEffectInstance.Play();
                 movingUp = true;
             }
-            else if (state.IsKeyDown(Keys.S))
+            else if (state.IsKeyDown(Keys.S) || gamepad.ThumbSticks.Left.Y < -0.1f)
             {
+                walkingSoundEffectInstance.Play();
                 movingDown = true;
             }
 
-            if (state.IsKeyDown(Keys.A))
+            if (state.IsKeyDown(Keys.A) || gamepad.ThumbSticks.Left.X < -0.1f)
             {
+                walkingSoundEffectInstance.Play();
                 movingLeft = true;
             }
-            else if (state.IsKeyDown(Keys.D))
+            else if (state.IsKeyDown(Keys.D) || gamepad.ThumbSticks.Left.X > 0.1f)
             {
+                walkingSoundEffectInstance.Play();
                 movingRight = true;
             }
         }
@@ -253,41 +262,12 @@ namespace RPG2D.SGame.Player
         public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(GetTexture(), new Rectangle(Position.ToPoint(), Size.ToPoint()), Color.White);
-            UpdateColitions(GameManager.DebugMode ? spriteBatch : null);
-            //spriteBatch.Draw(GlobalAssets.WorldTiles["floor"].Texture, new Rectangle(Position.ToPoint() + new Point(0, (int)Size.Y + 1), new Point(64, 2)), Color.Blue);
-            //spriteBatch.Draw(GlobalAssets.WorldTiles["floor"].Texture, new Rectangle(Position.ToPoint(), new Point(64, 2)), Color.Blue);
         }
 
-        private void UpdateColitions(SpriteBatch s)
+        private void UpdateColitions()
         {
-            int xSize = 20;
-
-            if (movingUp)
-                Collitions.Up = new CollitionPoint(
-                   GameManager.Game.World.IsSpaceOpen(Position + new Vector2(xSize, 10), new Vector2(Size.X / 6, 5), s),
-                   GameManager.Game.World.IsSpaceOpen(Position + new Vector2(32, 10), new Vector2(Size.X / 6, 5), s)
-                   );
-            if (movingDown)
-                Collitions.Down = new CollitionPoint(
-                    GameManager.Game.World.IsSpaceOpen(Position + new Vector2(xSize, Size.Y - 5), new Vector2(Size.X / 6, 5), s),
-                    GameManager.Game.World.IsSpaceOpen(Position + new Vector2(32, Size.Y - 5), new Vector2(Size.X / 6, 5), s)
-                    );
-
-            if (movingLeft)
-                Collitions.Left = new CollitionPoint(
-                    GameManager.Game.World.IsSpaceOpen(Position + new Vector2(10, xSize), new Vector2(5, 16), s),
-                    GameManager.Game.World.IsSpaceOpen(Position + new Vector2(10, Size.Y / 2), new Vector2(5, 16), s)
-                    );
-            if (movingRight)
-                Collitions.Right = new CollitionPoint(
-                    GameManager.Game.World.IsSpaceOpen(Position + new Vector2(Size.X - 10, xSize), new Vector2(5, 16), s),
-                    GameManager.Game.World.IsSpaceOpen(Position + new Vector2(Size.X - 10, Size.Y / 2), new Vector2(5, 16), s)
-                    );
-
-            canUp = Collitions.Up.Point1.Item1 & Collitions.Up.Point2.Item1;
-            canLeft = Collitions.Left.Point1.Item1 & Collitions.Left.Point2.Item1;
-            canRight = Collitions.Right.Point1.Item1 & Collitions.Right.Point2.Item1;
-            canDown = Collitions.Down.Point1.Item1 & Collitions.Down.Point2.Item1;
+            if (movingUp || movingDown || movingLeft || movingRight)
+                Physics.UpdateCollitions(this);
         }
     }
 }

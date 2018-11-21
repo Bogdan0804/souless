@@ -26,15 +26,12 @@ namespace RPG2D.GameEngine.Entities
                 new Frame(GameManager.Game.Content.Load<Texture2D>("entity/corphafon_right3")),
                 new Frame(GameManager.Game.Content.Load<Texture2D>("entity/corphafon_right4")),
                 new Frame(GameManager.Game.Content.Load<Texture2D>("entity/corphafon_right5"))));
-            
         }
+        
         double timer = 0;
         public override void Update(GameTime gameTime)
         {
-            timer += gameTime.ElapsedGameTime.TotalSeconds;
-            base.Update(gameTime);
             
-
         }
     }
 }

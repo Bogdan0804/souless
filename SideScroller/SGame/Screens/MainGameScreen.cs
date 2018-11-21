@@ -108,7 +108,7 @@ namespace RPG2D.SGame.Screens
             GameManager.Game.Stats = new UI.StatsOverlay();
             UI.Add(GameManager.Game.Stats);
             UI.Add(GameManager.Game.Inventory);
-
+            InitGameStory();
             var musicInstance = bgMusic.CreateInstance();
             musicInstance.IsLooped = true;
             musicInstance.Volume = 0.25f;
@@ -116,6 +116,12 @@ namespace RPG2D.SGame.Screens
 
             InitLighting();
             doneFadeOut = true;
+        }
+
+        private void InitGameStory()
+        {
+            GameManager.Game.InstructionDialog = new InstructionDialog();
+            this.UI.Add(GameManager.Game.InstructionDialog);
         }
 
         public void FadeIn()
@@ -131,10 +137,10 @@ namespace RPG2D.SGame.Screens
 
             if (fadeInTimer > 0.05d && fadeAlpha > 0 && !doneFadeIn)
                 fadeAlpha -= 1;
-            
+
 
             GameManager.Game.Penumbra.Transform = GameManager.Game.Camera.GetViewMatrix();
-            mouseLight.Position = GameManager.Game.Camera.ScreenToWorld(Mouse.GetState().Position.ToVector2());
+            mouseLight.Position = GameManager.Game.Camera.ScreenToWorld(GameManager.Game.MousePos);
             GameManager.Game.Camera.LookAt(GameManager.Game.Player.Position + (GameManager.Game.Player.Size / 2));
             GameManager.Game.Player.Update(gameTime);
 
@@ -178,7 +184,7 @@ namespace RPG2D.SGame.Screens
             if (GameManager.Game.GraphicsSettings.Vignette)
                 spriteBatch.Draw(vignette, new Rectangle(0, 0, (int)GameManager.Game.ScreenSize.X, (int)GameManager.Game.ScreenSize.Y), new Color(Color.White, 150));
 
-            spriteBatch.DrawString(GlobalAssets.Arial24, GameManager.Game.Tooltip, new Vector2(GameManager.Game.ScreenSize.X / 2 - GlobalAssets.Arial24.MeasureString(GameManager.Game.Tooltip).X / 2, GameManager.Game.ScreenSize.Y - (GlobalAssets.Arial24.MeasureString(GameManager.Game.Tooltip).Y) - 105), Color.White);
+            spriteBatch.DrawString(GlobalAssets.Arsenal, GameManager.Game.Tooltip, new Vector2(GameManager.Game.ScreenSize.X / 2 - GlobalAssets.Arsenal.MeasureString(GameManager.Game.Tooltip).X / 2, GameManager.Game.ScreenSize.Y - (GlobalAssets.Arsenal.MeasureString(GameManager.Game.Tooltip).Y) - 105), Color.White);
             foreach (var ui in UI)
             {
                 ui.Draw(gameTime, spriteBatch);
@@ -187,7 +193,7 @@ namespace RPG2D.SGame.Screens
 
             spriteBatch.Draw(GameManager.Black, new Rectangle(0, 0, (int)GameManager.Game.ScreenSize.X, (int)GameManager.Game.ScreenSize.Y), new Color(Color.Black, fadeAlpha));
 
-            spriteBatch.DrawString(GlobalAssets.Arial12, fps, new Vector2(1, 1), Color.White);
+            spriteBatch.DrawString(GlobalAssets.Arsenal, fps, new Vector2(1, 1), Color.White);
             spriteBatch.End();
         }
     }

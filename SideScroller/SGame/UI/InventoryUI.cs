@@ -55,11 +55,8 @@ namespace RPG2D.SGame.UI
             else
             {
             }
-
             base.Draw(gameTime, spriteBatch);
         }
-
-
     }
     public class Inventory
     {

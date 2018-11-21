@@ -23,7 +23,6 @@ namespace RPG2D.GameEngine.Entities
         public TileEntity(params Frame[] frames)
             : base("default", new Animation(frames))
         {
-            this.Size = new Vector2(64);
         }
     }
 }

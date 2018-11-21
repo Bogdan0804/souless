@@ -17,8 +17,7 @@ namespace RPG2D.GameEngine.World
         {
             Physics = usePhysics;
         }
-
-
+        
         public override Rectangle Bounds
         {
             get

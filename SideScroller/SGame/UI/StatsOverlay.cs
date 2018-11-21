@@ -16,6 +16,7 @@ namespace RPG2D.SGame.UI
         Texture2D HeartIcon, Overlay, UIItemSelector, SelectedItemsItem, ManaIcon;
         int selectedItemIndex = 0;
         MouseState oldState;
+        GamePadState oldGamepadState;
 
         public StatsOverlay()
         {
@@ -28,18 +29,32 @@ namespace RPG2D.SGame.UI
 
         public override void Update(GameTime gameTime)
         {
+            var gamepad = GamePad.GetState(PlayerIndex.One);
             var mouseState = Mouse.GetState();
 
-            if (mouseState.ScrollWheelValue > oldState.ScrollWheelValue && selectedItemIndex > 0)
-                selectedItemIndex--;
-            else if (mouseState.ScrollWheelValue < oldState.ScrollWheelValue && selectedItemIndex < 4)
-                selectedItemIndex++;
 
-            if (mouseState.LeftButton == ButtonState.Pressed && oldState.LeftButton == ButtonState.Released)
+
+            if ((mouseState.ScrollWheelValue > oldState.ScrollWheelValue || gamepad.IsButtonDown(Buttons.LeftShoulder) && oldGamepadState.IsButtonUp(Buttons.LeftShoulder)) && selectedItemIndex > 0)
+            {
+                selectedItemIndex--;
+                GameManager.VibrateFor(150, false, true);
+            }
+
+            else if ((mouseState.ScrollWheelValue < oldState.ScrollWheelValue || gamepad.IsButtonDown(Buttons.RightShoulder) && oldGamepadState.IsButtonUp(Buttons.RightShoulder)) && selectedItemIndex < 4)
+            {
+                selectedItemIndex++;
+                GameManager.VibrateFor(150, true, false);
+            }
+
+            if (mouseState.LeftButton == ButtonState.Pressed && oldState.LeftButton == ButtonState.Released && !gamepad.IsConnected || gamepad.IsButtonDown(Buttons.LeftTrigger) && oldGamepadState.IsButtonUp(Buttons.LeftTrigger))
+            {
                 GameManager.Game.Inventory.Inventory.Items[selectedItemIndex]?.Use();
+                GameManager.VibrateFor(200);
+            }
 
             base.Update(gameTime);
             oldState = mouseState;
+            oldGamepadState = gamepad;
         }
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)

@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using MonoGame.Extended.Collections;
 using RPG2D.GameEngine.Entities;
 using RPG2D.GameEngine.Items;
@@ -9,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -16,7 +18,9 @@ namespace RPG2D.GameEngine
 {
     public static class GlobalAssets
     {
-        public static SpriteFont Arial12, Arial24;
+        public static Texture2D SpeechDialogTexture;
+        public static SpriteFont Arial12, Arial24, Arial18, Arsenal;
+
         public static Dictionary<string, TileInfo> WorldTiles = new Dictionary<string, TileInfo>();
         public static Dictionary<string, EntityTexture> EntityTextures = new Dictionary<string, EntityTexture>();
         public static Dictionary<string, Texture2D> GameItemTextures = new Dictionary<string, Texture2D>();
@@ -39,7 +43,6 @@ namespace RPG2D.GameEngine
             {
                 OnInteract = new Func<Tile, bool>((tile) =>
                 {
-
                     if (tile.Texture.Name == "door_0")
                     {
                         GlobalAssets.SoundEffects["doorOpen"].Play();
@@ -52,7 +55,8 @@ namespace RPG2D.GameEngine
                         tile.Physics = true;
                         tile.Texture = GlobalAssets.WorldTiles["door0"].Texture;
                     }
-
+                    GameManager.VibrateFor(200);
+                  
                     return true;
                 });
             }
@@ -62,7 +66,7 @@ namespace RPG2D.GameEngine
 
                 OnInteract = new Func<Tile, bool>((tile) =>
                 {
-                    MessageBox.Show(Tag);
+
 
                     return true;
                 });
@@ -75,7 +79,8 @@ namespace RPG2D.GameEngine
             if (Tag != null)
             {
                 if (Tag.StartsWith("gototemplate:"))
-                    OnInteract = new Func<Tile, bool>((tile) => {
+                    OnInteract = new Func<Tile, bool>((tile) =>
+                    {
                         GameManager.Game.World.LoadTemplate("SGame/Worlds/" + Tag.Split(':')[1] + ".xml");
                         ((MainGameScreen)GameManager.Game.GameScreen).FadeIn();
                         return true;

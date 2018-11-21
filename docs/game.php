@@ -81,10 +81,10 @@
 	  	</div>
 	</aside>
 
+	
 	<div id="fh5co-content">
 		<div class="video fh5co-video" style="background-image: url(images/img_bg_1.jpg);">
-			<a href="vids/demo.mp4" class="popup-vimeo"><i class="icon-video2"></i></a>
-			<div class="overlay"></div>
+		<iframe width="100%" height="315" src="https://www.youtube.com/embed/WjSIdLdp_d8" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 		</div>
 		<div class="choose animate-box fadeInUp animated-fast">
 			<div class="fh5co-heading">

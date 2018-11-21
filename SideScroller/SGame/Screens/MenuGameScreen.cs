@@ -25,6 +25,7 @@ namespace RPG2D.SGame.Screens
         SoundEffectInstance mgInstance;
         KeyboardState oldState;
         private Texture2D titleBG;
+        GamePadState oldGamepadState;
 
         public void Init(ContentManager content)
         {
@@ -47,23 +48,24 @@ namespace RPG2D.SGame.Screens
         }
         public void Update(GameTime gameTime)
         {
+            var gamepad = GamePad.GetState(PlayerIndex.One);
             buttonSettings.Update(gameTime);
 
             var state = Keyboard.GetState();
 
-            if (state.IsKeyDown(Keys.Up) && oldState.IsKeyUp(Keys.Up))
+            if (state.IsKeyDown(Keys.Up) && oldState.IsKeyUp(Keys.Up) || gamepad.IsButtonDown(Buttons.LeftThumbstickUp) && oldGamepadState.IsButtonUp(Buttons.LeftThumbstickUp))
             {
                 if ((SelectedOption - 1) >= 0)
                     SelectedOption -= 1;
             }
-            else if (state.IsKeyDown(Keys.Down) && oldState.IsKeyUp(Keys.Down))
+            else if (state.IsKeyDown(Keys.Down) && oldState.IsKeyUp(Keys.Down) || gamepad.IsButtonDown(Buttons.LeftThumbstickDown) && oldGamepadState.IsButtonUp(Buttons.LeftThumbstickDown))
             {
                 if ((SelectedOption + 1) <= MenuItemsCount)
                     SelectedOption += 1;
             }
 
 
-            if (state.IsKeyDown(Keys.Enter) && oldState.IsKeyUp(Keys.Enter))
+            if (state.IsKeyDown(Keys.Enter) && oldState.IsKeyUp(Keys.Enter) || gamepad.IsButtonDown(Buttons.B) && oldGamepadState.IsButtonUp(Buttons.B))
             {
                 switch (SelectedOption)
                 {
@@ -73,8 +75,8 @@ namespace RPG2D.SGame.Screens
                         break;
 
                     case 1:
-                        mgInstance.Volume = 0.25f;
-                        GameManager.Game.ChangeScreen(new JoinCOOPGameScreen());
+                        //mgInstance.Volume = 0.25f;
+                        //GameManager.Game.ChangeScreen(new JoinCOOPGameScreen());
                         break;
 
                     case 2:
@@ -84,6 +86,7 @@ namespace RPG2D.SGame.Screens
             }
 
             oldState = state;
+            oldGamepadState = gamepad;
         }
         public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
@@ -94,7 +97,7 @@ namespace RPG2D.SGame.Screens
             spriteBatch.Draw(titleTexture, new Vector2(titleTexX, 2), Color.White);
 
             spriteBatch.DrawString(GlobalAssets.Arial24, "Play", new Vector2(GameManager.Game.ScreenSize.X / 2 - GlobalAssets.Arial24.MeasureString("Play").X / 2, 300), Color.White);
-            spriteBatch.DrawString(GlobalAssets.Arial24, "COOP", new Vector2(GameManager.Game.ScreenSize.X / 2 - GlobalAssets.Arial24.MeasureString("Play").X / 2, 350), Color.White);
+            spriteBatch.DrawString(GlobalAssets.Arial24, "COOP (dissabled for now)", new Vector2(GameManager.Game.ScreenSize.X / 2 - GlobalAssets.Arial24.MeasureString("Play").X / 2, 350), Color.White);
             spriteBatch.DrawString(GlobalAssets.Arial24, "Exit", new Vector2(GameManager.Game.ScreenSize.X / 2 - GlobalAssets.Arial24.MeasureString("Exit.").X / 2, 400), Color.White);
             spriteBatch.DrawString(GlobalAssets.Arial24, ">", new Vector2(GameManager.Game.ScreenSize.X / 2 - GlobalAssets.Arial24.MeasureString("######").X / 2, 300 + (50 * SelectedOption)), Color.White);
             buttonSettings.Draw(gameTime, spriteBatch);
